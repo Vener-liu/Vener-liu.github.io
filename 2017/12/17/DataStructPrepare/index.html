@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>DataStructPrepare | YisenBlog</title>
+  <meta name="description" content="理论知识准备 数据结构（学科角度）：是一门研究非数值计算的程序设计问题中的操作对象，以及他们之间的关系和操作等相关问题的学科 数据：是描述客观事物的符号，是计算机中可以操作的对象，能被计算机识别，并输入给计算机处理的符号集合 数据元素：是组成数据的，具有一定意义的基本单位，在计算机中通常作为整体来操作。也称为记录 数据项：一个数据元素由多个数据项组成，是数据中不可分割的最小单位 数据对象：是性质相">
+<meta name="keywords" content="C&#x2F;C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DataStructPrepare">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/12/17/DataStructPrepare/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="理论知识准备 数据结构（学科角度）：是一门研究非数值计算的程序设计问题中的操作对象，以及他们之间的关系和操作等相关问题的学科 数据：是描述客观事物的符号，是计算机中可以操作的对象，能被计算机识别，并输入给计算机处理的符号集合 数据元素：是组成数据的，具有一定意义的基本单位，在计算机中通常作为整体来操作。也称为记录 数据项：一个数据元素由多个数据项组成，是数据中不可分割的最小单位 数据对象：是性质相">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-18T10:28:39.976Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DataStructPrepare">
+<meta name="twitter:description" content="理论知识准备 数据结构（学科角度）：是一门研究非数值计算的程序设计问题中的操作对象，以及他们之间的关系和操作等相关问题的学科 数据：是描述客观事物的符号，是计算机中可以操作的对象，能被计算机识别，并输入给计算机处理的符号集合 数据元素：是组成数据的，具有一定意义的基本单位，在计算机中通常作为整体来操作。也称为记录 数据项：一个数据元素由多个数据项组成，是数据中不可分割的最小单位 数据对象：是性质相">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/12/17/DataStructPrepare/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-DataStructPrepare" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DataStructPrepare
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/12/17/DataStructPrepare/" class="article-date">
+	  <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Data-Struture/">Data_Struture</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/C-C/">C/C++</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/12/17/DataStructPrepare/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h1 id="理论知识准备"><a href="#理论知识准备" class="headerlink" title="理论知识准备"></a>理论知识准备</h1><ul>
+<li>数据结构（学科角度）：是一门研究非数值计算的程序设计问题中的操作对象，以及他们之间的关系和操作等相关问题的学科</li>
+<li>数据：是描述客观事物的符号，是计算机中可以操作的对象，能被计算机识别，并输入给计算机处理的符号集合</li>
+<li>数据元素：是组成数据的，具有一定意义的基本单位，在计算机中通常作为整体来操作。也称为记录</li>
+<li>数据项：一个数据元素由多个数据项组成，是数据中不可分割的最小单位</li>
+<li>数据对象：是性质相同的数据元素的集合，是数据的子集</li>
+<li><p>逻辑结构：是数据对象中的数据元素之间的相互关系,有四种：<br>1.集合结构：数据对象中的数据元素除了同属于一个集合外，它们之间没有其他关系<br>2.线性结构：数据对象中的数据元素存在一种一对一的关系<br>3.树形结构：数据对象中的数据元素存在一种一对多的关系<br>4.图形结构：数据对象中的数据元素存在一种多对多的关系</p>
+</li>
+<li><p>物理结构：是指数据的逻辑结构在计算机上的存储形式<br>1.顺序存储结构：是把数据元素存放在地址连续的存储单元里。它们的逻辑关系和物理关系是一致的<br>2.链式存储结构：是把数据元素存放在任意的存储单元里，这些存储单元可以是连续的，也可以是不连续的</p>
+</li>
+<li><p>数据类型：是一组相同性质的值的集合及定义在此集合上的一些操作的总称<br>在C语言中分为两类：<br>1.原子类型：是最基本类型单位，不可在分解，如int型，float型等<br>2.结构关系：由多个类型组成，可以再分解。如int型数组就是有若干个int型组成</p>
+</li>
+<li><p>抽象数据类型：是一个数学模型及定义在该模型上的一组操作（把一组操作抽象成数据类型）</p>
+</li>
+<li>数据结构学科中的数据结构：是相互之间存在一种或多种特定关系的数据元素的集合</li>
+<li>算法的定义：是解决特定问题求解步骤的描述，在计算机中为指令的有限序列，并且每条指令都表示一个或者多个操作</li>
+<li>特性：0个或者多个的输入，1个或者多个的输出，确定性，可行性，有穷性</li>
+<li>要求：正确性，可读性，健壮性，时间效率高和存储量低</li>
+<li>算法效率的度量方法：<br>1.事后统计法<br>2.事前分析估算法（推荐）</li>
+<li>算法空间复杂度：表示算法的空间需需求</li>
+<li>算法时间复杂度：表示算法的时间需求</li>
+<li>推导大O阶方法：<br>1.用常数1替代运算时间中的所有加法常数<br>2.修改后的运行次数函数，只保留最高阶<br>3.最高阶存在并且不为1，除去最高阶常数项</li>
+<li>时间复杂度排序：O(1)&lt;O(㏒n)&lt;O(n)&lt;O(n㏒n)&lt;O(n^2)&lt;O(n^3)&lt;O(2^n)&lt;O(n!)&lt;O(n^n)</li>
+</ul>
+<h3 id="具体数据结构-c语言实现（下面代码部分前面部分都是手动敲打实现）："><a href="#具体数据结构-c语言实现（下面代码部分前面部分都是手动敲打实现）：" class="headerlink" title="具体数据结构,c语言实现（下面代码部分前面部分都是手动敲打实现）："></a>具体数据结构,c语言实现（下面代码部分前面部分都是手动敲打实现）：</h3><p>顺序表：用一段地址连续的存储单元依次存储线性表的数据元素</p>
+<ul>
+<li><a href="http://blog.yisenliu.top/2017/12/04/%E9%A1%BA%E5%BA%8F%E8%A1%A8C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" title="顺序表">顺序表C语言实现</a></li>
+</ul>
+<p>单链表：线性表的链式存储结构， n个结点链结成一个链表，每个结点只包含一个指针域</p>
+<ul>
+<li><a href="http://blog.yisenliu.top/2017/12/04/%E5%8D%95%E9%93%BE%E8%A1%A8C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0-2/" title="无头结点">单链表C语言实现-无头结点</a></li>
+<li><a href="http://blog.yisenliu.top/2017/12/04/%E5%8D%95%E9%93%BE%E8%A1%A8C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0-1/" title="有头结点">单链表C语言实现-有头结点</a></li>
+</ul>
+<p>双向链表定义：线性表的链式存储结构， n个结点链结成一个链表，每个结点包含一两个指针域一个是指向前驱结点的prior指针,一个是指向后驱结点的next指针</p>
+<pre><code class="c">typedef struct DulNode{
+    Elemtype date;
+    struct DulNode *prior;
+    struct DulNode *next;
+}DulLinkedList;
+</code></pre>
+<p>静态链表适合没有指针的高级编程语言<br>静态链表定义：用数组描述的链表叫做静态链表</p>
+<pre><code class="c">#define MAXSIZE 
+typedef struct{
+    ELemtype data;
+    int cur; //游标cursor，为0的时候表示无指向
+}Component,StaticLinkList[MAXSIZE];
+//对于不提供结构struct的程序设计语言，可以使用一对并行数组data和cur来处理。
+</code></pre>
+<p>栈:是限定仅在表尾进行插入和删除的线性表。函数的递归实现就是使用栈实现的 LIFO</p>
+<p>顺序栈定义:需提前定义长度</p>
+<pre><code class="c">#define MAX_SIZE 10
+typedef int ElemType
+typedef struct {
+    ElemType data[MAX_SIZE];
+    ElemType top; //-1为栈空
+}StackList;
+</code></pre>
+<p>共享空间顺序栈:</p>
+<pre><code class="c">#define MAX_SIZE 10
+typedef int ElemType
+typedef struct {
+    ElemType data[MAX_SIZE];
+    ElemType top1;  //极端情况下当   top=-1  top=MAX_SIZE 的时候，栈为空。
+    ElemTupe top2;　//当 top1+1=top2 或　top2-1=top1　的时候栈为满
+}StackList;
+</code></pre>
+<p>链栈定义:无长度限制</p>
+<pre><code class="c">typedef int ElemType
+typedef struct StackNode{
+    ElemType data;
+    struct StackNode *next; //-1为栈空
+}StackLinkNode;
+typedef struct SLink{
+    StackLinkNode *top;
+    int count; //-1表示栈空
+}StackLink;
+</code></pre>
+<ul>
+<li><a href="http://blog.yisenliu.top/2017/12/07/%E9%93%BE%E6%A0%88c%E5%AE%9E%E7%8E%B0/" title="链栈">链栈c实现</a></li>
+</ul>
+<p>队列:是只允许在一段进行插入操作，而在另一端进行删除操作的线性表 FIFO<br>顺序队列:类似数组，一定要以0为队头，缺点较多。<br>循环队列:可以不把　0　当做是队头,循环移动队头队尾动态改变.　队尾指向的空间不存放任何数据<br>队满条件:队尾指针后移一位对队长取余等于队头指针　数学表达式：(queue-&gt;rear+1)%QUEUE_MAXSIZE<br>队空条件:queue-&gt;rear=queue-&gt;fornt<br>队长度：(queue-&gt;rear-queue-&gt;front+QUEUE_MAXSIZE) % QUEUE_MAXSIZE  就是队尾下标减去队头下标加上总长度然后对总长度取余<br>定义:</p>
+<pre><code class="c">#define QUEUE_MAXSIZE 10 //实际能存储的元素　-1
+typedef int QElemType;
+typedef struct
+{
+    QElemType data[QUEUE_MAXSIZE]; //队列的数据域
+    int fornt;                     //队列的头下标
+    int rear;                      //队列的尾下标
+} SeQueue;
+</code></pre>
+<ul>
+<li><a href="http://blog.yisenliu.top/2017/12/07/%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97c%E5%AE%9E%E7%8E%B0/" title="循环队列">循环队列c实现</a><br>链队列:只能尾进头出的单链表<br>``` c<br>#define QUEUE_MAXSIZE 10 //实际能存储的元素　-1<br>typedef int QElemType;<br>typedef struct QNode<br>{<br>  QElemType data; //链队列的数据域<br>  struct QNode <em>next;<br>} QueueLinkNode;<br>typedef struct QueueL<br>{<br>  QueueLinkNode </em>fornt, *rear; //定义头指针，尾指针<br>} QueueLink;</li>
+</ul>
+<p>```</p>
+<ul>
+<li><a href="http://blog.yisenliu.top/2017/12/07/%E9%93%BE%E9%98%9F%E5%88%97c%E5%AE%9E%E7%8E%B0/" title="链队列">链队列c实现</a></li>
+</ul>
+<p>串:串是由零个或多个字符组成人那个的有限序列，又名叫字符串。字符串查找匹配的时候会用到<br>串的顺序存储结构：是用一组地址连续的存储单元来存储串中的字符序列。<br>串的链式存储结构：与线性表的链式存储结构类似，但结构中的结点可以存放一个过或者多个字符，比顺序存储灵活但性能较差</p>
+<p>朴素的模式匹配算法：对主串S的每一个字符作为子串的开头，与要匹配的字符串T进行匹配。对主串S做大循环，每个字符开头做T的长度的小循环,直到匹配成功过着全部遍历完成为止。<br>朴素的模式匹配算法　-&gt; KMP模式匹配算法 -&gt; 改进KMP模式匹配算法 Boyer-Moore算法<br>这里给出我转载网上优秀博客的解释：KMP:<a href="http://www.ruanyifeng.com/blog/2013/05/boyer-moore_string_search_algorithm.html" title="博客名为xumin330774233的KMP求解过程" target="_blank" rel="noopener">博客名为xumin330774233的KMP求解过程</a>      BM:<a href="http://blog.csdn.net/xumin330774233/article/details/14441809" title="阮一峰大神" target="_blank" rel="noopener">阮一峰大神</a></p>
+<ul>
+<li><a href="http://blog.yisenliu.top/2017/12/08/BM%E5%92%8CKMP%E6%90%9C%E7%B4%A2%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%AE%97%E6%B3%95c%E5%AE%9E%E7%8E%B0/" title="BM和KMP搜索字符串算法c实现">BM和KMP搜索字符串算法c实现</a><br>KMP算法不稳定，有缺陷，效率也比BM算法低，所以一般在工作中使用BM算法代替搜索字符串,比如你现在ctrl+f的搜索，就是使用BM算法实现的。</li>
+</ul>
+<p>树是n(n&gt;=0)结点的有限集合，等于0时为空树<br>结点分为根结点、内部结点和叶结点<br>树中结点的最大层次称为树的深度或高度</p>
+<p>二叉树：由一个根结点和左子树和右子树组成<br>度是是指结点拥有的子树数量<br>每个结点最多有两棵子树，左子树和右子树<br>特殊二叉树<br>斜树:所有结点只有左子树称为左斜树，所有结点只有右子树称为右斜树<br>满二叉树:所有叶结点在同一层次<br>完全二叉树:按顺序编号结点，从左到右开始连接结点，叶子结点只能出现在最下面两层;倒数第二层，若有叶子结点一定在右部连续;同样结点的二叉树，完全二叉树的深度最小<br>二叉树性质:<br>1.在二叉树的第i层上最多有２^(n-1)个结点 i&gt;=1<br>2.深度为k的二叉树总共至多有２^k - 1 个结点　k&gt;=1<br>3.对于任意一棵二叉树Ｔ其中段结点树为n0,度为2的结点树为n2，则n0=n2+1<br>4.具有n个结点的完全二叉树的深度为log2n +1对应第二个性质<br>5.如果一棵有n个结点的完全二叉树的结点按层序编号(从第1层到log2n+1层),对于任意一结点i:<br>①如果i=1;则结点i是二叉树的根,无双亲;如果i&gt;1,则其双亲是编号为i/2的结点<br>②如果 2 <em> i&gt;n,则结点i无左孩子;否则其左孩子是编号为 2 </em> i 的结点<br>③如果 2 <em> i +1 &gt;n,则结点i无右孩子;否则其右孩子是编号为 2 </em> i + 1 的结点</p>
+<p>二叉树的遍历:<br>前序遍历、中序遍历、后序遍历、层序遍历。循环遍历结点的方式<br>前序遍历:若二叉树为空,则空操作返回,否则先访问根结点，然后前序遍历左子树，再前序遍历右子树.<br>中序遍历:若二叉树为空,则空操作返回,否则从根结点开始,中序遍历根结点的左子树,然后是访问根结点,最后中序遍历右子树.<br>后序遍历:若二叉树为空,则空操作返回,否则从左到右先叶子后结点的方式遍历访问左右子树,最后访问根结点.<br>层序遍历:若二叉树为空,则空操作返回,否则从书的第一层也就是根结点开始访问,从上而下,从左到右逐层遍历.</p>
+<ul>
+<li><a href="http://blog.yisenliu.top/2017/12/15/%E5%B8%B8%E8%A7%84%E4%BA%8C%E5%8F%89%E6%A0%91/" title="常规二叉树(顺序表)">常规二叉树</a><br>待续……</li>
+</ul>
+<p>排序番外篇<br>之后会更新,先来点干货..</p>
+<ul>
+<li><a href="http://blog.yisenliu.top/2017/12/15/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E6%B3%95%E5%92%8C%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%E6%B3%95-%E9%A1%BA%E5%BA%8F%E8%A1%A8/" title="快速排序法和插入排序法(顺序表)">快速排序法和插入排序法(顺序表)</a></li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+<p><strong>文献</strong>：《大话数据结构（第二季）》</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/12/17/DataStructPrepare/" title="DataStructPrepare" target="_blank" rel="external">http://blog.yisenliu.top/2017/12/17/DataStructPrepare/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" title="快速排序法和插入排序法(顺序表)">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

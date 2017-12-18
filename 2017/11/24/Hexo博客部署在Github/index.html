@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Hexo博客部署在Github | YisenBlog</title>
+  <meta name="description" content="Hexo博客部署在Github环境：linux(fedora23)  安装node.js （本机好像安装了比较低的版本，后面直接升级了）安装 点击进入node.js官网目前node.js有两个推荐版本，分为通用版和最新版，点击可直接进行下载。下载好后，按照既定的套路安装即可。安装Node.js有好多种方法，一般从官网下载好安装包，点击安装即可（跟所有的Windows应用一样方便）。安装好之后就可以">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo博客部署在Github">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/11/24/Hexo博客部署在Github/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="Hexo博客部署在Github环境：linux(fedora23)  安装node.js （本机好像安装了比较低的版本，后面直接升级了）安装 点击进入node.js官网目前node.js有两个推荐版本，分为通用版和最新版，点击可直接进行下载。下载好后，按照既定的套路安装即可。安装Node.js有好多种方法，一般从官网下载好安装包，点击安装即可（跟所有的Windows应用一样方便）。安装好之后就可以">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-11-29T05:20:06.192Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo博客部署在Github">
+<meta name="twitter:description" content="Hexo博客部署在Github环境：linux(fedora23)  安装node.js （本机好像安装了比较低的版本，后面直接升级了）安装 点击进入node.js官网目前node.js有两个推荐版本，分为通用版和最新版，点击可直接进行下载。下载好后，按照既定的套路安装即可。安装Node.js有好多种方法，一般从官网下载好安装包，点击安装即可（跟所有的Windows应用一样方便）。安装好之后就可以">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/11/24/Hexo博客部署在Github/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Hexo博客部署在Github" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hexo博客部署在Github
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/11/24/Hexo博客部署在Github/" class="article-date">
+	  <time datetime="2017-11-24T12:52:08.000Z" itemprop="datePublished">2017-11-24</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Linux杂货/">Linux杂货</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/Linux/">Linux</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/11/24/Hexo博客部署在Github/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h1 id="Hexo博客部署在Github"><a href="#Hexo博客部署在Github" class="headerlink" title="Hexo博客部署在Github"></a>Hexo博客部署在Github</h1><p>环境：linux(fedora23) </p>
+<h2 id="安装node-js-（本机好像安装了比较低的版本，后面直接升级了）"><a href="#安装node-js-（本机好像安装了比较低的版本，后面直接升级了）" class="headerlink" title="安装node.js （本机好像安装了比较低的版本，后面直接升级了）"></a>安装node.js （本机好像安装了比较低的版本，后面直接升级了）</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><blockquote>
+<p>点击进入node.js官网<br>目前node.js有两个推荐版本，分为通用版和最新版，点击可直接进行下载。下载好后，按照既定的套路安装即可。<br>安装Node.js有好多种方法，一般从官网下载好安装包，点击安装即可（跟所有的Windows应用一样方便）。<br>安装好之后就可以使用了，可以在终端内测试Node代码。</p>
+</blockquote>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>Node.js一直保持着很高的更新频率，为了体验它的最新功能，我们免不了要经常更新之，不能每次都下源码，再编译安装；或者是下载好编译好的文件设置路径吧。太麻烦了。。。<br>node提供了一个更新模块——n（它是专门用来管理Node.js版本的。<br>首先安装该模块（当然是用node好基友npm了）</p>
+<p><code>npm install -g n</code></p>
+<p>安装完成后，检测是否安装成功</p>
+<p><code>n -V</code></p>
+<p>安装成功会输出当前安装的n的版本号。</p>
+<p>使用n更新node</p>
+<p> <code>n stable</code></p>
+<p>安装Git</p>
+<p><code>dnf install git</code></p>
+<p>安装完成后：</p>
+<p><code>git --version</code></p>
+<p>显示当前git版本</p>
+<h2 id="Github仓库"><a href="#Github仓库" class="headerlink" title="Github仓库"></a>Github仓库</h2><p>github申请不啰嗦<br>在你的github仓库要创建一个xxx.github.io 仓库，本地部署完之后同步到这个仓库<br>注意：’xxx’ 就是你的github用户名！下面的创建的文件也是同样的名字</p>
+<h2 id="生成公钥（github）"><a href="#生成公钥（github）" class="headerlink" title="生成公钥（github）"></a>生成公钥（github）</h2><p><code>$ssh-keygen</code></p>
+<ul>
+<li>Generating public/private rsa key pair.<br>Enter file in which to save the key (/home/schacon/.ssh/id_rsa):<br>Created directory ‘/home/schacon/.ssh’.<br>Enter passphrase (empty for no passphrase):<br>Enter same passphrase again:<br>Your identification has been saved in /home/schacon/.ssh/id_rsa.<br>Your public key has been saved in /home/schacon/.ssh/id_rsa.pub.<br>The key fingerprint is:<br>d0:82:24:8e:d7:f1:bb:9b:33:53:96:93:49:da:9b:e3 schacon@mylaptop.local</li>
+</ul>
+<p>首先 ssh-keygen 会确认密钥的存储位置（默认是 .ssh/id_rsa），然后它会要求你输入两次密钥口令。如果你不想在使用密钥时输入口令，将其留空即可。</p>
+<p>现在，进行了上述操作的用户需要将各自的公钥发送给任意一个 Git 服务器管理员（假设服务器正在使用基于公钥的 SSH 验证设置）。 他们所要做的就是复制各自的 .pub 文件内容，并将其通过邮件发送。 公钥看起来是这样的：</p>
+<p><code>$ cat ~/.ssh/id_rsa.pub</code></p>
+<ul>
+<li>ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU<br>GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3<br>Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA<br>t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En<br>mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx<br>NrRFi9wrf+M7Q== schacon@mylaptop.local</li>
+</ul>
+<p>然后到github设置加入这个公钥就可以了！</p>
+<h2 id="本地创建博客文件夹"><a href="#本地创建博客文件夹" class="headerlink" title="本地创建博客文件夹"></a>本地创建博客文件夹</h2><p>使用普通用户在其  ~(当前用户家目录)创建文件夹，不然会出现权限问题 </p>
+<p>例如：</p>
+<pre><code class="c++">cd ~
+mkdir Yisen.github.io
+cd Yisen.github.io
+npm install -g hexo-cli
+hexo init ./ #初始化到当前目录
+
+npm install //  node.js的命令，根据博客既定的dependencies配置安装所有的依赖包,少了这一步后面有一个大坑等着你，卡死在hexo deploy 1h....的结论（不行再加上组合拳：npm install hexo-deployer-git --save）
+</code></pre>
+<p>初始化完成</p>
+<p>首先安装个VIM</p>
+<p><code>dnf -y update</code></p>
+<p><code>dnf -y install vim-enhanced</code></p>
+<p>选取主题：<a href="https://hexo.io/themes/" title="hexo主题" target="_blank" rel="noopener">hexo主题</a></p>
+<p>点进去相关项目的github仓库，有说明如何使用，包括配置（70%是英文 chrome可翻译）<br>一般要把下载主题包（已解压）放在博客根目录下的themes文件夹下</p>
+<h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><p>在博客根目录</p>
+<p><code>vim _config.yml</code> </p>
+<blockquote>
+<p># Site<br>title: Yisen   <br><br>subtitle: nice<br><br>description:<br><br>author: Yisen LIU<br><br>language: zh-CN   <br><br>timezone: Asia/Shanghai <br><br>主题配置：<br><br>theme: pure  //默认是landscape<br></p>
+</blockquote>
+<p>拉到最后面部署配置：</p>
+<p>新版hexo配置如下</p>
+<pre><code class="c++">deploy:
+  type: git
+  repo: http://github.com/Vener-liu/Yisen.github.io.git
+  branch: master
+  message: BLOG
+</code></pre>
+<p>也可以参考官网：<a href="https://hexo.io/docs/deployment.html" title="hexo官方文档" target="_blank" rel="noopener">hexo官方文档</a></p>
+<p>域名配置：<br>在博客根目录新建一个文件：</p>
+<p><code>echo &#39;你的域名&#39;&gt;CNAME</code></p>
+<p><code>vim _config.yml</code></p>
+<p>找到：url: <a href="http://你的域名" target="_blank" rel="noopener">http://你的域名</a> 进行修改</p>
+<p>发表一篇文章<br>在终端输入：</p>
+<p><code>hexo new &quot;文章标题&quot;</code> // 新建一篇文章</p>
+<p>//每次部署上github之前可以现在本地预览：<br><code>hexo server</code></p>
+<p>部署步骤</p>
+<p>每次部署的步骤，可按以下三步来进行。</p>
+<pre><code>    hexo clean
+
+    hexo generate （hexo g）
+
+    hexo deploy   (hexo d)
+</code></pre><h2 id="一些常用命令"><a href="#一些常用命令" class="headerlink" title="一些常用命令"></a>一些常用命令</h2><pre><code>hexo new&quot;postName&quot; #新建文章
+
+hexo new page&quot;pageName&quot; #新建页面
+
+hexo generate #生成静态页面至public目录
+
+hexo server #开启预览访问端口（默认端口4000，&#39;ctrl + c&#39;关闭server）
+
+hexo deploy #将.deploy目录部署到GitHub
+
+hexo help # 查看帮助
+
+hexo version #查看Hexo的版本
+</code></pre><p>删除文章步骤：</p>
+<p><code>hexo clean</code></p>
+<p>然后到source下的_post文件夹删除源文件</p>
+<p><code>hexo clean</code></p>
+<p><code>hexo g</code></p>
+<p><code>hexo d</code></p>
+<p>OK!</p>
+<h1 id="增加域名"><a href="#增加域名" class="headerlink" title="增加域名"></a>增加域名</h1><p><em>向你的 Github Pages 仓库添加一个CNAME(一定要大写)文件</em></p>
+<p>CNAME文件要放在source目录下</p>
+<p>其中只能包含一个顶级域名，像这样：</p>
+<p><code>yisenliu.top`` 或者二级域名也行 ``veners.oicp.io</code></p>
+<p><br><br><em>在DNS做一下解析</em></p>
+<p>A记录     (ip: ping一下github给你的域名就知道了)</p>
+<p>CNAME     (github给你的域名)</p>
+<h2 id="部署完毕"><a href="#部署完毕" class="headerlink" title="部署完毕"></a>部署完毕</h2><h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+<p><strong>博客文献</strong>：<a href="http://blog.csdn.net/zhouxingxingzxy/article/details/51301814" title="zzk潜段博客" target="_blank" rel="noopener">zzk潜段博客</a>,<a href="http://www.jianshu.com/p/e99ed60390a8" title="代码咖啡" target="_blank" rel="noopener">代码咖啡</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/11/24/Hexo博客部署在Github/" title="Hexo博客部署在Github" target="_blank" rel="external">http://blog.yisenliu.top/2017/11/24/Hexo博客部署在Github/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/11/26/Linux下使用Samba/" title="Linux下使用Samba"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/11/24/Linux部署Tp框架/" title="Linux部署Tp框架">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

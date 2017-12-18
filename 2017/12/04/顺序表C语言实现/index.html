@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>顺序表C语言实现 | YisenBlog</title>
+  <meta name="description" content="今天学习了线性表，并手动实现了增删改查等操作，附上我的代码，最大的收获应该是对指针的理解和熟练程度又上一层楼了。代码： #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #define OK 1 #define ERR 0 #define MAX_SIZE 20 //定义顺序存储结构 typedef int Elemtype;  typedef">
+<meta name="keywords" content="C&#x2F;C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="顺序表C语言实现">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/12/04/顺序表C语言实现/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="今天学习了线性表，并手动实现了增删改查等操作，附上我的代码，最大的收获应该是对指针的理解和熟练程度又上一层楼了。代码： #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #define OK 1 #define ERR 0 #define MAX_SIZE 20 //定义顺序存储结构 typedef int Elemtype;  typedef">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://blog.yisenliu.top/images/Data_struct/Liner.png">
+<meta property="og:updated_time" content="2017-12-06T08:28:56.918Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="顺序表C语言实现">
+<meta name="twitter:description" content="今天学习了线性表，并手动实现了增删改查等操作，附上我的代码，最大的收获应该是对指针的理解和熟练程度又上一层楼了。代码： #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #define OK 1 #define ERR 0 #define MAX_SIZE 20 //定义顺序存储结构 typedef int Elemtype;  typedef">
+<meta name="twitter:image" content="http://blog.yisenliu.top/images/Data_struct/Liner.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/12/04/顺序表C语言实现/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-顺序表C语言实现" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      顺序表C语言实现
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/12/04/顺序表C语言实现/" class="article-date">
+	  <time datetime="2017-12-04T10:08:46.000Z" itemprop="datePublished">2017-12-04</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Data-Struture/">Data_Struture</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/C-C/">C/C++</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/12/04/顺序表C语言实现/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <p>今天学习了线性表，并手动实现了增删改查等操作，附上我的代码，最大的收获应该是对指针的理解和熟练程度又上一层楼了。<br>代码：</p>
+<pre><code class="c++">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define OK 1
+#define ERR 0
+#define MAX_SIZE 20
+//定义顺序存储结构
+typedef int Elemtype;
+
+typedef struct list{
+ Elemtype data[MAX_SIZE];
+ Elemtype Length;
+}SeqList;
+//初始化线性表①
+SeqList *InitList1(){   //由于返回的是 线性表的指针数据类型  所以用 线性表数据类型定义一个指针函数 
+    SeqList *L;    //定义一个线性表数据类型 指针
+    L=(SeqList *)malloc(sizeof(SeqList));
+    if(!L) return ERR;
+     // 根据SeqList即线性表数据类型大小，通过malloc函数分配 合适 的逻辑上连续的地址空间，并强制转换为线性表数据类型（有可能会返回指针），这里返回的是一个可用空间首地址  
+    L-&gt;Length=0; //L得到了返回可用空间的首地址，即成为了SqeList的引用，即可用 L-&gt;成员变量 的方式访问成员变量
+    for(Elemtype i=0;i&lt;MAX_SIZE;i++)
+       L-&gt;data[i]=0;
+    return L;
+}
+
+//初始化线性表② 
+Elemtype InitList2(SeqList **p){
+    *p=(SeqList *)malloc(sizeof(SeqList));
+    if(!*p) return ERR;
+    (*p)-&gt;Length=0;
+    for(Elemtype i=0;i&lt;MAX_SIZE;i++)
+      (*p)-&gt;data[i]=0;
+     return OK;
+}
+
+
+/**
+ * 销毁线性表
+*/
+Elemtype DestoryList(SeqList *p){  //相当于 SeqList *p=地址; 传入函数内部  即p=地址
+    free(p);
+    p=NULL;
+    return OK;
+}
+
+/**
+ * 返回线性表L中的第i个位置的元素值给e  SearchList
+*/
+Elemtype SearchList(SeqList *L,Elemtype i,Elemtype e){
+    if(i&lt;1||i&gt;L-&gt;Length||L-&gt;Length==0)
+      return ERR;
+      e=L-&gt;data[i-1];
+      return  e;
+
+}
+
+
+/**
+ * 在线性表L中查找与给定值e相等的元素，成功返回1，失败返回0 Locate
+*/
+Elemtype LocateList(SeqList *L,Elemtype e){
+    if(L-&gt;Length==0)
+    return ERR;
+    for(Elemtype i=0;i&lt;MAX_SIZE;i++){
+        if(L-&gt;data[i]==e)
+            return OK;
+    }
+     return ERR;
+}
+
+
+/**
+ * 在线性表L中第i个位置之前插入新元素e  InsList
+*/
+Elemtype InsList(SeqList *L,Elemtype i,Elemtype e){
+    if(L-&gt;Length==0||i&lt;1||i&gt;L-&gt;Length+1)
+      return ERR;
+    if(L-&gt;Length==MAX_SIZE)
+    {
+        printf(&quot;线性表已满\n&quot;);
+        return ERR;
+    }
+   for(Elemtype j=L-&gt;Length-1;j&gt;=i-1;j--){
+            L-&gt;data[j+1]=L-&gt;data[j];
+    }
+     L-&gt;data[i-1]=e; 
+     L-&gt;Length++;
+    return OK;
+}
+
+/**
+ * 删除线性表L中第i个位置元素，并使用e返回其值 DelList
+*/
+Elemtype DelList(SeqList *L,Elemtype i,Elemtype e){
+    if(L-&gt;Length==0||i&lt;1||i&gt;L-&gt;Length)
+       return ERR;
+
+     e=L-&gt;data[i-1];
+     if(i==L-&gt;Length)
+           L-&gt;Length--;
+    else for(Elemtype j=i-1;j&lt;L-&gt;Length-1;j++)
+             L-&gt;data[j]=L-&gt;data[j+1];
+             L-&gt;Length--;
+    return e;
+}
+
+/**
+ * 线性表的输出 print_seqList
+*/
+void print_seqList(SeqList *L){
+    for(Elemtype i=0;i&lt;L-&gt;Length;i++)
+    printf(&quot;%d  &quot;,L-&gt;data[i]);
+    printf(&quot;\n\n&quot;);
+}
+/**
+ * 两个线性表连接 UniList
+*/
+Elemtype UniList1(SeqList *L1,SeqList *L2,SeqList **L3){
+    Elemtype j=0,Length;
+    Length=L1-&gt;Length+L2-&gt;Length;
+   if(L1-&gt;Length==0||L2-&gt;Length==0||MAX_SIZE&lt;Length)
+      return ERR;
+
+    for(Elemtype i=0;i&lt;Length;i++){
+          if(i&lt;L1-&gt;Length){
+             (*L3)-&gt;data[i]=L1-&gt;data[i];
+             (*L3)-&gt;Length++;
+          }
+          else {              
+              (*L3)-&gt;data[i]=L2-&gt;data[j];
+              (*L3)-&gt;Length++;
+              j++;
+          }
+    }
+    return OK;
+}
+
+SeqList *UniList2(SeqList *L1,SeqList *L2,SeqList *L3){
+    Elemtype j=0,Length;
+    Length=L1-&gt;Length+L2-&gt;Length;
+   if(L1-&gt;Length==0||L2-&gt;Length==0||MAX_SIZE&lt;Length)
+      return ERR;
+    for(Elemtype i=0;i&lt;Length;i++){
+          if(i&lt;L1-&gt;Length){
+             L3-&gt;data[i]=L1-&gt;data[i];
+             L3-&gt;Length++;
+          }
+          else {              
+              L3-&gt;data[i]=L2-&gt;data[j];
+              L3-&gt;Length++;
+              j++;
+          }
+    }
+    return L3;
+}
+
+
+
+Elemtype main(){
+
+
+    SeqList *L1,*L2,*L3;
+    Elemtype init_flag=0,i,Destory_flag=0,e;
+    //初始化一个线性表
+    L1=InitList1();    //使用返回初始化好的线性表。
+    InitList2(&amp;L2);  // 传入需要初始化的线性表进行初始化。
+
+    InitList2(&amp;L3);
+
+
+    // if(init_flag){
+        for(i=0;i&lt;MAX_SIZE-10;i++){
+            L2-&gt;data[i]=1+(int)(10.0*rand()/(RAND_MAX+1.0));
+            L2-&gt;Length++;
+        }
+         for(i=0;i&lt;MAX_SIZE-10;i++){
+            L1-&gt;data[i]=1+(int)(10.0*rand()/(RAND_MAX+1.0));
+            L1-&gt;Length++;
+        }
+
+        print_seqList(L2);
+        e=SearchList(L2,2,e);
+        printf(&quot;查找第二个元素的值：%d\n&quot;,e);
+        e=0;
+        e=LocateList(L2,7);
+        if(e) printf(&quot;寻找 7 成功\n&quot;);
+        else printf(&quot;寻找 7 失败\n&quot;);
+
+        e=0;
+        e=LocateList(L2,1000);
+        if(e) printf(&quot;寻找 1000 成功\n&quot;);
+        else printf(&quot;寻找 1000 失败\n&quot;);
+
+        e=0;
+        e=InsList(L2,4,1000);
+        if(e) printf(&quot;在第四个位置之前插入 1000 成功\n&quot;);
+        else printf(&quot;在第四个位置之前插入 1000 失败\n&quot;); 
+         print_seqList(L2);
+
+
+        e=0;
+        e=DelList(L2,4,e);
+        if(e) printf(&quot;删除第四个位置元素:%d成功\n&quot;,e);
+        else printf(&quot;删除第四个位置元素失败\n&quot;); 
+         print_seqList(L2);
+
+        e=0;
+        e=InsList(L2,4,1000);
+        if(e) printf(&quot;在第四个位置之前插入 1000 成功\n&quot;);
+        else printf(&quot;在第四个位置之前插入 1000 失败\n&quot;); 
+         print_seqList(L2);
+
+
+        L1-&gt;Length=0;
+        L2-&gt;Length=0;
+
+        for(i=0;i&lt;MAX_SIZE-10;i++){
+            L2-&gt;data[i]=1+(int)(10.0*rand()/(RAND_MAX+1.0));
+            L2-&gt;Length++;
+        }
+         for(i=0;i&lt;MAX_SIZE-10;i++){
+            L1-&gt;data[i]=1+(int)(10.0*rand()/(RAND_MAX+1.0));
+            L1-&gt;Length++;
+        }
+        print_seqList(L1);
+        print_seqList(L2);
+
+        // UniList1(L1,L2,&amp;L3);
+        // // printf(&quot;%d&quot;,L3-&gt;Length);
+        // printf(&quot;连表之后:\n&quot;);
+        // print_seqList(L3);
+
+        L3=UniList2(L1,L2,L3);
+        // printf(&quot;%d&quot;,L3-&gt;Length);
+        printf(&quot;连表之后:\n&quot;);
+        print_seqList(L3);
+
+        DestoryList(L1);
+        DestoryList(L2);  //传入需要释放之前分配过空间的地址
+        DestoryList(L3);
+
+
+
+    return 0;
+}
+</code></pre>
+<p>运行结果图：<br><img src="/images/Data_struct/Liner.png" alt="Liner" title="Liner"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/12/04/顺序表C语言实现/" title="顺序表C语言实现" target="_blank" rel="external">http://blog.yisenliu.top/2017/12/04/顺序表C语言实现/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/12/06/约瑟夫环单链表实现/" title="约瑟夫环单链表实现"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/12/04/单链表C语言实现-2/" title="单链表C语言实现(2)">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

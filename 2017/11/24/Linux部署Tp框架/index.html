@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Linux部署Tp框架 | YisenBlog</title>
+  <meta name="description" content="当前环境：linux fedora 23  APACHE2.4 PHP5.6 mariadb10.0.28Lamp环境搭建 ThinkPHP3.2.3完整版下载地址 下载完后把解压缩目录下面的 ThinkPHP 文件夹改名为放到网站根目录  thinkphp 3.2.3 的安装 框架目录： ├─index.php       入口文件  ├─README.md       README文件 ├─A">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux部署Tp框架">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/11/24/Linux部署Tp框架/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="当前环境：linux fedora 23  APACHE2.4 PHP5.6 mariadb10.0.28Lamp环境搭建 ThinkPHP3.2.3完整版下载地址 下载完后把解压缩目录下面的 ThinkPHP 文件夹改名为放到网站根目录  thinkphp 3.2.3 的安装 框架目录： ├─index.php       入口文件  ├─README.md       README文件 ├─A">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-11-29T05:20:30.377Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux部署Tp框架">
+<meta name="twitter:description" content="当前环境：linux fedora 23  APACHE2.4 PHP5.6 mariadb10.0.28Lamp环境搭建 ThinkPHP3.2.3完整版下载地址 下载完后把解压缩目录下面的 ThinkPHP 文件夹改名为放到网站根目录  thinkphp 3.2.3 的安装 框架目录： ├─index.php       入口文件  ├─README.md       README文件 ├─A">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/11/24/Linux部署Tp框架/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Linux部署Tp框架" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux部署Tp框架
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/11/24/Linux部署Tp框架/" class="article-date">
+	  <time datetime="2017-11-24T12:49:28.000Z" itemprop="datePublished">2017-11-24</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Linux杂货/">Linux杂货</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/Linux/">Linux</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/11/24/Linux部署Tp框架/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <p>当前环境：linux fedora 23  APACHE2.4 PHP5.6 mariadb10.0.28<br><a href="http://www.linuxidc.com/Linux/2015-11/124968.htm&quot;Lamp环境搭建&quot;" target="_blank" rel="noopener">Lamp环境搭建</a></p>
+<p><a href="http://www.thinkphp.cn/down/610.html" title="ThinkPHP3.2.3完整版" target="_blank" rel="noopener">ThinkPHP3.2.3完整版下载地址</a></p>
+<p>下载完后把解压缩目录下面的 ThinkPHP 文件夹改名为放到网站根目录 </p>
+<h2 id="thinkphp-3-2-3-的安装"><a href="#thinkphp-3-2-3-的安装" class="headerlink" title="thinkphp 3.2.3 的安装"></a>thinkphp 3.2.3 的安装</h2><ul>
+<li>框架目录： <br><pre><code>├─index.php       入口文件 
+├─README.md       README文件
+├─Application     应用目录 
+├─Public          资源文件目录 
+└─ThinkPHP        框架目录框架系统目录（可以部署在非web目录下面） 
+│  ├─Common       核心公共函数目录 
+│  ├─Conf         核心配置目录  
+│  ├─Lang         核心语言包目录
+│  ├─Library      框架类库目录
+│  │  ├─Think     核心Think类库包目录 （这个目录下有MVC对应类的父类）
+│  │  ├─Org       Org类库包目录
+│  │  ├─Vendor    第三方类库目录
+│  │  ├─ ...      更多类库目录 
+│  ├─Mode         框架应用模式目录
+│  ├─Tpl          系统模板目录
+│  ├─LICENSE.txt  框架授权协议文件
+│  ├─logo.png     框架LOGO文件
+│  ├─README.txt   框架README文件
+│  └─ThinkPHP.php    框架入口文件
+</code></pre>#上述应用的目录结构只是默认设置，事实上，在实际部署应用的时候，我们建议除了应用入口文<br>#件和Public资源目录外，其他文件都放到非WEB目录下面，具有更好的安全性。</li>
+</ul>
+<h1 id="第一站：虚拟站点"><a href="#第一站：虚拟站点" class="headerlink" title="第一站：虚拟站点"></a>第一站：虚拟站点</h1><ul>
+<li><p>遭遇：<br></p>
+<pre><code>     建设虚拟站点，到网上搜索教程，发现都是千篇一律：
+     一、找httpd.conf 把# Include conf/extra/httpd-vhosts.conf 的注释去掉
+     二、开始配置虚拟主机 http-vhost.conf中配置
+     三、dns指向
+     本环境中的apache版本是2.4.16
+     发现并没有一中所指的 Include 配置，只好自己加，然后在/var/httpd/conf/ 中
+     添加http-vhost.conf文件（原来并没有） 然后systemctl restart httpd 出现错误
+     systemctl status httpd.service 中查看在http-vhost.conf中出现语法错误
+     解决办法：
+     一、首先进行DNS绑定
+     在127.0.0.1 localhost 下面添加：
+     127.0.0.1 shop.dev  
+     127.0.0.1 www.shop.dev
+     127.0.0.1 op.dev
+     浏览了一下apache的配置文件httpd.conf 发现最后一行已经包含了所有配置文件的路径在conf.d下面
+     所有并不用自己添加包含路径
+     新建文件内容如下：
+</code></pre><pre><code class="c++">           &lt;VirtualHost *:808&gt;
+              ServerAdmin webmaster@dummy-host2.example.com
+              DocumentRoot &quot;/var/www/html/shop&quot;
+              ServerName shop.dev
+              ErrorLog &quot;logs/dummy-host2.example.com-error.log&quot;
+              CustomLog &quot;logs/dummy-host2.example.com-access.log&quot; common
+              &lt;Directory &quot;/var/www/html/shop&quot;&gt;
+                  #用于显示设定“可显示文件列表”(当无可显示网页的时候)
+                  Options Indexes
+                  #启用文件夹访问控制的文件.htaccess设置
+                  AllowOverride All
+                  #请求控制
+                  Require all granted
+                  #默认打开的页面设置
+                  DirectoryIndex index.php index.html
+              &lt;/Directory&gt;
+          &lt;/VirtualHost&gt;
+
+          &lt;VirtualHost *:80&gt;
+              ServerAdmin mylocal
+              DocumentRoot &quot;/var/www/html/&quot;
+              ServerName shop.dev
+              ErrorLog &quot;logs/mylocal.com-error.log&quot;
+              CustomLog &quot;logs/mylocal.com-access.log&quot; common
+              &lt;Directory &quot;/var/www/html&quot;&gt;
+                  #用于显示设定“可显示文件列表”(当无可显示网页的时候)
+                  Options Indexes
+                  #启用文件夹访问控制的文件.htaccess设置
+                  AllowOverride All
+                  #请求控制
+                  Require all granted
+                  #默认打开的页面设置
+                  DirectoryIndex index.php index.html
+              &lt;/Directory&gt;
+          &lt;/VirtualHost&gt;
+
+          &lt;VirtualHost *:80&gt;
+              ServerAdmin op123
+              DocumentRoot &quot;/var/www/html/op123&quot;
+              ServerName op.dev
+              ErrorLog &quot;logs/op.com-error.log&quot;
+              CustomLog &quot;logs/op.com-access.log&quot; common
+              &lt;Directory &quot;/var/www/html&quot;&gt;
+                  #用于显示设定“可显示文件列表”(当无可显示网页的时候)
+                  Options Indexes
+                  #启用文件夹访问控制的文件.htaccess设置
+                  AllowOverride All
+                  #请求控制
+                  Require all granted
+                  #默认打开的页面设置
+                  DirectoryIndex index.php index.html
+              &lt;/Directory&gt;
+          &lt;/VirtualHost&gt;
+          ServerAdmin 可以写自己邮箱
+          DocumentRoot 项目/站点绝对路径
+          ServerName DNS所指向的域名(这里要保持一致)
+          ErrorLog 以及 CustomLog 都是用户日志文件路径，在/etc/httpd/logs 文件夹下
+          &lt;Directory&gt;内容如注释所示
+以上展示了以多端口设置项目站点方法和多域名设置项目站点方法实现虚拟站点功能，还有IP虚拟站点指向等
+</code></pre>
+<pre><code>      值得注意的是：当使用相同IP、相同端口、不同域名的配置的时候，默认访问配置顺序加载的第一位
+      以上面为例：当访问localhost的时候，会指向ServerName为shop.dev的站点。
+</code></pre></li>
+</ul>
+<h1 id="第二站：目录权限"><a href="#第二站：目录权限" class="headerlink" title="第二站：目录权限"></a>第二站：目录权限</h1><p>LAMP环境搭建使用dnf高级软件包管理工具分别单个安装</p>
+<pre><code>安装目录(主要配置文件) 
+
+          apache 配置文件 /etc/httpd/conf/httpd.conf
+
+           php  配置文件 /etc/php.ini
+
+           mariadb(mysql)   /etc/my.cnf
+                            /etc/mycnf.d/
+
+  配置项目目录 （在网站根目录下新建一个shop目录）
+    项目文件位于/var/www/html/shop 
+                |---index.php =&gt;                &lt;?php
+                                                define(&#39;APP_PATH&#39;,&#39;./app/&#39;);
+                                                // 定义应用目录
+                                                define(&#39;RUNTIME_PATH&#39;,&#39;./Runtime/&#39;);
+                                                // 开启调试模式
+                                                define(&#39;APP_DEBUG&#39;,True);
+                                                include(&#39;../ThinkPHP/ThinkPHP.php&#39;);                                                  
+                                                ?&gt;
+</code></pre><p>我把thinkphp下的核心文件Thinkphp并放在网站下 :/var/www/html/目录下</p>
+<ul>
+<li><p>遭遇：  </p>
+<pre><code>    在这之前，我在index.php 里面并没有加上三行define代码，查阅了手册之
+    后才知道要加（上面是正常文见）
+
+    导致 http://shop.dev/shop 访问 出现 系统错误 提示
+
+    然后，再次执行，发现 ./shop目录不可写
+
+    应该是出现权限问题
+</code></pre></li>
+<li><p>解决办法：  </p>
+<pre><code>    `cat /etc/httpd/conf/httpd.conf`   查看apache的用户名和组名都是：apache  
+
+    而我当前用户名是：carlos  而网站目录下面的文件都是属于 carlos:carlos 及都是属于
+    carlos用户组的carlos成员
+    管理员身份下： 
+    `usermod -g carlos -G apache`;//将carlos成员加入到apache组，因为平常开发成员是
+    carlos有可能会使用到这个apache组
+   `cd /var/www/`
+
+   `chown -R carlos:apache` ./html //把网站下面的所有文件都交属carlos:apache 即carlos用户组的apache成员 
+
+   `chmod - R 775 ./html`  //设置目录访问权限 rwxrwxr_x 如果目录下面有特殊文件需要不同权限，可进入目录再更改权限
+
+   `vim /etc/httpd/conf/httpd.conf`  //修改  User apache 为 User carlos
+
+    `systemctl restart httpd`   //重启httpd服务
+
+    文件权限修改完毕，接着关闭SELinux（一种访问控制体系）
+
+   `getenforce`  #如果显示Disabled 就可以直接访问本地网址,否则继续
+
+   `getenforce 0` #临时生效，重启失效
+
+   `vim /etc/sysconfig/selinux` #重启生效
+</code></pre><p><br></p>
+<pre><code>   完成入口文件引入！可以看看你项目的目录下面会有什么文件       &lt;br&gt; 
+</code></pre></li>
+</ul>
+<h1 id="第三站：apache模块开启"><a href="#第三站：apache模块开启" class="headerlink" title="第三站：apache模块开启"></a>第三站：apache模块开启</h1><ul>
+<li>我今天刚好要使用thinkphp的url重写 <br><br>  在网上找教程，发现基本上都是要在/etc/httpd/conf/httpd.conf 中开启rewrite模块<br><br>  然而，从第一行找到最后一行也没有，根据第一个坑，我在httpd目录下面发现了个modules文件夹<br><br>  <code>ls |grep rewrite</code><br><br>  mod_rewrite.so <br><br>  也就是说有这个模块，但是要找到地方开启。<br><br>  httpd目录下，有一个conf.models.d文件夹，打开里面几个文件后分析发现，这里应该是apache model模块的开启的地方，尝试打开几个文件后，在00-base.conf发现了这行<br><blockquote>
+<p>LoadModule rewrite_module modules/mod_rewrite.so<br><br>  所以默认是启用rewrite模块的状态<br></p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>mod_rewrite是Apache的一个模块。 <br>此模块提供了一个基于正则表达式分析器的重写引擎来实时重写URL请求。<br>它支持每个完整规则可以拥有不限数量的子规则以及附加条件规则的灵活而且强大的URL操作机制。<br>此URL操作可以依赖于各种测试，比如服务器变量、环境变量、HTTP头、时间标记，甚至各种格式的用于匹配URL组成部分的查找数据库。<br>  此模块可以操作URL的所有部分(包括路径信息部分)，在服务器级的(httpd.conf)和目录级的(.htaccess)配置都有效，还可以生成最终请求字符串。<br>此重写操作的结果可以是内部子处理，也可以是外部请求的转向，甚至还可以是内部代理处理。 <br><br>        一般mod_rewrite默认是不启动的（新版Apache 默认启动），这时我们需要手动启用它。<br></p>
+<ul>
+<li>解决方法：<br><br>1、启用mod_rewrite模块<pre><code>  打开Apache名为“httpd.conf”的配置文件，`#LoadModule rewrite_module modules/mod_rewrite. so`这行代码，将#注释符删除，使得Apache在启动时就加载mod_rewrite模块。&lt;br&gt;
+</code></pre>2、设置Apache<br><pre><code>    这一步需要特别注意，在httpd.conf下的配置是根目录的配置，而我们的目录是虚拟站点，第一个坑里面提到
+    我创建了一个站点shop而站点配置文件在/etc/httpd/conf.d/ 目录下面有一个虚拟站点配置文件
+    http-vhost.conf
+    找到项目虚拟站点的配置那一段
+      将其中的：AllowOverride None 改为 AllowOverride All ，
+      并且把 Options Indexes 注释掉
+      添加 Options FollowSymLinks
+      重启httpd服务即可。
+  最终配置（项目路径要对得上）：
+</code></pre><pre><code class="c++">        &lt;Directory &quot;/var/www/html/shop&quot;&gt;
+          #启用允许访问符号链接文件
+          Options FollowSymLinks
+          #用于显示设定“可显示文件列表”(当无可显示网页的时候)
+          # Options Indexes 
+          #启用文件夹访问控制的文件.htaccess设置
+          AllowOverride All
+          #请求控制
+          Require all granted
+          Order allow,deny
+          Allow from all
+          #默认打开的页面设置
+          DirectoryIndex index.php index.html
+        &lt;/Directory&gt;
+</code></pre>
+</li>
+<li>3、添加thinkphp的配置<br><pre><code>      当前项目根目录下的 Common/Conf/config.php : 
+</code></pre><pre><code class="&lt;?php">          return array(
+              //&#39;配置项&#39;=&gt;&#39;配置值&#39;
+              &#39;URL_MODEL&#39; =&gt; 2
+          );
+</code></pre>
+</li>
+<li>4、在入口文件index.php同级目录添加.htaccess文件，内容如下：<br><pre><code>      即当前项目根目录下创建.htaccess文件：
+      &lt;IfModule mod_rewrite.c&gt;
+      Options +FollowSymlinks
+      RewriteEngine On
+      RewriteCond %{REQUEST_FILENAME} !-d
+      RewriteCond %{REQUEST_FILENAME} !-f
+      RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+      &lt;/IfModule&gt;
+</code></pre></li>
+</ul>
+</blockquote>
+<p>好了OK！<br><code>http://域名/项目目录/分组/控制器/方法</code><br>就可以访问了，url中没有了index.php 文件</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+<p><strong>博客文献</strong>：<a href="http://blog.csdn.net/a1974117511/article/details/46446443" title="a1974117511" target="_blank" rel="noopener">a1974117511博客</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/11/24/Linux部署Tp框架/" title="Linux部署Tp框架" target="_blank" rel="external">http://blog.yisenliu.top/2017/11/24/Linux部署Tp框架/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/11/24/Hexo博客部署在Github/" title="Hexo博客部署在Github"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

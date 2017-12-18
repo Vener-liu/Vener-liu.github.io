@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Nginx编译安装及反向代理实验 | YisenBlog</title>
+  <meta name="description" content="linux版本：64位Fedora 23 软件环境：apache-2.4.29 + nginx-1.10.2 + mariadb-10.2.11 + php-5.6.32  至于LAMP的环境搭建请参考我另一篇博文:LAMP源码安装 nginx下载地址 编译安装nginxcd /usr/srccd cd nginx-1.10.2./configure \–prefix=/usr/local/ngi">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx编译安装及反向代理实验">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/12/02/Nginx编译安装及反向代理实验/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="linux版本：64位Fedora 23 软件环境：apache-2.4.29 + nginx-1.10.2 + mariadb-10.2.11 + php-5.6.32  至于LAMP的环境搭建请参考我另一篇博文:LAMP源码安装 nginx下载地址 编译安装nginxcd /usr/srccd cd nginx-1.10.2./configure \–prefix=/usr/local/ngi">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://blog.yisenliu.top/images/fanxiang/host.png">
+<meta property="og:image" content="http://blog.yisenliu.top/images/fanxiang/nginx.png">
+<meta property="og:image" content="http://blog.yisenliu.top/images/fanxiang/apache.png">
+<meta property="og:image" content="http://blog.yisenliu.top/images/fanxiang/php.png">
+<meta property="og:image" content="http://blog.yisenliu.top/images/fanxiang/mysql.png">
+<meta property="og:image" content="http://blog.yisenliu.top/images/fanxiang/ip1.png">
+<meta property="og:image" content="http://blog.yisenliu.top/images/fanxiang/ip2.png">
+<meta property="og:image" content="http://blog.yisenliu.top/images/fanxiang/服务信息.png">
+<meta property="og:updated_time" content="2017-12-02T13:21:40.740Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx编译安装及反向代理实验">
+<meta name="twitter:description" content="linux版本：64位Fedora 23 软件环境：apache-2.4.29 + nginx-1.10.2 + mariadb-10.2.11 + php-5.6.32  至于LAMP的环境搭建请参考我另一篇博文:LAMP源码安装 nginx下载地址 编译安装nginxcd /usr/srccd cd nginx-1.10.2./configure \–prefix=/usr/local/ngi">
+<meta name="twitter:image" content="http://blog.yisenliu.top/images/fanxiang/host.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/12/02/Nginx编译安装及反向代理实验/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Nginx编译安装及反向代理实验" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Nginx编译安装及反向代理实验
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/12/02/Nginx编译安装及反向代理实验/" class="article-date">
+	  <time datetime="2017-12-02T13:03:05.000Z" itemprop="datePublished">2017-12-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Linux运维基础/">Linux运维基础</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/Linux/">Linux</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/12/02/Nginx编译安装及反向代理实验/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <p>linux版本：64位Fedora 23</p>
+<p>软件环境：apache-2.4.29 + nginx-1.10.2 + mariadb-10.2.11 + php-5.6.32 </p>
+<p>至于LAMP的环境搭建请参考我另一篇博文:<a href="http://blog.yisenliu.top/2017/12/01/LAMP%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85/" title="LAMP源码安装">LAMP源码安装</a></p>
+<p><a href="http://nginx.org/en/download.html" title="nginx下载地址" target="_blank" rel="noopener">nginx下载地址</a></p>
+<h1 id="编译安装nginx"><a href="#编译安装nginx" class="headerlink" title="编译安装nginx"></a>编译安装nginx</h1><p><code>cd /usr/src</code><br><code>cd cd nginx-1.10.2</code><br>./configure \<br>–prefix=/usr/local/nginx \<br>–sbin-path=/usr/sbin/nginx \<br>–conf-path=/etc/nginx/nginx.conf \<br>–error-log-path=/var/log/nginx/error.log \<br>–http-log-path=/var/log/nginx/access.log \<br>–pid-path=/var/run/nginx.pid \<br>–lock-path=/var/run/nginx.lock \<br>–http-client-body-temp-path=/var/cache/nginx/client_temp \<br>–http-proxy-temp-path=/var/cache/nginx/proxy_temp \<br>–http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \<br>–http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \<br>–http-scgi-temp-path=/var/cache/nginx/scgi_temp \<br>–user=www \<br>–group=www \<br>–with-pcre \<br>–with-http_v2_module \<br>–with-http_ssl_module \<br>–with-http_realip_module \<br>–with-http_addition_module \<br>–with-http_sub_module \<br>–with-http_dav_module \<br>–with-http_flv_module \<br>–with-http_mp4_module \<br>–with-http_gunzip_module \<br>–with-http_gzip_static_module \<br>–with-http_random_index_module \<br>–with-http_secure_link_module \<br>–with-http_stub_status_module \<br>–with-http_auth_request_module \<br>–with-mail \<br>–with-mail_ssl_module \<br>–with-file-aio \<br>–with-ipv6 \<br>–with-http_v2_module \<br>–with-threads \<br>–with-stream \<br>–with-stream_ssl_module</p>
+<p><code># make &amp;&amp; make install</code>   //make编译和安装</p>
+<h2 id="增加nginx服务"><a href="#增加nginx服务" class="headerlink" title="增加nginx服务"></a>增加nginx服务</h2><p><code># vim /etc/init.d/nginx</code>  #增加nginx服务</p>
+<pre><code class="c++">#!/bin/sh 
+# 
+# nginx - this script starts and stops the nginx daemon 
+# 
+# chkconfig:   - 85 15 
+# description: Nginx is an HTTP(S) server, HTTP(S) reverse \ 
+#               proxy and IMAP/POP3 proxy server 
+# processname: nginx 
+# config:      /etc/nginx/nginx.conf 
+# config:      /etc/sysconfig/nginx 
+# pidfile:     /var/run/nginx.pid 
+
+# Source function library. 
+. /etc/rc.d/init.d/functions 
+
+# Source networking configuration. 
+. /etc/sysconfig/network 
+
+# Check that networking is up. 
+[ &quot;$NETWORKING&quot; = &quot;no&quot; ] &amp;&amp; exit 0 
+
+nginx=&quot;/usr/local/nginx/sbin/nginx&quot; 
+prog=$(basename $nginx) 
+
+NGINX_CONF_FILE=&quot;/etc/nginx/conf/nginx.conf&quot; 
+
+[ -f /etc/sysconfig/nginx ] &amp;&amp; . /etc/sysconfig/nginx 
+
+lockfile=/var/lock/subsys/nginx vim
+
+start() { 
+    [ -x $nginx ] || exit 5 
+    [ -f $NGINX_CONF_FILE ] || exit 6 
+    echo -n $&quot;Starting $prog: &quot; 
+    daemon $nginx -c $NGINX_CONF_FILE 
+    retval=$? 
+    echo 
+    [ $retval -eq 0 ] &amp;&amp; touch $lockfile 
+    return $retval 
+} 
+
+stop() { 
+    echo -n $&quot;Stopping $prog: &quot; 
+    killproc $prog -QUIT 
+    retval=$? 
+    echo 
+    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile 
+    return $retval 
+killall -9 nginx 
+} 
+
+restart() { 
+    configtest || return $? 
+    stop 
+    sleep 1 
+    start 
+} 
+
+reload() { 
+    configtest || return $? 
+    echo -n $&quot;Reloading $prog: &quot; 
+    killproc $nginx -HUP 
+RETVAL=$? 
+    echo 
+} 
+
+force_reload() { 
+    restart 
+} 
+
+configtest() { 
+$nginx -t -c $NGINX_CONF_FILE 
+} 
+
+rh_status() { 
+    status $prog 
+} 
+
+rh_status_q() { 
+    rh_status &gt;/dev/null 2&gt;&amp;1 
+} 
+
+case &quot;$1&quot; in 
+    start) 
+        rh_status_q &amp;&amp; exit 0 
+    $1 
+        ;; 
+    stop) 
+        rh_status_q || exit 0 
+        $1 
+        ;; 
+    restart|configtest) 
+        $1 
+        ;; 
+    reload) 
+        rh_status_q || exit 7 
+        $1 
+        ;; 
+    force-reload) 
+        force_reload 
+        ;; 
+    status) 
+        rh_status 
+        ;; 
+    condrestart|try-restart) 
+        rh_status_q || exit 0 
+            ;; 
+    *)    
+      echo $&quot;Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest}&quot; 
+        exit 2 
+
+esac
+</code></pre>
+<p><code>chmod +x nginx</code>  //增加所有人运行权限<br><code>chkconfig --add nginx</code>  //加到系统服务<br><code>chkconfig --level 35 httpd on</code>  #设置nginx运行级别为35，开机自动运行</p>
+<p>注意这一行：<br>NGINX_CONF_FILE=”/etc/nginx/conf/nginx.conf”<br>修改成自己的配置文件的路径<br>不然会出现：</p>
+<blockquote>
+<p>在重启nginx服务的时候，遇到了错误<br><code>systemctl status nginx</code><br>命令里面提示找不到nginx.pid<br>解决办法：<br><code>nginx -c /etc/nginx/nginx.conf</code><br><code>systemctl start nginx</code><br>好像接下来每次重启nginx都要重复这两个步骤</p>
+</blockquote>
+<h2 id="修改nginx配置文件"><a href="#修改nginx配置文件" class="headerlink" title="修改nginx配置文件"></a>修改nginx配置文件</h2><p><code>vim /etc/nginx/nginx.conf</code></p>
+<pre><code class="c++">user  nginx nginx;
+worker_processes  4;
+worker_rlimit_nofile 65535;
+pid        /var/run/nginx.pid;
+events {
+   worker_connections  65535;
+   use epoll;
+}
+error_log /var/log/nginx/error.log info;
+
+http {
+   include       mime.types;
+   default_type  application/octet-stream;
+   #log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+   #                  &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+   #                  &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+   #access_log  logs/access.log  main;
+   charset gb2312;
+   server_names_hash_max_size 2048;
+   server_names_hash_bucket_size 256;
+   client_header_buffer_size 256k;
+   client_max_body_size 100m;
+   large_client_header_buffers 4 256k;
+   sendfile        on;
+   tcp_nopush     on;
+   server_tokens   off;
+   tcp_nodelay     on;
+   proxy_send_timeout  300;
+   proxy_read_timeout  300;
+   proxy_buffer_size  4k;
+   proxy_buffers 16 32k;
+   proxy_busy_buffers_size 64k;
+   proxy_temp_file_write_size 64k;
+   proxy_connect_timeout 30s;
+   keepalive_timeout  10;
+ # 开启压缩功能
+   gzip  on;
+   gzip_http_version 1.0;
+   gzip_min_length  1100;
+   gzip_comp_level  3;
+   gzip_buffers  4 32k;
+   gzip_types    text/plain text/xml text/css application/x-javascript application/xml application/xml+rss text/javascript application/atom+xml;
+   ignore_invalid_headers on;
+   client_header_timeout  3m;
+   client_body_timeout 3m;
+   send_timeout     3m;
+   connection_pool_size  256;
+   request_pool_size  32k;
+   output_buffers   4 64k;
+   postpone_output  1460;
+   open_file_cache max=1000 inactive=300s;
+   open_file_cache_valid    600s;
+   open_file_cache_min_uses 2;
+   open_file_cache_errors   off;
+   include &quot;/etc/nginx/vhosts/*.conf&quot;;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                     &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                     &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;access_log  /var/log/nginx/access.log  main;
+}
+</code></pre>
+<p>其中需要根据实际情况来修改(./configure和实际的路径)</p>
+<pre><code class="c++">pid        /var/run/nginx.pid;
+error_log /var/log/nginx/error.log info;
+include &quot;/etc/nginx/vhosts/*.conf&quot;;
+access_log  /var/log/nginx/access.log
+</code></pre>
+<h2 id="创建虚拟机"><a href="#创建虚拟机" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h2><p><code>cd /etc/nginx</code><br><code>mkdir vhosts</code><br><code>vim 1.conf</code> #代号为1的虚拟机</p>
+<pre><code class="c++">server{
+       listen 80;
+       server_name 192.168.124.1;
+       root /usr/local/nginx/html;
+       index   index.html index.htm index.php;
+       if (-d $request_filename)
+               {
+                       rewrite ^/(.*)([^/])$ http://$host/$1$2/ permanent;
+               }
+             location ~ \.(php)?$ {
+               proxy_set_header  Host $host;
+               proxy_set_header  X-Real-IP  $remote_addr;
+               proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+               proxy_pass http://192.168.43.164:808;
+               }
+}
+</code></pre>
+<h1 id="实验开始"><a href="#实验开始" class="headerlink" title="实验开始"></a>实验开始</h1><p>本机局域网:192.168.124.1</p>
+<p>本机hosts解析情况：<br><img src="/images/fanxiang/host.png" alt="host" title="host"><br>服务启动情况：<br>nginx:<br><img src="/images/fanxiang/nginx.png" alt="nginx" title="nginx"><br>apache:<br><img src="/images/fanxiang/apache.png" alt="apache" title="apache"><br>php作为apache模块加载:<br><img src="/images/fanxiang/php.png" alt="php" title="php"><br>mysql:<br><img src="/images/fanxiang/mysql.png" alt="mysql" title="mysql"><br>apache和nginx监听情况：<br>apache 监听808端口<br>nginx  监听80<br>（如果是两台不同的设备需要防火墙开放端口，可以参考我的另一篇博文：<a href="http://blog.yisenliu.top/2017/11/26/Firewalld%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Firewall的使用">Firewall的使用</a>）</p>
+<p>在apache的站点目录下创建”index.php”为代表的动态脚本文件：<br><code>vim index.php</code></p>
+<pre><code class="php">&lt;?
+phpinfo();
+</code></pre>
+<p>保存退出</p>
+<p>在nginx的站点目录下创建”index.html”为代表的静态文件：<br><code>vim index.html</code></p>
+<pre><code class="html">&lt;html&gt;
+    &lt;body&gt;
+    &lt;img src=&quot;http://192.168.124.1/t.jpg&quot;&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这里我引入了一张图片，也可以直接输出文字。</p>
+<p>访问<code>http://192.168.124.1</code><br><img src="/images/fanxiang/ip1.png" alt="ip1" title="ip1"><br>访问<code>http://192.168.124.1/index.php</code><br><img src="/images/fanxiang/ip2.png" alt="ip2" title="ip2"><br>这里可以看到nginx服务器检测到php后缀文件，转发给了apache服务器处理，用另一句话说，就是nginx反向代理了apache服务器，原本是直接到apache服务器处理的文件，经过了nginx代理之后再转发给apache服务器处理，处理完后，返回处理结果给nginx服务器。</p>
+<p>通过 curl -I ip地址 命令可以看到一些服务的信息<br><img src="/images/fanxiang/服务信息.png" alt="服务信息" title="服务信息"></p>
+<p>总结<br>可以看到，808端口的是apache服务监听的端口，80端口是nginx监听的端口，当curl -I <a href="http://192.168.124.1/index.php" target="_blank" rel="noopener">http://192.168.124.1/index.php</a> 的时候，服务显示为nginx，是因为nginx是作为反向代理的服务器，对于客户端而言，看到的是从接收请求到响应请求都是nginx服务在前台操作完成的，对于服务端而言，隐藏了真实代理服务器（apache）。当直接访问访问apache服务器监听的端口的时候，就显示为apache服务器了，因为这是直接代理的结果。</p>
+<blockquote>
+<p>LNMPA<br>通过Nginx强大的反向代理功能,把动态文件给Apache处理,这就形成了LNMPA架构<br>LNMP或LAMP的劣势<br>Nginx是一个小巧而高效的Linux下的Web服务器软件，与Apache相比，消耗资源更少，支持的并发连接，更高的效率，反向代理功能效率高、静态文件处理快等，但动态页面处理能力不如Apache等老牌软件成熟。单独使用Nginx处理大量动态页面时容易产生频繁的502错误。<br>Apache是一款老牌的Web服务器软件，在高并发时对队列的处理比FastCGI更成熟，Apache的mod_php效率比php-cgi更高且更稳定、对伪静态支持好，不需要转换、多用户多站点权限等方面有着更好的效果，而单独使用Apache处理静态页面时，对内存的占用远远超过Nginx。<br>LNMPA的优势<br>LNMPA使用Nginx作为前端服务器，能够更快、更及时地使用更少的系统资源处理静态页面、js、图片等文件，当客户端请求访问动态页面时，由Nginx反向代理给作为后端服务器的Apache处理，Apache处理完再交予Nginx返回给客户端。<br>采用LNMPA能够更好的解决LNMP架构中由于PHP-FPM方面产生的502错误，同时能够以很简单的方式提供更安全的多用户多站点环境。</p>
+</blockquote>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+<p><strong>博客文献</strong>：<a href="http://blog.csdn.net/waneto2008/article/details/52722918" title="龙之刀博客" target="_blank" rel="noopener">龙之刀</a> <a href="http://www.jb51.net/article/77611.htm" title="博客教主" target="_blank" rel="noopener">博客教主</a> <a href="https://www.cnblogs.com/nixi8/p/4909096.html" title="菜问" target="_blank" rel="noopener">菜问</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/12/02/Nginx编译安装及反向代理实验/" title="Nginx编译安装及反向代理实验" target="_blank" rel="external">http://blog.yisenliu.top/2017/12/02/Nginx编译安装及反向代理实验/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/12/04/单链表C语言实现-1/" title="单链表C语言实现(1)"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/12/02/源码编译安装php7-fpm/" title=" 源码编译安装php7(fpm)">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

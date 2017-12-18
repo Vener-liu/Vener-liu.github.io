@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>循环队列c实现 | YisenBlog</title>
+  <meta name="description" content="下面是循环队列的代码/**  *  队列(Queue) 在程序设计中用得非常频繁，比如键盘进行各种字母或数字的输入，到显示器上如笔记本软件上的输出，其实就是队列的典型应用  *  同样是线性表，对流也有类似线性表的各种操作，不同的就是插入数据只能在队尾进行，删除数据只能在队头进行。FIFO　先进先出  *  Operation  *       InitQueue(*q):初始化操作，建立一个空队">
+<meta name="keywords" content="C&#x2F;C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="循环队列c实现">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/12/07/循环队列c实现/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="下面是循环队列的代码/**  *  队列(Queue) 在程序设计中用得非常频繁，比如键盘进行各种字母或数字的输入，到显示器上如笔记本软件上的输出，其实就是队列的典型应用  *  同样是线性表，对流也有类似线性表的各种操作，不同的就是插入数据只能在队尾进行，删除数据只能在队头进行。FIFO　先进先出  *  Operation  *       InitQueue(*q):初始化操作，建立一个空队">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://blog.yisenliu.top/images/Data_struct/Queue.png">
+<meta property="og:updated_time" content="2017-12-07T13:58:46.621Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="循环队列c实现">
+<meta name="twitter:description" content="下面是循环队列的代码/**  *  队列(Queue) 在程序设计中用得非常频繁，比如键盘进行各种字母或数字的输入，到显示器上如笔记本软件上的输出，其实就是队列的典型应用  *  同样是线性表，对流也有类似线性表的各种操作，不同的就是插入数据只能在队尾进行，删除数据只能在队头进行。FIFO　先进先出  *  Operation  *       InitQueue(*q):初始化操作，建立一个空队">
+<meta name="twitter:image" content="http://blog.yisenliu.top/images/Data_struct/Queue.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/12/07/循环队列c实现/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-循环队列c实现" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      循环队列c实现
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/12/07/循环队列c实现/" class="article-date">
+	  <time datetime="2017-12-07T13:42:35.000Z" itemprop="datePublished">2017-12-07</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Data-Struture/">Data_Struture</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/C-C/">C/C++</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/12/07/循环队列c实现/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h2 id="下面是循环队列的代码"><a href="#下面是循环队列的代码" class="headerlink" title="下面是循环队列的代码"></a>下面是循环队列的代码</h2><pre><code class="c">/**
+ *  队列(Queue) 在程序设计中用得非常频繁，比如键盘进行各种字母或数字的输入，到显示器上如笔记本软件上的输出，其实就是队列的典型应用
+ *  同样是线性表，对流也有类似线性表的各种操作，不同的就是插入数据只能在队尾进行，删除数据只能在队头进行。FIFO　先进先出
+ *  Operation
+ *       InitQueue(*q):初始化操作，建立一个空队列q。
+ *       DestoryQueue(*q):若队列q存在，则销毁它
+ *     　CleanQueue(*q):将队列清空。
+ *       QueueEmpty(q):若队列q为空,返回true
+ *       GetHead(q,*e):若队列q存在且非空，用e返回队列q的队头元素
+ *       EnQueue(*q.e):若队列q存在，插入新元素e到队列q中并称为队尾元素
+ *       DeQueue(*q,*e):删除队列q中的队头元素,并用e返回其值。
+ *       QueueLrngth(q):
+ * 
+ * 下面是链队列的实现
+*/
+
+/**
+ * 循环队列　 
+ * 
+*/
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define QUEUE_MAXSIZE 10 //实际能存储的元素　-1
+#define ERROR 0
+#define OK 1
+typedef int QElemType;
+typedef struct
+{
+    QElemType data[QUEUE_MAXSIZE]; //队列的数据域
+    int fornt;                     //队列的头下标
+    int rear;                      //队列的尾下标
+} SeQueue;
+QElemType QueueLength(SeQueue *q);
+/**
+ * 初始化一个空队列q
+*/
+QElemType InitQueue(SeQueue *q)
+{
+    if (!q)
+        return ERROR;
+    q-&gt;fornt = 0;
+    q-&gt;rear = 0;
+    return OK;
+}
+/**
+ * 赋值空队列q
+*/
+QElemType CreateQueue(SeQueue *q, QElemType n)
+{
+    if (!q || q-&gt;fornt != 0 || q-&gt;rear != 0 || n &gt; QUEUE_MAXSIZE)
+        return ERROR;
+    for (QElemType i = 0; i &lt; n - 1; i++)
+    { //长度为５的队列实际上只有４个元素，有一个是空闲
+        q-&gt;data[q-&gt;rear] = 1 + (int)(10.0 * rand() / (RAND_MAX + 1.0));
+        q-&gt;rear = (q-&gt;rear + 1) % QUEUE_MAXSIZE;
+    }
+    if ((q-&gt;rear + 1) % QUEUE_MAXSIZE == q-&gt;fornt)
+        printf(&quot;队列已满&quot;);
+    return OK;
+}
+/**
+ * 打印队列q
+*/
+QElemType PrintQueue(SeQueue *q, QElemType n)
+{
+    if (!q || q-&gt;fornt == 0 &amp;&amp; q-&gt;rear == 0)
+        return ERROR;
+    QElemType head;
+    head = q-&gt;fornt;
+    printf(&quot;遍历队列:\n&quot;);
+    for (QElemType i = 0; i &lt; n; i++)
+    {
+        printf(&quot;%d  &quot;, q-&gt;data[q-&gt;fornt]);
+        q-&gt;fornt = (q-&gt;fornt + 1) % QUEUE_MAXSIZE;
+    }
+    printf(&quot;\n&quot;);
+    q-&gt;fornt = head;
+    return OK;
+}
+/**
+ * 返回队列长度
+*/
+QElemType QueueLength(SeQueue *q)
+{
+    return (q-&gt;rear - q-&gt;fornt + QUEUE_MAXSIZE) % QUEUE_MAXSIZE;
+}
+/**
+ * 入队操作
+*/
+QElemType EnQueue(SeQueue *q, QElemType e, QElemType option) //　0是不强制入队　,　1是强制入队
+{
+    if (option == 0)
+    {
+        if ((q-&gt;rear + 1) % QUEUE_MAXSIZE == q-&gt;fornt)
+            return ERROR;
+        q-&gt;data[q-&gt;rear] = e; //队尾是空的,把e 赋值给队尾元素
+        q-&gt;rear = (q-&gt;rear + 1) % QUEUE_MAXSIZE;
+        return OK;
+    }
+    else if (option == 1)
+    {
+        if ((q-&gt;rear + 1) % QUEUE_MAXSIZE == q-&gt;fornt)
+        {
+            QElemType elem;
+            elem = q-&gt;data[q-&gt;fornt];
+            q-&gt;fornt = (q-&gt;fornt + 1) % QUEUE_MAXSIZE; //前指针后移
+            q-&gt;data[q-&gt;rear] = e;
+            q-&gt;rear = (q-&gt;rear + 1) % QUEUE_MAXSIZE; //　尾指针后移
+            return elem;                             //返回被强迫出队的元素
+        }
+        q-&gt;data[q-&gt;rear] = e; //队尾是空的,把e 赋值给队尾元素
+        q-&gt;rear = (q-&gt;rear + 1) % QUEUE_MAXSIZE;
+        return OK;
+    }
+}
+/**
+ * 出队操作
+*/
+QElemType DeQueue(SeQueue *q, QElemType *e)
+{
+    if (q-&gt;fornt == q-&gt;rear)
+        return ERROR;
+    *e = q-&gt;data[q-&gt;fornt];
+    q-&gt;fornt = (q-&gt;fornt + 1) % QUEUE_MAXSIZE;
+    return OK;
+}
+QElemType main()
+{
+    SeQueue *queue;
+    QElemType e = 123, *ee;
+    queue = (SeQueue *)malloc(sizeof(SeQueue));
+    ee = (QElemType *)malloc(sizeof(QElemType));
+    InitQueue(queue);
+    CreateQueue(queue, QUEUE_MAXSIZE);
+    PrintQueue(queue, QueueLength(queue));
+    printf(&quot;\n当前元素的个数:%d\n队头是%d,队尾是:%d\n&quot;, QueueLength(queue), queue-&gt;fornt, queue-&gt;rear);
+    EnQueue(queue, e, 0);
+    EnQueue(queue, e, 0);
+    PrintQueue(queue, QueueLength(queue));
+    printf(&quot;强制入队:&quot;);
+    EnQueue(queue, e, 1); //强制入队
+    PrintQueue(queue, QueueLength(queue));
+    printf(&quot;\n当前元素的个数:%d\n队头是%d,队尾是:%d\n&quot;, QueueLength(queue), queue-&gt;fornt, queue-&gt;rear);
+    DeQueue(queue, ee);
+    printf(&quot;被删除的元素是:%d&quot;, *ee);
+    printf(&quot;\n当前元素的个数:%d\n队头是%d,队尾是:%d\n&quot;, QueueLength(queue), queue-&gt;fornt, queue-&gt;rear);
+
+    free(queue);
+    free(ee);
+    return 0;
+}
+</code></pre>
+<p>运行结果图：<br><img src="/images/Data_struct/Queue.png" alt="Queue" title="Queue"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/12/07/循环队列c实现/" title="循环队列c实现" target="_blank" rel="external">http://blog.yisenliu.top/2017/12/07/循环队列c实现/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/12/07/链队列c实现/" title="链队列c实现"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/12/07/链栈c实现/" title="链栈c实现">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

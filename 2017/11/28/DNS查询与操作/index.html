@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>DNS查询与操作 | YisenBlog</title>
+  <meta name="description" content="下面的是关于DNS的一些查询的命令的使用方法，有Linux和Windows.  Linux host  &amp;amp;&amp;amp;dig  &amp;amp;&amp;amp;  nslookup(windows可以用这个)一、安装软件包dig和nslookup需要安装相关软件包。Centos：# yum install bind-utilsDebian：# apt-get update# apt-get insta">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DNS查询与操作">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/11/28/DNS查询与操作/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="下面的是关于DNS的一些查询的命令的使用方法，有Linux和Windows.  Linux host  &amp;amp;&amp;amp;dig  &amp;amp;&amp;amp;  nslookup(windows可以用这个)一、安装软件包dig和nslookup需要安装相关软件包。Centos：# yum install bind-utilsDebian：# apt-get update# apt-get insta">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-11-29T05:44:44.726Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DNS查询与操作">
+<meta name="twitter:description" content="下面的是关于DNS的一些查询的命令的使用方法，有Linux和Windows.  Linux host  &amp;amp;&amp;amp;dig  &amp;amp;&amp;amp;  nslookup(windows可以用这个)一、安装软件包dig和nslookup需要安装相关软件包。Centos：# yum install bind-utilsDebian：# apt-get update# apt-get insta">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/11/28/DNS查询与操作/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-DNS查询与操作" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DNS查询与操作
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/11/28/DNS查询与操作/" class="article-date">
+	  <time datetime="2017-11-28T09:43:55.000Z" itemprop="datePublished">2017-11-28</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Linux运维基础/">Linux运维基础</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/Linux/">Linux</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/11/28/DNS查询与操作/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <ul>
+<li>下面的是关于DNS的一些查询的命令的使用方法，有Linux和Windows.</li>
+</ul>
+<h2 id="Linux-host-amp-amp-dig-amp-amp-nslookup-windows可以用这个"><a href="#Linux-host-amp-amp-dig-amp-amp-nslookup-windows可以用这个" class="headerlink" title="Linux host  &amp;&amp;dig  &amp;&amp;  nslookup(windows可以用这个)"></a>Linux host  &amp;&amp;dig  &amp;&amp;  nslookup(windows可以用这个)</h2><p></p><p>一、安装软件包<br>dig和nslookup需要安装相关软件包。</p><p>Centos：<br># yum install bind-utils<br><br>Debian：# apt-get update<br># apt-get install dnsutils<br><br>另外查询前先要在/etc/resolv.conf设置好dns服务器IP。<br><br>二、使用方法<br>1、host命令<br>host命令是一个简单的DNS查询工具。</p><p>一般格式：<br>host 域名<br>host -a 域名</p><p>常用选项：<br>-a：相当于&quot;-v -t any&quot;。<br>-t type：指定要查询的记录类型。默认查询A、AAAA、MX记录。<br>-v：详细方式输出。</p><p>举例：<br><br><code># host www.163.com<br>www.163.com is an alias for www.163.com.lxdns.com.<br>www.163.com.lxdns.com is an alias for 163.xdwscache.glb0.lxdns.com.<br>163.xdwscache.glb0.lxdns.com has address 113.107.76.19</code><br><br>2、dig命令<br>dig命令是一个功能强大的DNS查询命令。</p><p>一般格式：<br>dig [@global-server] [domain] [q-type] [q-class] {q-opt} {d-opt}</p><p>参数说明：<br>@global-server：默认是以/etc/resolv.conf作为DNS查询的主机，这里可以填入其它DNS主机IP。<br>domain：要查询的域名。<br>q-type：查询记录的类型，例如a、any、mx、ns、soa、hinfo、axfr、txt等，默认查询a。<br>q-class：查询的类别，相当于nslookup中的set class。默认值为in（Internet）。<br>q-opt：查询选项，可以有好几种方式，比如：-f file为通过批处理文件解析多个地址；-p port指定另一个端口（缺省的DNS端口为53），等等。<br>d-opt：dig特有的选项。使用时要在参数前加上一个“+”号。</p><p>d-opt常用选项：<br>+vc：使用TCP协议查询。<br>+time=###：设置超时时间。<br>+trace：从根域开始跟踪查询结果。</p><br>举例：<br>1）<p></p>
+<p># dig www.163.com</p>
+<p>; &lt;&lt;&gt;&gt; DiG 9.8.4-rpz2+rl005.12-P1 &lt;&lt;&gt;&gt; www.163.com<br>;; global options: +cmd<br>;; Got answer:<br>;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 60034<br>;; flags: qr rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 0</p>
+<p>;; QUESTION SECTION:<br>;www.163.com.            IN    A</p>
+<p>;; ANSWER SECTION:<br>www.163.com.        40    IN    CNAME    www.163.com.lxdns.com.<br>www.163.com.lxdns.com.    600    IN    CNAME    163.xdwscache.glb0.lxdns.com.<br>163.xdwscache.glb0.lxdns.com. 120 IN    A    113.107.76.19</p>
+<p>;; Query time: 779 msec<br>;; SERVER: 8.8.8.8#53(8.8.8.8)<br>;; WHEN: Fri Jan 31 03:23:36 2014<br>;; MSG SIZE  rcvd: 110<br>2）</p>
+<h1 id="dig-trace-www-163-com"><a href="#dig-trace-www-163-com" class="headerlink" title="dig +trace www.163.com"></a>dig +trace www.163.com</h1><p>; &lt;&lt;&gt;&gt; DiG 9.8.4-rpz2+rl005.12-P1 &lt;&lt;&gt;&gt; +trace www.163.com<br>;; global options: +cmd<br>.            8854    IN    NS    f.root-servers.net.<br>.            8854    IN    NS    c.root-servers.net.<br>.            8854    IN    NS    d.root-servers.net.<br>.            8854    IN    NS    k.root-servers.net.<br>.            8854    IN    NS    a.root-servers.net.<br>.            8854    IN    NS    b.root-servers.net.<br>.            8854    IN    NS    i.root-servers.net.<br>.            8854    IN    NS    g.root-servers.net.<br>.            8854    IN    NS    j.root-servers.net.<br>.            8854    IN    NS    m.root-servers.net.<br>.            8854    IN    NS    e.root-servers.net.<br>.            8854    IN    NS    h.root-servers.net.<br>.            8854    IN    NS    l.root-servers.net.<br>;; Received 228 bytes from 8.8.8.8#53(8.8.8.8) in 583 ms</p>
+<p>com.            172800    IN    NS    j.gtld-servers.net.<br>com.            172800    IN    NS    b.gtld-servers.net.<br>com.            172800    IN    NS    k.gtld-servers.net.<br>com.            172800    IN    NS    l.gtld-servers.net.<br>com.            172800    IN    NS    h.gtld-servers.net.<br>com.            172800    IN    NS    f.gtld-servers.net.<br>com.            172800    IN    NS    m.gtld-servers.net.<br>com.            172800    IN    NS    g.gtld-servers.net.<br>com.            172800    IN    NS    d.gtld-servers.net.<br>com.            172800    IN    NS    c.gtld-servers.net.<br>com.            172800    IN    NS    i.gtld-servers.net.<br>com.            172800    IN    NS    a.gtld-servers.net.<br>com.            172800    IN    NS    e.gtld-servers.net.<br>;; Received 501 bytes from 192.33.4.12#53(192.33.4.12) in 542 ms</p>
+<p>163.com.        172800    IN    NS    ns2.nease.net.<br>163.com.        172800    IN    NS    ns3.nease.net.<br>163.com.        172800    IN    NS    ns4.nease.net.<br>163.com.        172800    IN    NS    ns5.nease.net.<br>163.com.        172800    IN    NS    ns6.nease.net.<br>163.com.        172800    IN    NS    ns1.nease.net.<br>;; Received 242 bytes from 192.43.172.30#53(192.43.172.30) in 471 ms</p>
+<p>www.163.com.        600    IN    CNAME    www.163.com.lxdns.com.<br>;; Received 61 bytes from 61.135.255.140#53(61.135.255.140) in 278 ms<br>3、nslookup<br></p><p>一般格式：<br>nslookup [-option] [name | -] [server]</p><p>参数说明：<br>option：表示一些选项。这些选项可以通过set命令设置修改。<br>name：表示查询的域名。<br>server：可以指定DNS主机IP。</p><p>set命令说明：<br>set all：打印当前的选项值。<br>set calss=value：设置查询的类型，一般情况下为Internet。<br>set debug：设置调试模式。<br>set d2：设置详细调试模式。<br>set domin=name：设置默认的域名。<br>set search：<br>set port=value：设置DNS端口。<br>set querytype=value：改变查询的信息的类型。默认的类型为A纪录。<br>set type=value：和set querytype一样。<br>set recurse：设置查询类型为递归；若为set norecurse，查询类型为跌代；缺省为前者。<br>set retry=number：设置重试的次数。<br>set timeout=number：设置等待应答的限制时间（单位为秒），超出即为超时，如果还可以重试，就会将长超时值加倍，重新查询。<br>set vc：通过tcp方式查询。<br>set fail：</p><p>具体说明可以查看man手册。</p><p>举例：# nslookup www.163.com 4.2.2.2<br>Server:        4.2.2.2<br>Address:    4.2.2.2#53</p>
+<p>Non-authoritative answer:<br>www.163.com    canonical name = www.163.com.lxdns.com.<br>www.163.com.lxdns.com    canonical name = 163.xdwscache.glb0.lxdns.com.<br>Name:    163.xdwscache.glb0.lxdns.com<br>Address: 113.107.76.19</p>
+<h2 id="Windows-amp-amp-Linux-nslookup"><a href="#Windows-amp-amp-Linux-nslookup" class="headerlink" title="Windows&amp;&amp;Linux nslookup"></a>Windows&amp;&amp;Linux nslookup</h2><p> Nslookup 是一个监测网络中DNS服务器是否能正确实现域名解析的命令行工具。它在 Windows NT/2000/XP(在之后的windows系统也都可以用的，比如win7,win8等) 中均可使用,但在Windows 98中却没有集成这一个工具。&nbsp;<br>Nslookup 必须要安装了TCP/IP 协议的网络环境之后才能使用。&nbsp;<br>现在网络中已经架设好了一台 DNS 服务器，主机名称为 linlin ,它可以把域名 www.company.com 解析为 192.168.0.1 的IP地址，这是我们平时用得比较多的正向解析功能。&nbsp;<br>检测步骤如下：&nbsp;<br>在 Windows 2000 中单击“开始”－&gt;“程序”－&gt;“附件”－&gt;“命令提示符”，在 C:\&gt;　的后面键入 Nslookup www.t086.com ，“回车”之后即可看到如下结果：&nbsp;<br>　　Server: linlin&nbsp;<br>　　Address: 192.168.0.5&nbsp;<br>　　Name: www.t086.com&nbsp;<br>　　Address: 192.168.0.1&nbsp;<br>　　以上结果显示，正在工作的 DNS 服务器的主机名为 linlin ，它的 IP 地址是192.168.0.5 ，而域名www.company.com 所对应的 IP 地址为 192.168.0.1 。那么，在检测到 DNS 服务器 linlin 已经能顺利实现正向解析的情况下，它的反向解析是否正常呢? 也就是说，能否把IP地址192.168.0.1反向解析为域名www.t086.com ?我们在命令提示符C:\&gt;的后面键入 Nslookup 192.168.0.1 ，得到结果如下：&nbsp;<br>　　Server: linlin&nbsp;<br>　　Address: 192.168.0.5&nbsp;<br>　　Name: www.t086.com&nbsp;<br>　　Address: 192.168.0.1&nbsp;<br>这说明，DNS 服务器 linlin 的反向解析功能也正常。&nbsp;<br>然而，有的时候，我们键入Nslookup www.t086.com ，却出现如下结果：&nbsp;<br>Server: linlin&nbsp;<br>Address: 192.168.0.5&nbsp;<br><strong><em> linlin can’t find www.t086.com: Non-existent domain&nbsp;<br>这种情况说明网络中DNS服务器 linlin 在工作，却不能实现域名 www.t086.com的正确解析。此时，要分析DNS服务器的配置情况，看是否 www.company.com 这一条域名对应的 IP 地址记录已经添加到了DNS的数据库中。&nbsp;<br>还有的时候，我们键入Nslookup www.t086.com ，会出现如下结果：&nbsp;<br></em></strong> Can’t find server name for domain: No response from server&nbsp;<br><em>*</em> Can’t find www.company.com : Non-existent domain&nbsp;<br>这时，说明测试主机在目前的网络中，根本没有找到可以使用的 DNS 服务器。此时，我们要对整个网络的连通性作全面的检测，并检查DNS服务器是否处于正常工作状态，采用逐步排错的方法，找出 DNS 服务不能启动的根源。&nbsp;<br></p><p>配置好DNS服务器，添加了相应的记录之后，只要IP地址保持不变，一般情况下我们就不再需要去维护DNS的数据文件了。不过在确认域名解释正常之前我们最好是测试一下所有的配置是否正常。许多人会简单地使用ping命令检查一下就算了。不过Ping指令只是一个检查网络联通情况的命令，虽然在输入的参数是域名的情况下会通过DNS进行查询，但是它只能查询A类型和CNAME类型的记录，而且只会告诉你域名是否存在，其他的信息一概欠奉。所以如果你需要对DNS的故障进行排错就必须熟练另一个更强大的工具nslookup。这个命令可以指定查询的类型，可以查到DNS记录的生存时间还可以指定使用那个DNS服务器进行解释。&nbsp;</p><p>　　<strong>查询IP地址</strong>&nbsp;</p>　　nslookup最简单的用法就是查询域名对应的IP地址，包括A记录和CNAME记录，如果查到的是CNAME记录还会返回别名记录的设置情况。其用法是：&nbsp;<br>　　nslookup 域名&nbsp;<br>　　以下是A记录的返回情况。&nbsp;<br>　nslookup命令会采用先反向解释获得使用的DNS服务器的名称，由于我这里使用的是一个内部的DNS服务器所以没有正确的反向记录，导致结果的前面几行出错。大家可以不必理会。重点看的是最后的两行这里看到的是www.oray.net的IP地址是61.145.112.212。注意即使www.oray.net的主机没有在线同样能够返回结果。&nbsp;<br>　　如果目标域名是一个别名记录(CNAME)，nslookup就开始显示出和ping命令不同的地方了，请看查询CNAME记录的结果。由于CNAME和A记录最后都是活的IP地址，所以一般情况下两者是等同看待的，命令的格式相同。&nbsp;<br>　　注意这次nslookup返回了三行信息，前两行显示这是一个CNAME记录，对应的域名和IP地址。最后显示的就是目标域名， 并注明Alias（别名）。如果域名不存在会怎样呢？&nbsp;<br><p>　　看得懂最后以行的英文吗，不懂没关系记住形状就可以了。如果一个指定类型的域名不存在对应的记录同样也是这种结果。&nbsp;</p><p>　　<strong>查询其他类型的域名</strong>&nbsp;</p>　　前面两个命令我们没有加任何参数，所以默认情况下nslookup查询的是A类型的记录。如果我们配置了其他类型的记录希望看到解释是否正常。这时候ping就无能为力了。比如我们配置了MX记录，但是邮件服务器只能发信不能收信，到底是域名解释问题还是其他的问题Ping命令的检查只能让你误入歧途。nslookup 这时候可以模拟你的其他遇见服务器进行域名解释的情况。我们需要在nslookup上加上适当的参数。指定查询记录类型的指令格式如下：&nbsp;<br><br><br>语法为 nslookup -qt=类型 目标域名 指定的DNS服务器IP或域名<br>例子：nslookup -qt=A tool.chinaz.com 8.8.8.8&nbsp;<br>　　注意qt必须小写。&nbsp;<br>　　类型可以是一下字符，不区分大小写：&nbsp;<br>　　A 地址记录(Ipv4)&nbsp;<br>　　AAAA 地址记录（Ipv6）&nbsp;<br>　　AFSDB Andrew文件系统数据库服务器记录（不懂）&nbsp;<br>　　ATMA ATM地址记录（不是自动提款机）&nbsp;<br>　　CNAME 别名记录&nbsp;<br>　　HINFO 硬件配置记录，包括CPU、操作系统信息&nbsp;<br>　　ISDN 域名对应的ISDN号码&nbsp;<br>　　MB 存放指定邮箱的服务器&nbsp;<br>　　MG 邮件组记录&nbsp;<br>　　MINFO 邮件组和邮箱的信息记录&nbsp;<br>　　MR 改名的邮箱记录&nbsp;<br>　　MX 邮件服务器记录&nbsp;<br>　　NS 名字服务器记录&nbsp;<br>　　PTR 反向记录（从IP地址解释域名）&nbsp;<br>　　RP 负责人记录&nbsp;<br>　　RT 路由穿透记录（不懂）&nbsp;<br>　　SRV TCP服务器信息记录（将有大用处）&nbsp;<br>　　TXT 域名对应的文本信息&nbsp;<br>　　X25 域名对应的X.25地址记录&nbsp;<br><br><br>看看oray.net的邮件服务器记录吧。&nbsp;<br>　　看看，nslookup把服务器的名称和地址都给出来了，注意preference就是前面所说的优先级，该数值越小则优先级越高。&nbsp;<br>　　我再看看名字服务器记录是怎么样的。&nbsp;<br>　　看起来和MX记录的格式差不多，一般情况下服务器会同时返回对应的地址。不过也有不返回的情况。&nbsp;<br>　　在这里我希望大家注意一行显示“Non-suthoritativeanswer:”，这一行在前面的例子中都没有显示过。它的出现代表这个结果是从服务器的缓存中得到的。所以提醒你这不是一个授权的答案。前面我们进行的几次查询过程中192.168.1.104这台机器就采用了我们第一篇文章中描述的过程查询了oray.net的域名。在这个过程中不但缓存了www.oray.net、test.oray.net以及oray.net的MX记录等最终结果。也包括获取的名字服务器等中间结果。隐含的查询了oray.net的NS记录。后面我们还会介绍这个过程。&nbsp;<br>　　指定使用的名字服务器&nbsp;<br>　　在默认情况下nslookup使用的是我们在本机TCP/IP配置中的DNS服务器进行查询，但有时候我们需要指定一个特定的服务器进行查询试验。这时候我们不需要更改本机的TCP/IP配置，只要在命令后面加上指定的服务器IP或者域名就可以了。这个参数在我们对一台指定服务器排错是非常必要的，另外我们可以通过指定服务器直接查询授权服务器的结果避免其他服务器缓存的结果。命令格式如下：&nbsp;<br>　　nslookup [-qt=类型] 目标域名 指定的DNS服务器IP或域名&nbsp;<br>　　我们可看看以下的命令结果：&nbsp;<br>　　这个命令直接从顶级域名服务器查询oray.net的NS记录。所有的二级域名的NS记录都存放在顶级域名服务器中，这是最权威的解释。注意这次没有非授权结果的提示。对于二级域名的NS记录查询来说这肯定是授权结果。顶级域名服务器的名称是a到j.gtld-servers.net共十台服务器。(gtld是Global Top Level Domain的缩写)。当我们修改域名的NS记录的时候可以通过上述查询知道修改的结果是不是已经在顶级域名服务器上生效。不过即使已经生效也可能不能正常解释，注意我在上一篇文章中提到的缓存时间的问题。&nbsp;<br><p>　　那么到底缓存多久呢？&nbsp;</p><p>　　<strong>检查域名的缓存时间</strong>&nbsp;</p>　　检查域名的缓存时间需要我们使用一个新的参数：-d&nbsp;<br>　　格式如下：&nbsp;<br>　　nslookup –d [其他的参数] 目标域名 [指定的服务器地址]&nbsp;<br>　　请看范例&nbsp;<br>　我们忽略其他的看看Got answer后面几行，包括了一个ttl数值。这个数值就是域名记录的生存时间。&nbsp;<br>　　这种查询将整个DNS数据包的所有部分都揭示出来，大家可以看到DNS实际上并不是想象中那么简单的东西。具体的各部分解释大家可以去看看相关的标准文档。需要提醒大家的是一定要找到ANSWER:的内容，其他的东西都不是描述最终的结果。上面就不止一个地方又TTL数值&nbsp;<br>　域名解释过程的模拟&nbsp;<br>　　我们现在来模拟一下一台DNS服务器接到一个不是自己管理的域的域名解释过程。回忆一下第一篇文章的过程：&nbsp;<br>　　首先我们会询问根服务器，然后根服务器会让我们去找对应的顶级服务器。如果查询的是oray.net，就会要求我们去找net的服务器。&nbsp;<br>　　看看下面的范例：&nbsp;<br>　　这里我们让21cn.com的服务器解释www.oicp.net的域名，很显然这台服务器不用有这个域，需要询问根服务器。一般情况下DNS服务器会帮我们完成全部的过程。这种解释方式我们称之为递归解析，为了让大家看到这个过程我家了一个参数让21cn.com的服务器不要这样做。这个参数是-norecurse。这样理论上21cn.com会让我们去问根服务器，不过由于它已经缓存了顶级服务器的记录，所以直接返回了管理net的顶级服务器记录。实际上大部分的查询都不需要从根服务器开始。大家看到了所有的顶级域名服务器的地址都被返回。&nbsp;<br>　　我们随便选择一个在进行查询。&nbsp;<br>这次顶级服务器就返回了oicp.net的服务器地址记录的。然后我们就向这些记录之一进行查询，一定能够得到答案。可能是一个地址、一个CNAME记录或者告诉你不存在。&nbsp;<br>　　nslookup的命令就介绍到这里，其实nslookup还有许多其他参数。不过常用的就俄这么几个，另外如果大家不喜欢命令行方式的话。还有几个图形界面的nslookup功能的工具。不过大家还是需要了解域名解释都有些什么才能够正确使用这些工具。<p></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+<p><strong>博客文献</strong>：<a href="http://www.t086.com/article/5219" title="T086-5219" target="_blank" rel="noopener">T086文献5219</a> <a href="http://www.t086.com/article/5219" title="T086-5138" target="_blank" rel="noopener">T086文献5138</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/11/28/DNS查询与操作/" title="DNS查询与操作" target="_blank" rel="external">http://blog.yisenliu.top/2017/11/28/DNS查询与操作/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/11/28/Linux网卡配置基础/" title="Linux网卡配置基础"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/11/28/双绞线/" title="双绞线基本知识">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>单链表C语言实现(1) | YisenBlog</title>
+  <meta name="description" content="单链表C语言实现-有头结点直接上代码，其实有无头结点关系不大，代码改动也不会大。 /**  * 单链表操作(有头结点) */ #include&amp;lt;stdio.h&amp;gt; #include&amp;lt;stdlib.h&amp;gt; #define OK 1; #define ERR 0; /**  *  单链表的定义 */ typedef int Elemtype; typedef struct Link">
+<meta name="keywords" content="C&#x2F;C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单链表C语言实现(1)">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/12/04/单链表C语言实现-1/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="单链表C语言实现-有头结点直接上代码，其实有无头结点关系不大，代码改动也不会大。 /**  * 单链表操作(有头结点) */ #include&amp;lt;stdio.h&amp;gt; #include&amp;lt;stdlib.h&amp;gt; #define OK 1; #define ERR 0; /**  *  单链表的定义 */ typedef int Elemtype; typedef struct Link">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://blog.yisenliu.top/images/Data_struct/Linked.png">
+<meta property="og:updated_time" content="2017-12-09T11:00:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单链表C语言实现(1)">
+<meta name="twitter:description" content="单链表C语言实现-有头结点直接上代码，其实有无头结点关系不大，代码改动也不会大。 /**  * 单链表操作(有头结点) */ #include&amp;lt;stdio.h&amp;gt; #include&amp;lt;stdlib.h&amp;gt; #define OK 1; #define ERR 0; /**  *  单链表的定义 */ typedef int Elemtype; typedef struct Link">
+<meta name="twitter:image" content="http://blog.yisenliu.top/images/Data_struct/Linked.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/12/04/单链表C语言实现-1/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-单链表C语言实现-1" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      单链表C语言实现(1)
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/12/04/单链表C语言实现-1/" class="article-date">
+	  <time datetime="2017-12-04T09:56:02.000Z" itemprop="datePublished">2017-12-04</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Data-Struture/">Data_Struture</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/C-C/">C/C++</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/12/04/单链表C语言实现-1/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h1 id="单链表C语言实现-有头结点"><a href="#单链表C语言实现-有头结点" class="headerlink" title="单链表C语言实现-有头结点"></a>单链表C语言实现-有头结点</h1><p>直接上代码，其实有无头结点关系不大，代码改动也不会大。</p>
+<pre><code class="c++">/**
+ * 单链表操作(有头结点)
+*/
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#define OK 1;
+#define ERR 0;
+/**
+ *  单链表的定义
+*/
+typedef int Elemtype;
+typedef struct Linked{
+    Elemtype data;
+    struct Linked *next;   //这个next 包括了 data数据域和next指针域
+}LinkedList;
+
+/**
+ *  单链表头插法创建  linkedListCreateHead(LinkedList **p,Elemtype n)
+*/
+Elemtype linkedListCreateHead(LinkedList **p,Elemtype n)
+{
+    LinkedList *q,*head;
+    head = *p;
+    head=(LinkedList *)malloc(sizeof(LinkedList));
+    if(!head) return ERR;
+    head-&gt;data=1+(int)(10.0*rand()/(RAND_MAX+1.0)); //头结点指针可以为空
+    head-&gt;next=NULL;
+    *p=head;
+    if(n&gt;1)
+    for(Elemtype i=0;i&lt;n;i++)
+    {      
+        *p=(LinkedList *)malloc(sizeof(LinkedList));
+        if(!*p) return ERR;
+        (*p)-&gt;data=1+(int)(10.0*rand()/(RAND_MAX+1.0));
+        (*p)-&gt;next=head;
+        head=*p;
+    } 
+    return OK;
+}
+/**
+ *  单链表尾插法创建  linkedListCreateTail()
+*/
+Elemtype linkedListCreateTail(LinkedList **p,Elemtype n){
+    LinkedList *q,*tail;
+    tail = *p;
+    tail=(LinkedList *)malloc(sizeof(LinkedList));
+    tail-&gt;data=1+(int)(10.0*rand()/(RAND_MAX+1.0));
+    tail-&gt;next=NULL;
+    *p=tail;
+    if(n&gt;1)
+    for(Elemtype i=0;i&lt;n+1;i++)
+    {      
+        q=(LinkedList *)malloc(sizeof(LinkedList));
+        if(!q) return ERR;
+        if(i==0) *p=q; //第一个结点指向第二个结点
+        q-&gt;data=1+(int)(10.0*rand()/(RAND_MAX+1.0));
+        tail-&gt;next=q;
+        tail=q;       
+        tail-&gt;next=NULL;
+    } 
+    return OK;
+}
+/**
+ *  插入结点    LinkedListInsert()
+*/
+Elemtype linkedListInsert(LinkedList **L,Elemtype i,Elemtype e){
+    LinkedList *q,*head;
+    Elemtype j=1;
+    head=(*L);  //头结点
+    *L=(*L)-&gt;next; //指向第一个结点
+
+    if(!(*L)||i&lt;1) return ERR;
+    while( (*L) &amp;&amp; j &lt; i-1)  //结点不为空，移动到指定结点的前一个结点位置
+      { 
+          j++;
+         *L=(*L)-&gt;next;
+        //  printf(&quot;%p\n&quot;,*L);
+      }
+    if(j &lt; i-1) return ERR; //算上头结点指定位置结点超出范围
+    // printf(&quot;%d&quot;,j);
+    q=(LinkedList *)malloc(sizeof(LinkedList)); //尾插法
+    if(!q) return ERR;
+    q-&gt;data=e;
+    q-&gt;next=(*L)-&gt;next;
+    (*L)-&gt;next=q;
+    *L=head;//重新指向头结点
+    return OK;
+}
+
+/**
+ *  删除节点    LinkedListDelete()
+*/
+Elemtype linkedListDelete(LinkedList **L,Elemtype i,Elemtype *e){
+     LinkedList *head,*q; 
+     Elemtype j=1;
+     if(!*L) return ERR;
+     head=*L;
+     *L=(*L)-&gt;next;
+      printf(&quot;%p\n\n&quot;,*L);
+     while( *L &amp;&amp; j &lt; i-1)  //找被删除元素的前驱结点
+     {
+         *L=(*L)-&gt;next;
+         j++;   
+     }
+     if(j&lt;i-1)  return ERR;
+
+     q=(*L)-&gt;next;  //存储需要删除结点的首地址 即指向被删除结点
+     (*L)-&gt;next=q-&gt;next; // 把需要删除结点的后驱结点首地址赋值给 第一个结点的next域 即 第一个结点指向被删除结点所指向的后驱结点
+     q-&gt;next=NULL; // 把被删除结点的next域置为NULL
+     *e = q-&gt;data;  // 存储被删除结点的data域数据
+     free(q); //释放空间
+     *L=head;  //重新指向头结点
+     return OK;
+}
+
+
+/**
+ *  单链表读取    printLinkedList()
+*/
+Elemtype printLinkedList(LinkedList *L){
+
+    if(!L)   //如果链表为空返回错误
+    return ERR; 
+    // L=L-&gt;next;//指向第一个结点
+    while(L){
+        printf(&quot;%d  &quot;,L-&gt;data);   
+        L=L-&gt;next;
+    }
+    printf(&quot;\n&quot;);
+    return OK;
+
+}
+
+/**
+ *  单链表查找第i个元素  linkedListSearch()
+*/
+Elemtype linkedListSearch(LinkedList *L,Elemtype i,Elemtype *e){
+    Elemtype j=1;
+    L=L-&gt;next;//指向第一个结点
+    if(!L)
+    return ERR;
+    while( j &lt; i ){
+            j++;
+            L=L-&gt;next;
+        }
+    if(j&lt;i)
+    return ERR;
+    *e=L-&gt;data;
+
+    return OK;
+}
+/**
+ *  单链表返回第i个节点  linkedListSearchNode()
+*/
+Elemtype linkedListSearchNode(LinkedList *L,Elemtype i,LinkedList **e){ //必须用二级指针接收
+    Elemtype j=1;
+    // L=L-&gt;next;
+    if(!L)
+    return ERR;
+    // if(i&gt;1)
+    while( j &lt;= i ){
+            j++;
+            L=L-&gt;next;
+        }
+    if(j&lt;i)
+    return ERR;
+    (*e)-&gt;data=L-&gt;data;
+    (*e)-&gt;next=L-&gt;next;
+    return OK;
+}
+
+/**
+ *  单链表整表删除 重置为空表
+*/
+
+Elemtype delLinkedList(LinkedList *L){
+    LinkedList *q,*head;
+    head=L;
+    L=L-&gt;next; //指向第一个结点
+    Elemtype i=0;
+    if(!L)
+     return ERR;
+    while(L){
+        q=L-&gt;next;
+        free(L);
+        L=q;
+        i++;
+    }
+    L=head; //重新指向头结点
+    L-&gt;next=NULL;//头结点指向为空
+    printf(&quot;一共释放了%d个\n&quot;,i);
+    return OK;
+}
+
+
+Elemtype main()
+{
+    Elemtype flag=0,*e;  //指针不能随便赋值
+    LinkedList *L1,*L2,*E1,*E2;
+    E2=(LinkedList *)malloc(sizeof(LinkedList)); //分配了地址一定要使用它，不然后面会有莫名其妙的报错，例如指针作为参数传入函数的时候解引赋值的时候会报错！
+    if(!E2) return ERR;
+    linkedListCreateHead(&amp;L1,10);
+    linkedListCreateTail(&amp;L2,10);
+    printf(&quot;头插法创建：\n&quot;);
+    printLinkedList(L1);
+    printf(&quot;尾插法创建：\n&quot;);
+    printLinkedList(L2);
+    flag=linkedListSearch(L1,5,e);
+    if(flag) printf(&quot;L1链表第五个元素是:%d\n&quot;,*e);
+    else printf(&quot;超过L1链表最大长度\n&quot;);
+    flag=linkedListInsert(&amp;L1,11,999);
+     if(flag) 
+    {
+        printf(&quot;插入成功\n&quot;);
+        printLinkedList(L1);
+    }
+    else printf(&quot;插入失败，超过链表长度\n&quot;);
+    flag=linkedListDelete(&amp;L1,4,e);
+    if(flag) 
+    {
+        printf(&quot;删除L1第四个结点成功:%d  \n&quot;,*e);
+        printLinkedList(L1);
+    }
+    else printf(&quot;删除第四个结点失败&quot;);
+
+    flag=linkedListSearchNode(L1,5,&amp;E2);
+    if(flag) printf(&quot;L1链表第5个元素是:%d 地址是:%p \n&quot;,E2-&gt;data,E2-&gt;next);
+
+    // delLinkedList(L1);
+
+    return 0;
+}
+</code></pre>
+<p>运行结果图：<br><img src="/images/Data_struct/Linked.png" alt="Linked" title="Linked"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/12/04/单链表C语言实现-1/" title="单链表C语言实现(1)" target="_blank" rel="external">http://blog.yisenliu.top/2017/12/04/单链表C语言实现-1/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/12/04/单链表C语言实现-2/" title="单链表C语言实现(2)"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/12/02/Nginx编译安装及反向代理实验/" title="Nginx编译安装及反向代理实验">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

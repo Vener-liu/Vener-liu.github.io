@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>双绞线基本知识 | YisenBlog</title>
+  <meta name="description" content="今天去面试的时候面试题有一道是双绞线，我记得一年多前自己拉过网线，夹过水晶头，当时是上网查的资料才记得双绞线的水晶头是按什么顺序来插的。今天忘了。。。所以在这里做一下积累。  双绞线电缆（双绞线）双绞线的定义 双绞线（twisted pair，TP），一般是指屏蔽双绞线，是一种综合布线工程中最常用的传输介质，是由两根具有绝缘保护层的铜导线组成的。把两根绝缘的铜导线按一定密度互相绞在一起，每一根导">
+<meta name="keywords" content="运维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="双绞线基本知识">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/11/28/双绞线/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="今天去面试的时候面试题有一道是双绞线，我记得一年多前自己拉过网线，夹过水晶头，当时是上网查的资料才记得双绞线的水晶头是按什么顺序来插的。今天忘了。。。所以在这里做一下积累。  双绞线电缆（双绞线）双绞线的定义 双绞线（twisted pair，TP），一般是指屏蔽双绞线，是一种综合布线工程中最常用的传输介质，是由两根具有绝缘保护层的铜导线组成的。把两根绝缘的铜导线按一定密度互相绞在一起，每一根导">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-11-29T05:21:12.950Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="双绞线基本知识">
+<meta name="twitter:description" content="今天去面试的时候面试题有一道是双绞线，我记得一年多前自己拉过网线，夹过水晶头，当时是上网查的资料才记得双绞线的水晶头是按什么顺序来插的。今天忘了。。。所以在这里做一下积累。  双绞线电缆（双绞线）双绞线的定义 双绞线（twisted pair，TP），一般是指屏蔽双绞线，是一种综合布线工程中最常用的传输介质，是由两根具有绝缘保护层的铜导线组成的。把两根绝缘的铜导线按一定密度互相绞在一起，每一根导">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/11/28/双绞线/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-双绞线" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      双绞线基本知识
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/11/28/双绞线/" class="article-date">
+	  <time datetime="2017-11-28T08:45:26.000Z" itemprop="datePublished">2017-11-28</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Linux运维基础/">Linux运维基础</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/运维/">运维</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/11/28/双绞线/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <ul>
+<li>今天去面试的时候面试题有一道是双绞线，我记得一年多前自己拉过网线，夹过水晶头，当时是上网查的资料才记得双绞线的水晶头是按什么顺序来插的。今天忘了。。。所以在这里做一下积累。</li>
+</ul>
+<h1 id="双绞线电缆（双绞线）"><a href="#双绞线电缆（双绞线）" class="headerlink" title="双绞线电缆（双绞线）"></a>双绞线电缆（双绞线）</h1><h2 id="双绞线的定义"><a href="#双绞线的定义" class="headerlink" title="双绞线的定义"></a>双绞线的定义</h2><ul>
+<li><p>双绞线（twisted pair，TP），一般是指屏蔽双绞线，是一种综合布线工程中最常用的传输介质，是由两根具有绝缘保护层的铜导线组成的。把两根绝缘的铜导线按一定密度互相绞在一起，每一根导线在传输中辐射出来的电波会被另一根线上发出的电波抵消，有效降低信号干扰的程度。</p>
+</li>
+<li><p>双绞线一般由两根22～26号绝缘铜导线相互缠绕而成，“双绞线”的名字也是由此而来。实际使用时，双绞线是由多对双绞线一起包在一个绝缘电缆套管里的。如果把一对或多对双绞线放在一个绝缘套管中便成了双绞线电缆，但日常生活中一般把“双绞线电缆”直接称为“双绞线”。</p>
+</li>
+</ul>
+<h2 id="双绞线的分类"><a href="#双绞线的分类" class="headerlink" title="双绞线的分类"></a>双绞线的分类</h2><ul>
+<li><p>按照有无屏蔽层分类<br>根据有无屏蔽层，双绞线分为屏蔽双绞线（Shielded Twisted Pair，STP）与非屏蔽双绞线（Unshielded Twisted Pair，UTP）。</p>
+</li>
+<li><p>屏蔽双绞线在双绞线与外层绝缘封套之间有一个金属屏蔽层。屏蔽双绞线分为STP和FTP（Foil Twisted-Pair），STP指每条线都有各自的屏蔽层，而FTP只在整个电缆有屏蔽装置，并且两端都正确接地时才起作用。所以要求整个系统是屏蔽器件，包括电缆、信息点、水晶头和配线架等，同时建筑物需要有良好的接地系统。<br>屏蔽层可减少辐射，防止信息被窃听，也可阻止外部电磁干扰的进入，使屏蔽双绞线比同类的非屏蔽双绞线具有更高的传输速率。</p>
+</li>
+<li><p>非屏蔽双绞线（UnshieldedTwisted Pair，缩写UTP）是一种数据传输线，由四对不同颜色的传输线所组成，广泛用于以太网路和电话线中 。<br>非屏蔽双绞线电缆具有以下优点：<br>1.无屏蔽外套，直径小，节省所占用的空间，成本低；<br>2.重量轻，易弯曲，易安装；<br>3.将串扰减至最小或加以消除；<br>4.具有阻燃性；<br>5.具有独立性和灵活性，适用于结构化综合布线。<br>因此，在综合布线系统中，非屏蔽双绞线得到广泛应用 。<br>按照频率和信噪比进行分类</p>
+</li>
+<li><p>双绞线常见的有三类线，五类线和超五类线，以及六类线，前者线径细而后者线径粗，具体型号如下：<br><br>一类线：最早的电话线缆，只有两根芯线，主要是用来传输语音的。<br>二类线：可以用于语音和数据传输，不过他的最大频率是1MHz，而最高传输速率是4Mbps。<br>三类线：在ANSI和EIA/TIA568标准中指定的电缆，最大传输频率为16MHz,最高传输速率是10Mbps。一般只有四根线。<br>四类线：该电缆线达到了20MHz的最大传输频率，16Mbps的最高传输速率。<br>五类线：这是如今比较常用的一种线缆，它增加了绕线密度，而且增加了绝缘材料，最高传输速率可达到100Mbps。<br>超五类线：在五类线上让其减少干扰和衰减，最高传输速率达到了250Mbps。<br>六类线：六类线在传输速率上远超五类线，它最高可以达到1Gbps，一般用在千兆网络中。<br>超六类线：又在六类线的串扰和衰减上又得到很大的改善，其最高传输速率和频率是一样的。<br>七类线：七类线是最新的双绞线，它主要用于万兆网络的发展，基本都是屏蔽双绞线，而且在传输速率和频率上都远超6类线，最高频率可达500MHz,最高传输速率可达10Gbps。<br>网线区分方法：<br>家里局域网一般网线都为三类线、五类线、超五类线。其他都很少用到，因为家庭一般在百兆一下网络，六类线以上都用于千兆网络。<br>三类线跟五类线的区别就是一个只有4根线，一个是8根双绞线。五类线跟超五类线就主要看它们的标志，一个是CAT5,一个是CAT5E。其他的依次类推，三类，CAT3，六类，CAT6。<br>无论是哪一种线，衰减都随频率的升高而增大。在设计布线时，要考虑到受到衰减的信号还应当有足够大的振幅，以便在有噪声干扰的条件下能够在接收端正确地被检测出来。双绞线能够传送多高速率（Mb/s）的数据还与数字信号的编码方法有很大的关系 。<br></p>
+</li>
+</ul>
+<h2 id="序列化标准"><a href="#序列化标准" class="headerlink" title="序列化标准"></a>序列化标准</h2><p>在北美，也是在国际上最有影响力的3家综合布线组织如下。<strong>ANSI（American National Standards Institute，美国国家标准协会）TIA（Telecommunication Industry Association，美国通信工业协会）EIA（Electronic Industries Alliance，美国电子工业协会）</strong>。由于TIA和ISO两组织经常进行标准制定方面的协调，所以TIA和ISO颁布的标准的差别不是很大。在北美，乃至全球，在双绞线标准中应用最广的是<strong>ANSI/EIA/TIA-568A</strong>和<strong>ANSI/EIA/TIA-568B</strong>（实际上应为ANSI/EIA/TIA-568B.1，简称为T568B）。这两个标准最主要的不同就是芯线序列的不同：<br>EIA/TIA 568A的线序定义依次为<br>绿白、绿、橙白、蓝、蓝白、橙、棕白、棕，其标号如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>绿白</th>
+<th>绿</th>
+<th>橙白</th>
+<th>蓝</th>
+<th>蓝白</th>
+<th>橙</th>
+<th>棕白</th>
+<th>棕</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<p>EIA/TIA 568B的线序定义依次为橙白、橙、绿白、蓝、蓝白、绿、棕白、棕，其标号如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>橙白</th>
+<th>橙</th>
+<th>绿白</th>
+<th>蓝</th>
+<th>蓝白</th>
+<th>绿</th>
+<th>棕白</th>
+<th>棕</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>根据568A和568B标准，RJ-45连接头（俗称水晶头）各触点在网络连接中，对传输信号来说它们所起的作用分别是：1、2用于发送，3、6用于接收，4、5，7、8是双向线；对与其相连接的双绞线来说，为降低相互干扰，标准要求1、2必须是绞缠的一对线，3、6也必须是绞缠的一对线，4、5相互绞缠，7、8相互绞缠。由此可见实际上两个标准568A和568B没有本质的区别，只是连接RJ-45时8根双绞线的线序排列不同，在实际的网络工程施工中较多采用568B标准 。</li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+<p><strong>文献</strong>：<a href="https://baike.baidu.com/item/%E5%8F%8C%E7%BB%9E%E7%BA%BF/487416?fr=aladdin" title="双绞线百科" target="_blank" rel="noopener">双绞线百科</a><a href="http://www.lotpc.com/dnzs/5161.html" title="双绞线基础知识" target="_blank" rel="noopener">双绞线基础知识</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/11/28/双绞线/" title="双绞线基本知识" target="_blank" rel="external">http://blog.yisenliu.top/2017/11/28/双绞线/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/11/28/DNS查询与操作/" title="DNS查询与操作"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/11/27/关于samba的hostsallow小经历/" title="关于samba的hostsallow小经历">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

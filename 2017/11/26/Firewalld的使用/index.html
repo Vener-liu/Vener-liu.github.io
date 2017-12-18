@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Firewalld的使用 | YisenBlog</title>
+  <meta name="description" content="Firewalld 的简单使用一、介绍 防火墙守护 firewalld 服务引入了一个信任级别的概念来管理与之相关联的连接与接口。它支持 ipv4 与 ipv6，并支持网桥，采用 firewall-cmd (command) 或 firewall-config (gui) 来动态的管理 kernel netfilter 的临时或永久的接口规则，并实时生效而无需重启服务。 Firewall 能将不同">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Firewalld的使用">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/11/26/Firewalld的使用/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="Firewalld 的简单使用一、介绍 防火墙守护 firewalld 服务引入了一个信任级别的概念来管理与之相关联的连接与接口。它支持 ipv4 与 ipv6，并支持网桥，采用 firewall-cmd (command) 或 firewall-config (gui) 来动态的管理 kernel netfilter 的临时或永久的接口规则，并实时生效而无需重启服务。 Firewall 能将不同">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-02T12:22:39.385Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Firewalld的使用">
+<meta name="twitter:description" content="Firewalld 的简单使用一、介绍 防火墙守护 firewalld 服务引入了一个信任级别的概念来管理与之相关联的连接与接口。它支持 ipv4 与 ipv6，并支持网桥，采用 firewall-cmd (command) 或 firewall-config (gui) 来动态的管理 kernel netfilter 的临时或永久的接口规则，并实时生效而无需重启服务。 Firewall 能将不同">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/11/26/Firewalld的使用/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Firewalld的使用" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Firewalld的使用
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/11/26/Firewalld的使用/" class="article-date">
+	  <time datetime="2017-11-26T13:12:34.000Z" itemprop="datePublished">2017-11-26</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Linux运维基础/">Linux运维基础</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/Linux/">Linux</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/11/26/Firewalld的使用/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h1 id="Firewalld-的简单使用"><a href="#Firewalld-的简单使用" class="headerlink" title="Firewalld 的简单使用"></a>Firewalld 的简单使用</h1><h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><ul>
+<li>防火墙守护 firewalld 服务引入了一个信任级别的概念来管理与之相关联的连接与接口。它支持 ipv4 与 ipv6，并支持网桥，采用 firewall-cmd (command) 或 firewall-config (gui) 来动态的管理 kernel netfilter 的临时或永久的接口规则，并实时生效而无需重启服务。</li>
+<li><p>Firewall 能将不同的网络连接归类到不同的信任级别，Zone 提供了以下几个级别</p>
+</li>
+<li><p>drop: 丢弃所有进入的包，而不给出任何响应 <br><br>block: 拒绝所有外部发起的连接，允许内部发起的连接 <br><br>public: 允许指定的进入连接 <br><br>external: 同上，对伪装的进入连接，一般用于路由转发 <br><br>dmz: 允许受限制的进入连接 <br><br>work: 允许受信任的计算机被限制的进入连接，类似 workgroup <br><br>home: 同上，类似 homegroup <br><br>internal: 同上，范围针对所有互联网用户 <br><br>trusted: 信任所有连接 <br></p>
+<p>安装它，只需（在centos高版本和tedora高版本中自带firewalld）</p>
+<p><code>dnf install firewalld</code></p>
+<p>如果需要图形界面的话，则再安装</p>
+<p><code>dnf install firewall-config</code></p>
+</li>
+</ul>
+<h2 id="二、使用方法"><a href="#二、使用方法" class="headerlink" title="二、使用方法"></a>二、使用方法</h2><p><code>$ firewall-cmd --help</code></p>
+<h3 id="1-查看规则"><a href="#1-查看规则" class="headerlink" title="1. 查看规则"></a>1. 查看规则</h3><p>查看运行状态</p>
+<p><code>$ firewall-cmd --state</code></p>
+<p>查看已被激活的 Zone 信息</p>
+<p><code>$ firewall-cmd --get-active-zones</code></p>
+<p>public</p>
+<p>interfaces: eth0 eth1</p>
+<p>查看指定接口的 Zone 信息</p>
+<p><code>$ firewall-cmd --get-zone-of-interface=eth0</code></p>
+<p>public</p>
+<p>查看指定级别的接口</p>
+<p><code>$ firewall-cmd --zone=public --list-interfaces</code></p>
+<p>eth0</p>
+<p>查看指定级别的所有信息，譬如 public</p>
+<p>$ firewall-cmd –zone=public –list-all</p>
+<blockquote>
+<p>public (default, active) <br><br>interfaces: eth0 <br><br>sources: <br><br>services: dhcpv6-client http ssh <br><br>ports: <br><br>masquerade: no <br><br>forward-ports: <br><br>icmp-blocks: <br><br>rich rules: <br></p>
+</blockquote>
+<p>查看所有级别被允许的信息</p>
+<p><code>$ firewall-cmd --get-service</code></p>
+<p>查看重启后所有 Zones 级别中被允许的服务，即永久放行的服务</p>
+<p><code>$ firewall-cmd --get-service --permanent</code></p>
+<h3 id="2-管理规则"><a href="#2-管理规则" class="headerlink" title="2. 管理规则"></a>2. 管理规则</h3><pre><code class="c++"> firewall-cmd --panic-on # 丢弃
+ firewall-cmd --panic-off # 取消丢弃
+ firewall-cmd --query-panic # 查看丢弃状态
+ firewall-cmd --reload # 更新规则，不重启服务
+ firewall-cmd --complete-reload # 更新规则，重启服务
+</code></pre>
+<p>添加某接口至某信任等级，譬如添加 eth0 至 public，再永久生效</p>
+<p> <code>firewall-cmd --zone=public --add-interface=eth0 --permanent</code></p>
+<p>设置 public 为默认的信任级别</p>
+<p><code>firewall-cmd --set-default-zone=public</code></p>
+<p>a. 管理端口</p>
+<p>列出 dmz 级别的被允许的进入端口</p>
+<p> <code>firewall-cmd --zone=dmz --list-ports</code></p>
+<p>允许 tcp 端口 8080 至 dmz 级别</p>
+<p>  <code>firewall-cmd --zone=dmz --add-port=8080/tcp</code></p>
+<p>允许某范围的 udp 端口至 public 级别，并永久生效</p>
+<p> <code>firewall-cmd --zone=public --add-port=5060-5059/udp --permanent</code></p>
+<p>b. 管理服务</p>
+<p>添加 smtp 服务至 work zone</p>
+<p> <code>firewall-cmd --zone=work --add-service=smtp</code></p>
+<p>移除 work zone 中的 smtp 服务</p>
+<p> <code>firewall-cmd --zone=work --remove-service=smtp</code></p>
+<p>c. 配置 ip 地址伪装</p>
+<p>查看</p>
+<p><code>firewall-cmd --zone=external --query-masquerade</code></p>
+<p>打开伪装</p>
+<p><code>firewall-cmd --zone=external --add-masquerade</code></p>
+<p>关闭伪装</p>
+<p><code>firewall-cmd --zone=external --remove-masquerade</code></p>
+<p>d. 端口转发</p>
+<p>要打开端口转发，则需要先</p>
+<p><code>firewall-cmd --zone=external --add-masquerade</code></p>
+<p>然后转发 tcp 22 端口至 3753</p>
+<p> <code>firewall-cmd --zone=external --add-forward-port=port=22:proto=tcp:toport=3753</code></p>
+<p>转发 22 端口数据至另一个 ip 的相同端口上</p>
+<p><code>firewall-cmd --zone=external
+--add-forward-port=port=22:proto=tcp:toaddr=192.168.1.100</code></p>
+<p>转发 22 端口数据至另一 ip 的 2055 端口上</p>
+<p><code>firewall-cmd --zone=external --add-forward-port=port=22:proto=tcp:toport=2055:toaddr=192.168.1.100</code></p>
+<p>firewalld基本命令：</p>
+<pre><code class="c++">启动： systemctl start firewalld
+查看状态： systemctl status firewalld 
+停止： systemctl disable firewalld
+禁用： systemctl stop firewalld
+</code></pre>
+<blockquote>
+<p>The configuration for firewalld is stored in various XML files in /usr/lib/firewalld/ and /etc/firewalld/.<br>意思大概是防火墙的配置文件在上面所示的两个目录里面，以xml格式存储</p>
+</blockquote>
+<p>本机环境是fedora23，默认安装好像是firewalld，我来启动一下：</p>
+<p><code>systemctl start firewalld</code></p>
+<p>报错：<br>Failed to start firewalld.service: Unit firewalld.service is masked.</p>
+<p>由于系统默认不开启firewalld（将其服务mask 隐藏起来）</p>
+<p>所以需要执行：</p>
+<p><code>systemctl unmask firewalld.service</code></p>
+<p>启动服务：</p>
+<p><code>systemctl start firewalld</code></p>
+<p>添加开机启动：</p>
+<p><code>systemctl enable firewalld</code></p>
+<p>添加端口：</p>
+<pre><code class="c++">firewall-cmd --permanent --zone=public --add-port=80/tcp
+firewall-cmd --permanent --zone=public --add-port=3306/tcp
+firewall-cmd --permanent --zone=public --add-port=6379/tcp
+firewall-cmd --permanent --zone=public --add-port=21/tcp
+firewall-cmd --permanent --zone=public --add-port=22/tcp
+firewall-cmd --permanent --zone=public --add-port=445/tcp
+firewall-cmd --permanent --zone=public --add-port=139/tcp
+firewall-cmd --permanent --zone=public --add-port=137/udp
+firewall-cmd --permanent --zone=public --add-port=138/udp
+</code></pre>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+<p><strong>博客文献</strong>：<a href="http://www.jianshu.com/p/c9c24b3a1c53" title="苏星河的博客" target="_blank" rel="noopener">苏星河</a>，<a href="https://www.cnblogs.com/zqifa/p/linux-firewall-1.html" title="zqifa的博客" target="_blank" rel="noopener">zqifa</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/11/26/Firewalld的使用/" title="Firewalld的使用" target="_blank" rel="external">http://blog.yisenliu.top/2017/11/26/Firewalld的使用/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/11/26/Samba配置说明/" title="Samba配置说明"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/11/26/FQ那些事/" title="FQ那些事">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

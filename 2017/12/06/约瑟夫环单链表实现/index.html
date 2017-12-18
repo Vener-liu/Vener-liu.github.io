@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>约瑟夫环单链表实现 | YisenBlog</title>
+  <meta name="description" content="#　约瑟夫环单链表求解说明：NLinkedList.h 是单链表的抽象数据类型，在我博客中另一篇单链表C语言实现-无头结点也可以找到，制作成头文件放在当前目录就行。      ysf.h　在下面 ysf.c文件#include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;quot;NLinkedList.h&amp;quot; #include">
+<meta name="keywords" content="C&#x2F;C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="约瑟夫环单链表实现">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/12/06/约瑟夫环单链表实现/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="#　约瑟夫环单链表求解说明：NLinkedList.h 是单链表的抽象数据类型，在我博客中另一篇单链表C语言实现-无头结点也可以找到，制作成头文件放在当前目录就行。      ysf.h　在下面 ysf.c文件#include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;quot;NLinkedList.h&amp;quot; #include">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://blog.yisenliu.top/images/ysf/ysf.png">
+<meta property="og:updated_time" content="2017-12-06T08:29:26.852Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="约瑟夫环单链表实现">
+<meta name="twitter:description" content="#　约瑟夫环单链表求解说明：NLinkedList.h 是单链表的抽象数据类型，在我博客中另一篇单链表C语言实现-无头结点也可以找到，制作成头文件放在当前目录就行。      ysf.h　在下面 ysf.c文件#include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;quot;NLinkedList.h&amp;quot; #include">
+<meta name="twitter:image" content="http://blog.yisenliu.top/images/ysf/ysf.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/12/06/约瑟夫环单链表实现/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-约瑟夫环单链表实现" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      约瑟夫环单链表实现
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/12/06/约瑟夫环单链表实现/" class="article-date">
+	  <time datetime="2017-12-06T04:35:49.000Z" itemprop="datePublished">2017-12-06</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Data-Struture/">Data_Struture</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/C-C/">C/C++</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/12/06/约瑟夫环单链表实现/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <p>#　约瑟夫环单链表求解<br>说明：NLinkedList.h 是单链表的抽象数据类型，在我博客中另一篇<a href="http://blog.yisenliu.top/2017/12/04/%E5%8D%95%E9%93%BE%E8%A1%A8C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0-2/" title="无头结点">单链表C语言实现-无头结点</a>也可以找到，制作成头文件放在当前目录就行。<br>      ysf.h　在下面</p>
+<h3 id="ysf-c文件"><a href="#ysf-c文件" class="headerlink" title="ysf.c文件"></a>ysf.c文件</h3><pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &quot;NLinkedList.h&quot;
+#include &quot;ysf.h&quot;
+#define YSF_MAX_SIZE 8
+/**
+ * 约瑟夫环单链表一般做法（不推荐）
+ * 如下：
+*/
+
+/**
+ * 删除结点重新排序：int ysfDeletrElem(LinkedList **L, Elemtype i, Elemtype *eee)
+*/
+int ysfDeletrElem(LinkedList **L, Elemtype i, Elemtype *eee)
+{
+    LinkedList *head, *q, *crash, *last;
+    Elemtype j = 1, length;
+    if (!*L)  //判断链表是否为空表
+        return ERR;
+    head = *L;//存储头结点的位置
+    length = LinkedListGetLength(&amp;*L, 0);//存储当前单链表长度  
+    last = *L;  //把最后一个结点的地址赋值给last
+    *L = head;  //重新指向头结点
+
+    if (i == 1)　　　//这种情况是当　取余为１的情况　即不需要移动指针   n
+    {
+        if (i == length)   //当结点是最后一个结点的时候
+        {
+            *eee = (*L)-&gt;data;　　//先存储数据 
+            (*L)-&gt;next = NULL;　　//指向空，防止野指针
+            free(*L);　　　　//释放空间
+            return OK;          
+        }
+        //当存在两个结点或以上的时候
+        if(length&gt;=2)
+        {
+            *eee = (*L)-&gt;data;
+            crash = *L;
+            *L = (*L)-&gt;next;
+            crash-&gt;next = NULL;
+            printLinkedList(*L);
+            free(crash);
+            return OK;
+        }
+        return ERR; //链表长度小于１返回ＥＲＲ　（上面已经判断过了）　
+    }
+
+    while (*L &amp;&amp; j &lt; i - 1) //找到前驱结点    n
+    {
+        *L = (*L)-&gt;next;
+        j++;
+    }
+    if (j &lt; i - 1 )　　//判断链表最大长度
+        return ERR;
+    //以上步骤为移动指针到被删结点的前驱结点位置
+
+    q = (*L)-&gt;next; //q为被删结点
+    *eee = q-&gt;data;　　//存储数据
+    (*L)-&gt;next = NULL; //将被删结点的前驱结点变为尾结点
+
+    if (i == length) //当被删结点是最后一个结点的时候
+    {
+        *L = head;　//被删结点的前驱结点已经指向空，而被删结点的下一个结点的位置就是头结点，现在只需重新指向头结点完成排序
+    }
+    else　　//被删结点处于　　1&lt;被删结点&lt;length 的状态
+    {
+        *L = q-&gt;next;      //　指向指被删结点的后驱结点,即指向重新编排后的第一个结点
+        last-&gt;next = head; // 让最后一个结点的next域指向之前的头结点完成重现编排顺序
+    }
+
+    q-&gt;next = NULL; //被删结点指向空，防止野指针
+    printLinkedList(*L);　//打印当前单链表　
+    free(q);　//释放空间
+    return OK;
+}
+/**
+ * 约瑟夫环单链表求解：int linkedList_ysf(LinkedList **p, Elemtype n)
+*/
+int linkedList_ysf(LinkedList **p, Elemtype n)
+{
+    if (!*p || n &lt; 1)
+        return ERR;
+    Elemtype length = 0, N = n;
+    length = LinkedListGetLength(&amp;*p, 1);
+    Elemtype i = 0, *deleteElem, deleteElemArr[length];
+    deleteElem = (Elemtype *)malloc(sizeof(Elemtype));
+    if(!deleteElem) return ERR;
+
+    while (*p &amp;&amp; length != 0)
+    {
+        if (n &gt; length) //这里是关键
+            n = n % length;
+        if (n == 0)
+            n = length;                    //对 余数a取余，不可能余数为a,即整除。令其等于本身
+        ysfDeletrElem(&amp;*p, n, deleteElem); //删除完后重新排序
+        deleteElemArr[i] = *deleteElem;
+        i++;
+        length--;
+        n = N;
+    }
+
+    printf(&quot;自杀顺序：&quot;);
+    for (i = 0; i &lt; YSF_MAX_SIZE; i++)         
+    {
+        printf(&quot;%d &quot;, deleteElemArr[i]);
+    }
+
+    free(deleteElem);
+    return OK;
+}
+
+int main()
+{
+    LinkedList *L1, *L2, *L3;
+    Elemtype o, ysf[YSF_MAX_SIZE], dead;
+    linkedListCreateHead(&amp;L1, YSF_MAX_SIZE);
+    linkedListCreateHead(&amp;L2, YSF_MAX_SIZE);
+    linkedListCreateHead(&amp;L3, YSF_MAX_SIZE);
+    printf(&quot;\n取值为9&quot;);
+    printLinkedList(L1);
+    linkedList_ysf(&amp;L1, 9);
+    printf(&quot;\n取值为3&quot;);
+    printLinkedList(L2);
+    linkedList_ysf(&amp;L2, 3);
+    printf(&quot;\n取值为11&quot;);
+    printLinkedList(L3);
+    linkedList_ysf(&amp;L3, 11);
+
+    ysf_math(YSF_MAX_SIZE, 6); //数学方法求解
+
+    return 0;
+}
+</code></pre>
+<h3 id="ysf-h头文件"><a href="#ysf-h头文件" class="headerlink" title="ysf.h头文件"></a>ysf.h头文件</h3><pre><code class="c">#ifndef __YSF_H__
+#define __YSF_H__
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+/**
+ * 约瑟夫环数学方法
+*/
+int cir(int n,int m)
+{
+    int p=0;
+    for(int i=2;i&lt;=n;i++)
+    {
+        p=(p+m)%i;
+    }
+    return p+1;
+}
+int ysf_math(int n, int m)
+{
+    int  o, ysf[n],flag=0;
+    printf(&quot;\n\n数学方法:\n&quot;);
+    for (o = 0; o &lt; n; o++)
+    {
+        ysf[o] = 1 + (int)(10.0 * rand() / (RAND_MAX + 1.0));
+        // ysf[o]= o+1;
+    }
+    printf(&quot;赋值情况如下\n&quot;);
+    for (o = 0; o &lt; n; o++)
+    {
+        printf(&quot;%d  &quot;, ysf[o]);
+    }
+    flag=cir(n,m);//根据给定人数和出列的值，返回最后那个人的编号
+    printf(&quot;\n最后出局的人是:%d\n&quot;,ysf[flag-1]);
+    return 0;
+}
+#endif
+</code></pre>
+<p>运行结果图:<br><img src="/images/ysf/ysf.png" alt="ysf" title="ysf"></p>
+<ul>
+<li>在写这个程序的是时候遇到挺多的障碍的，其中一个就是指针分配内存的问题：<br>Program received signal SIGSEGV, Segmentation fault.<br>0x0000000000401038 in ysfDeletrElem (L=0x7fffffffdd38, i=4, e=0x400640 <_start>) at ysf.c:59<br>59        *e = q-&gt;data;<br>改程序改了一个多钟，发现是没有给指针分配内存空间……<br><br><br></_start></li>
+</ul>
+<hr>
+<h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/12/06/约瑟夫环单链表实现/" title="约瑟夫环单链表实现" target="_blank" rel="external">http://blog.yisenliu.top/2017/12/06/约瑟夫环单链表实现/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/12/07/链栈c实现/" title="链栈c实现"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/12/04/顺序表C语言实现/" title="顺序表C语言实现">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

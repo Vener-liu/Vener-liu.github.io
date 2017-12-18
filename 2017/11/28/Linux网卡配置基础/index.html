@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Linux网卡配置基础 | YisenBlog</title>
+  <meta name="description" content="今天面试的时候遇到比较多的关于网卡配置的问题，而我在主背面是的时候并没有复习到这一块，最近一次配置网卡在两年前，试题很简单，从字面上都可以猜出配置的是什么，然而我怂了，但是没有确定答案之前，我还是没有写下去。下面做一个网卡配置的复习。  Linux网卡配置基础linux网络相关配置文件linux系统一般来说分为两大类：1、RedHat系列：Redhat、Centos、Fedora等；2、Debi">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux网卡配置基础">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/11/28/Linux网卡配置基础/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="今天面试的时候遇到比较多的关于网卡配置的问题，而我在主背面是的时候并没有复习到这一块，最近一次配置网卡在两年前，试题很简单，从字面上都可以猜出配置的是什么，然而我怂了，但是没有确定答案之前，我还是没有写下去。下面做一个网卡配置的复习。  Linux网卡配置基础linux网络相关配置文件linux系统一般来说分为两大类：1、RedHat系列：Redhat、Centos、Fedora等；2、Debi">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-11-29T05:44:57.392Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux网卡配置基础">
+<meta name="twitter:description" content="今天面试的时候遇到比较多的关于网卡配置的问题，而我在主背面是的时候并没有复习到这一块，最近一次配置网卡在两年前，试题很简单，从字面上都可以猜出配置的是什么，然而我怂了，但是没有确定答案之前，我还是没有写下去。下面做一个网卡配置的复习。  Linux网卡配置基础linux网络相关配置文件linux系统一般来说分为两大类：1、RedHat系列：Redhat、Centos、Fedora等；2、Debi">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/11/28/Linux网卡配置基础/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Linux网卡配置基础" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux网卡配置基础
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/11/28/Linux网卡配置基础/" class="article-date">
+	  <time datetime="2017-11-28T10:16:57.000Z" itemprop="datePublished">2017-11-28</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Linux运维基础/">Linux运维基础</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/Linux/">Linux</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/11/28/Linux网卡配置基础/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <ul>
+<li>今天面试的时候遇到比较多的关于网卡配置的问题，而我在主背面是的时候并没有复习到这一块，最近一次配置网卡在两年前，试题很简单，从字面上都可以猜出配置的是什么，然而我怂了，但是没有确定答案之前，我还是没有写下去。下面做一个网卡配置的复习。</li>
+</ul>
+<h1 id="Linux网卡配置基础"><a href="#Linux网卡配置基础" class="headerlink" title="Linux网卡配置基础"></a>Linux网卡配置基础</h1><h2 id="linux网络相关配置文件"><a href="#linux网络相关配置文件" class="headerlink" title="linux网络相关配置文件"></a>linux网络相关配置文件</h2><p>linux系统一般来说分为两大类：1、RedHat系列：Redhat、Centos、Fedora等；2、Debian系列：Debian、Ubuntu等。</p>
+<p>linux系统中，TCP/IP网络是通过若干个文本文件来进行配置的，需要配置这些文件来联网，下面对linux两大类系统中基本的TCP/IP网络配置文件做学习总结。</p>
+<h2 id="第一类Debian中Ubuntu系统为例"><a href="#第一类Debian中Ubuntu系统为例" class="headerlink" title="第一类Debian中Ubuntu系统为例"></a>第一类Debian中Ubuntu系统为例</h2><p>Ubuntu系统的网络配置文件有interfaces,resolv.conf等。</p>
+<h3 id="一、网络接口配置文件：-etc-network-interfaces"><a href="#一、网络接口配置文件：-etc-network-interfaces" class="headerlink" title="一、网络接口配置文件：/etc/network/interfaces"></a>一、网络接口配置文件：/etc/network/interfaces</h3><p>1、内容如下：</p>
+<p># The loopback network interface</p>
+<p>auto lo#网卡开机自动挂载</p>
+<p>iface lo inet loopback</p>
+<p>auto eth0#网卡开机自动挂载，连接网络</p>
+<p>iface eth0 inet static #static表示使用固定ip,dhcp表示使用动态ip</p>
+<p>address 10.1.101.227 #设置ip地址</p>
+<p>netmask 255.255.255.0 #设置子网掩码</p>
+<p>gateway 10.1.101.254 #设置网关</p>
+<p>dns-nameservers 10.1.101.51</p>
+<p> 修改了interfaces用下面命令使网络设置生效：/etc/init.d/networking restart #重启网络</p>
+<p>或者ifdown eth0 &amp;&amp; ifup eth0</p>
+<p>2、设置第二个ip地址（虚拟IP地址）</p>
+<p>编辑文件/etc/network/interfaces</p>
+<p>auto eth0:1<br>iface eth0:1 inet static<br>address 192.168.1.60<br>netmask 255.255.255.0<br>network x.x.x.x<br>broadcast x.x.x.x<br>gateway x.x.x.x </p>
+<h3 id="二、DNS配置文件：-etc-resolv-conf"><a href="#二、DNS配置文件：-etc-resolv-conf" class="headerlink" title="二、DNS配置文件：/etc/resolv.conf"></a>二、DNS配置文件：/etc/resolv.conf</h3><p>首先可以在/etc/hosts中加入一些主机名称和这些主机名称对应的IP地址，这是简单的使用本机的静态查询。</p>
+<p>要访问DNS服务器来进行查询，需要设置/etc/resolv.conf文件。</p>
+<p>通过该文件设置DNS服务器的IP地址及DNS域名，该文件是由域名解析器使用的配置文件。</p>
+<p>（域名解析器：resolver,一个根据主机名解析IP地址的库）</p>
+<p>domainname 域名</p>
+<p>search domainname.com   #表示提供了一个不包括完全域名的主机时，在主机后面添加domainname.com后缀<br>nameserver x.x.x.x#设置首选DNS，解析域名时使用该地址指定的主机为域名服务器，按nameserver出现顺序查找。</p>
+<p>nameserver x.x.x.x#设置备用DNS</p>
+<p>sortlist   #对返回的域名进行排序</p>
+<p>使网络设置生效：/etc/init.d/networking restart #重启网络</p>
+<h3 id="三、-etc-hosts文件"><a href="#三、-etc-hosts文件" class="headerlink" title="三、/etc/hosts文件"></a>三、/etc/hosts文件</h3><p>包含（本地网络中）已知主机的一个列表。如果系统的IP不是动态获取，就可以使用它。对于简单的主机名解析（点分表示法），在请求DNS或NIS网络之前，/etc/hosts.conf通常会告诉解析程序先查看这里。</p>
+<p>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4<br>::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</p>
+<h3 id="四、-etc-host-conf"><a href="#四、-etc-host-conf" class="headerlink" title="四、/etc/host.conf"></a>四、/etc/host.conf</h3><p>当系统中同时存在DNS域名解析和/etc/hosts主机表机制时，由该/etc/host.conf确定主机名解释顺序。</p>
+<p>order hosts,bind #名称解释顺序，order是关键字，定义先用本机hosts主机表进行名称解释，如果不能解释，再搜索bind名称服务器（DNS）。</p>
+<p>multi on #允许主机有多个IP地址</p>
+<p>nospoof on #禁止IP地址欺骗</p>
+<h3 id="五、-etc-services"><a href="#五、-etc-services" class="headerlink" title="五、/etc/services"></a>五、/etc/services</h3><p>Internet网络服务文件，将网络服务名转换为端口号/协议。由inetd、telnet、tcpdump和一些其他程序读取。文件中每一行对应一种服务，它由4个字段组成，中间用TAB或者空格分隔，分别表示 “服务名称”、“使用端口”、“协议名称”以及“别名”。</p>
+<p>服务            端口/端口类型           别名</p>
+<p>$ cat /etc/services  |more</p>
+<p>tcpmux          1/tcp                           # TCP port service multiplexer<br>echo            7/tcp<br>echo            7/udp<br>discard         9/tcp           sink null<br>discard         9/udp           sink null<br>systat          11/tcp          users<br>daytime         13/tcp<br>daytime         13/udp<br>netstat         15/tcp<br>qotd            17/tcp          quote<br>msp             18/tcp                          # message send protocol</p>
+<h3 id="六、主机名称配置文件-bin-hostname"><a href="#六、主机名称配置文件-bin-hostname" class="headerlink" title="六、主机名称配置文件/bin/hostname"></a>六、主机名称配置文件/bin/hostname</h3><p>用命令hostname newname来设置新主机名</p>
+<p>系统启动时，它会从/etc/hostname来读取主机的名称</p>
+<p>#假设修改主机名为controller<br>hostname controller<br>echo “controller” &gt; /etc/hostname</p>
+<h3 id="七、网络相关脚本和命令"><a href="#七、网络相关脚本和命令" class="headerlink" title="七、网络相关脚本和命令"></a>七、网络相关脚本和命令</h3><h3 id="etc-init-d-networking"><a href="#etc-init-d-networking" class="headerlink" title="/etc/init.d/networking"></a>/etc/init.d/networking</h3><p>系统启动时的初始化脚本，当系统以某个级别启动时，它负责初始化所有一级配置的网络接口。</p>
+<p>ifconfig命令</p>
+<p>不带任何参数的ifconfig命令查看当前系统网络配置情况：<br>eth0:表示网卡代号</p>
+<p>lo:linux内部的网络回环地址，用于模拟网络行为</p>
+<p>HWaddr:网卡的硬件地址，也就是MAC地址</p>
+<p>inet addr:网卡的Ip地址</p>
+<p>Bcast:广播地址</p>
+<p>Mask:子网掩码</p>
+<p>MTU：最大传输单元（Maximum Trassmission Unit）,标识网络接口的可传输的最大封包，此值设定错误可能引起网络故障。</p>
+<p>PX：网络从启动到现在为止数据接收情况</p>
+<p>TX：网络从启动到现在为止数据发送情况</p>
+<p>collisions:网络信号发生冲突的情况</p>
+<p>防火墙相关命令</p>
+<p>查看防火墙状态：sudo ufw status</p>
+<p>启用防火墙：</p>
+<p>sudo ufw enable #开启了防火墙，并在系统启动时自动开启</p>
+<p>sudo ufw default deny #关闭所有外部对本机的访问，但本机访问外部正常。</p>
+<p>sudo ufw disable   #禁用防火墙，默认是禁用的</p>
+<p>打开某个端口</p>
+<p>sudo ufw allow smtp　#允许所有的外部IP访问本机的25/tcp (smtp)端口</p>
+<p>sudo ufw allow 22/tcp  #允许所有的外部IP访问本机的22/tcp (ssh)端口</p>
+<p>sudo ufw allow 53  #允许外部访问53端口(tcp/udp)</p>
+<p>sudo ufw allow from 192.168.1.100  #允许此IP访问所有的本机端口</p>
+<p>sudo ufw allow proto udp 192.168.0.1 port 53 to 192.168.0.2 port 53</p>
+<p>禁用或关闭某个端口</p>
+<p>sudo ufw delete allow 53 #禁用 53 端口</p>
+<p>sudo ufw delete allow 80/tcp #禁用 80 端口</p>
+<p>sudo ufw deny smtp  #禁止外部访问smtp服务</p>
+<p>sudo ufw delete allow smtp #删除 smtp 端口的许可</p>
+<p>sudo ufw delete allow from 192.168.254.254 #禁止某特定 IP</p>
+<h2 id="第二类redhat中redhat为例"><a href="#第二类redhat中redhat为例" class="headerlink" title="第二类redhat中redhat为例"></a>第二类redhat中redhat为例</h2><p>redhat系统的网络配置</p>
+<h3 id="一、修改IP地址"><a href="#一、修改IP地址" class="headerlink" title="一、修改IP地址"></a>一、修改IP地址</h3><p>1、ip配置文件</p>
+<p>修改对应网卡的IP地址配置文件/etc/sysconfig/network-scripts/ifcfg-<interface-name>文件</interface-name></p>
+<p>在Redhat中，系统网络设置的配置文件保存在/etc/sysconfig/network-scripts目录下。ifcfg-eth0代表第一块网卡的配置信息，ifcfg-eth1代表第二块网卡的配置信息。在启动时，系统通过读取这个配置文件决定某个网卡是否启动和如何配置。</p>
+<p>若希望手工修改网络地址或增加新的网络连接，可以通过修改对应的ifcfg-<interface-name>或创建新的文件来实现。</interface-name></p>
+<p>下面是/etc/sysconfig/network-scripts/ifcfg-{interface-name}的配置信息含义</p>
+<p>DEVICE={name}   #{name}表示网卡对应物理设备的名字，eth0是第一块网卡，双网卡或更多依次为eth1，eth*</p>
+<p>TYPE=Ethernet  #网络类型，Ethernet代表以太网</p>
+<p>ONBOOT=yes/no   #系统启动引导时是否激活该网络接口，设为yes，即激活此设备</p>
+<p>NM_CONTROLLED=yes</p>
+<p>BOOTPROTO=none/static/bootp/dhcp   #设置网卡获得ip地址的方式，可能选项为none,static,bootp,dhcp，分别对应不适用协议，静态指定ip地址，通过dhcp协议获得ip地址，通过bootp协议获得ip地址</p>
+<p>IPADDR={address}   #如果设置网卡获得ip地址的方式为静态指定，{addres}就代表赋给该网卡的ip地址<br>NETMASK={mask}  #{mask}表示网卡对应的网络掩码</p>
+<p>NETWORK={address} #{address}表示网卡对应的网络地址，（可以不要）<br>GATEWAY={address} #{address}默认网关<br>DNS1=10.1.101.51     #DNS服务配置</p>
+<p>BROADCAST={address}　 #{address}对应的子网广播地址，如192.168.0.255（可以不要）</p>
+<p>MACADDR={MAC-address}   #{MAC-address}表示指定一个MAC地址</p>
+<p>USERCTL=yes/no　　　　# 是否允许非root用户控制该设备</p>
+<p>HWADDR=50:e5:49:df:b0:8b  #对应的网卡物理地址</p>
+<p>IPV6INIT=no  #IPV6</p>
+<p>IPV6_AUTOCONF=no</p>
+<p>2、单网卡绑定2个IP</p>
+<p>只需要在/etc/sysconfig/network-scripts目录里面创建一个名为ifcfg-eth0:0的文件，</p>
+<p>内容样例为：</p>
+<p>DEVICE=”eth0:0”<br>IPADDR=”x.x.x.x”<br>NETMASK=”255.255.255.0”</p>
+<p>如果需要再多绑定一个IP地址，只需要把文件名和文件内的DEVICE中的eth0:0加一即可。</p>
+<p>linux最多可支持255个IP别名。</p>
+<h3 id="二、修改主机名"><a href="#二、修改主机名" class="headerlink" title="二、修改主机名"></a>二、修改主机名</h3><p>临时修改：hostname xxx</p>
+<p>永久修改：/etc/sysconfig/network</p>
+<p>[root@localhost ~]# cat /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=localhost.localdomain #修改localhost.localdomain为xxx<br>localhost.localdomain中点的前面是主机名，后面是域名。如果没有点就代表是主机名。</p>
+<h3 id="三、修改网关"><a href="#三、修改网关" class="headerlink" title="三、修改网关"></a>三、修改网关</h3><p>网关配置文件为/etc/sysconfig/network文件</p>
+<p>网关配置也可以在/etc/sysconfig/network-scripts/ifcfg-eth0中配置。</p>
+<p>network用来指定服务器上的网络配置信息，该文件配置项含义如下：</p>
+<p>NETWORK=yes #表示系统是否使用网络，一般设置为yes，如果设置为no，则不能使用网络，而且很多系统服务程序将无法启动<br>RORWARD_IPV4=yes<br>HOSTNAME={hostname}  #{hostname}表示服务器的主机名，这里的主机名要和/etc/hosts中设置的主机名对应<br>GAREWAY={address}  #{address}设置本机连接的网关的IP地址，例如，网关10.0.0.2<br>GATEWAYDEV={device}  #{device}表示网关的设备名，如：eth0<br>NETWORK=yes/no　　　　 #网络是否被配置<br>FORWARD_IPV4=yes/no　　　　 #是否开启IP转发功能</p>
+<h3 id="四、修改DNS"><a href="#四、修改DNS" class="headerlink" title="四、修改DNS"></a>四、修改DNS</h3><p>DNS配置文件为/etc/resolv.conf文件</p>
+<p>DNS配置也可以在/etc/sysconfig/network-scripts/ifcfg-eth0中配置。</p>
+<p>resolv.conf文件用来配置DNS客户端，它包含了DNS服务器地址和域名搜索配置。同Ubuntu的配置。目前最多支持三个DNS服务器。</p>
+<p>nameserver 8.8.8.8 #google域名服务器</p>
+<p>nameserver 8.8.8.4 #google域名服务器</p>
+<h2 id="五、-etc-hosts文件"><a href="#五、-etc-hosts文件" class="headerlink" title="五、/etc/hosts文件"></a>五、/etc/hosts文件</h2><p>在机器启动时，在可用查询DNS以前，机器需要查询一些主机名到IP地址的匹配。这些信息存放在/etc/hosts文件中。</p>
+<p>在没有域名服务器的情况下，系统上所有的网络程序都通过查询该文件来解析对应于某个主机名的IP地址。</p>
+<p>[root@lxy-nfs network-scripts]# cat /etc/hosts<br>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4<br>::1         localhost localhost.localdomain localhost6 localhost6.localdomain6<br>10.1.101.117 lxy-nfs  lxy-nfs.engine.com</p>
+<p>最左边是一系列主机IP信息，中间是一些列主机名。任何后面的列都是该主机的别名。</p>
+<h3 id="六、重启网络配置方法"><a href="#六、重启网络配置方法" class="headerlink" title="六、重启网络配置方法"></a>六、重启网络配置方法</h3><p>1、#service network restart</p>
+<p>2、#/etc/init.d/network restart</p>
+<p>3、#ifdown eth0</p>
+<p>#ifup eth0</p>
+<p>4、#ifconfig eth0 down</p>
+<p>#ifconfig eth0 up</p>
+<h3 id="七、相关命令"><a href="#七、相关命令" class="headerlink" title="七、相关命令"></a>七、相关命令</h3><p>修改IP地址</p>
+<p>1、即时生效：</p>
+<p>#ifconfig eth0 192.168.0.2 netmask 255.255.255.0</p>
+<p>2、重启系统生效：</p>
+<p>修改/etc/sysconfig/network-scripts/ifcfg-eth0</p>
+<p>修改网关Default Gateway</p>
+<p>1、即时生效</p>
+<p>#route add default gw 192.168.0.2 netmask 255.255.255.0</p>
+<p>2、重启系统生效：</p>
+<p>修改/etc/sysconfig/network</p>
+<p>修改DNS</p>
+<p>修改/etc/resolv.conf修改后可即时生效，启动同样有效</p>
+<p>修改host name</p>
+<p>1、即时生效</p>
+<p>hostname newname</p>
+<p>2、重启系统生效</p>
+<p>修改/etc/sysconfig/network</p>
+<p>启动和关闭防火墙</p>
+<p>启动服务：</p>
+<p><code>systemctl start firewalld</code></p>
+<p>添加开机启动：</p>
+<p><code>systemctl enable firewalld</code></p>
+<p>添加端口：</p>
+<pre><code class="c++">firewall-cmd --permanent --zone=public --add-port=8080/tcp
+</code></pre>
+<p> 总结网络配置：配置IP，网关，DNS，然后重启网络。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+<p><strong>博客文献</strong>：<a href="https://www.cnblogs.com/starof/p/4153663.html" title="starof博客" target="_blank" rel="noopener">starof博客</a> </p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/11/28/Linux网卡配置基础/" title="Linux网卡配置基础" target="_blank" rel="external">http://blog.yisenliu.top/2017/11/28/Linux网卡配置基础/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/12/01/LAMP源码安装/" title="LAMP源码安装"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/11/28/DNS查询与操作/" title="DNS查询与操作">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

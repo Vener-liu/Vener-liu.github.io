@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>LAMP源码安装 | YisenBlog</title>
+  <meta name="description" content="环境：apache-2.4.29 + mariadb-10.2.11 + php-5.6.32 + phpMyAdmin 4.7.6 需要源码包：apr-1.6.3.tar.gz下载地址 apr-util-1.5.4.tar.gz下载地址（这里一定要用这个版本，新版本有bug）pcre-8.41.tar.gz下载地址httpd-2.4.29.tar.gz下载地址 cmake-3.10.0.tar.">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LAMP源码安装">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/12/01/LAMP源码安装/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="环境：apache-2.4.29 + mariadb-10.2.11 + php-5.6.32 + phpMyAdmin 4.7.6 需要源码包：apr-1.6.3.tar.gz下载地址 apr-util-1.5.4.tar.gz下载地址（这里一定要用这个版本，新版本有bug）pcre-8.41.tar.gz下载地址httpd-2.4.29.tar.gz下载地址 cmake-3.10.0.tar.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-06T13:28:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LAMP源码安装">
+<meta name="twitter:description" content="环境：apache-2.4.29 + mariadb-10.2.11 + php-5.6.32 + phpMyAdmin 4.7.6 需要源码包：apr-1.6.3.tar.gz下载地址 apr-util-1.5.4.tar.gz下载地址（这里一定要用这个版本，新版本有bug）pcre-8.41.tar.gz下载地址httpd-2.4.29.tar.gz下载地址 cmake-3.10.0.tar.">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/12/01/LAMP源码安装/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-LAMP源码安装" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      LAMP源码安装
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/12/01/LAMP源码安装/" class="article-date">
+	  <time datetime="2017-12-01T09:29:19.000Z" itemprop="datePublished">2017-12-01</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Linux运维基础/">Linux运维基础</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/Linux/">Linux</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/12/01/LAMP源码安装/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <p>环境：<br>apache-2.4.29 + mariadb-10.2.11 + php-5.6.32 + phpMyAdmin 4.7.6</p>
+<p>需要源码包：<br><a href="http://mirrors.cnnic.cn/apache//apr/apr-1.6.3.tar.gz" title="apr-1.6.3.tar.gz" target="_blank" rel="noopener">apr-1.6.3.tar.gz下载地址</a></p>
+<p><a href="http://archive.apache.org/dist/apr/apr-util-1.5.4.tar.gz" title="apr-util-1.5.4.tar.gz" target="_blank" rel="noopener">apr-util-1.5.4.tar.gz下载地址</a>（这里一定要用这个版本，新版本有bug）<br><a href="https://sourceforge.net/projects/pcre/files/pcre/" title="pcre最新版" target="_blank" rel="noopener">pcre-8.41.tar.gz下载地址</a><br><a href="http://mirrors.cnnic.cn/apache//httpd/httpd-2.4.29.tar.gz" title="httpd-2.4.29.tar.gz" target="_blank" rel="noopener">httpd-2.4.29.tar.gz下载地址</a></p>
+<p><a href="https://cmake.org/files/" title="cmake最新版" target="_blank" rel="noopener">cmake-3.10.0.tar.gz下载地址</a><br><a href="https://downloads.mariadb.org/mariadb/&quot;mariadb最新版&quot;" target="_blank" rel="noopener">mariadb-10.2.11.tar.gz下载地址</a></p>
+<p><a href="http://php.net/downloads.php" title="php各种版本" target="_blank" rel="noopener">php-5.6.32.tar.gz下载地址</a></p>
+<p><a href="https://www.phpmyadmin.net/downloads/" title="数据库管理工具" target="_blank" rel="noopener">phpMyAdmin 4.7.6下载地址</a></p>
+<p>把这些源码包放在/usr/src/目录下</p>
+<h1 id="APACHE2-4-29"><a href="#APACHE2-4-29" class="headerlink" title="APACHE2.4.29"></a>APACHE2.4.29</h1><p>编译环境<br>-前提你系统必须具备编译安装的环境，如不具备先进行编译环境的安装<br>编译安装Apache前预准备</p>
+<p>首先编译安装Apache之前我们要先解决依赖关系 http-2.4.29安装前解决依赖关系先安装apr、apr-util和pcre，安装这apr和apr-util软件包有两种方式<br>第一、升级本机RPM包<br>第二、进行源码编译安装，此处我们通用源码编译安装<br>安装Apache前的依赖包的安装</p>
+<p>编译安装apr(apr-1.6.3.tar.gz)</p>
+<p>[root@server1 src]# tar zxvf apr-1.6.3.tar.gz<br>[root@server1 src]# cd apr-1.6.3<br>[root@server1 apr-1.6.3]# ./configure –prefix=/usr/local/apr<br>[root@server1 apr-1.6.3]# make &amp;&amp; make install</p>
+<p>编译安装apr-util(apr-util-1.5.4.tar.gz)</p>
+<p>[root@server1 src]# tar zxvf apr-util-1.5.4.tar.gz<br>[root@server1 apr-util-1.5.4]# ./configure –prefix=/usr/local/apr-util –with-apr=/usr/local/apr    #编译安装apr-util必须指定apr的安装位置<br>[root@server1 apr-util-1.5.4]# make &amp;&amp; make install</p>
+<p>编译安装pcre (pcre-8.41.tar.gz) ## 此处你也可以进行本地RPM包的安装</p>
+<p>[root@server1 src]# tar zxvf pcre-8.41.tar.gz<br>[root@server1 src]# cd pcre-8.41<br>[root@server1 pcre-8.41]# ./configure –prefix=/usr/local/pcre<br>[root@server1 src]# make &amp;&amp; make install</p>
+<p>编译安装Apache</p>
+<p>[root@server1 src]# tar zxvf httpd-2.4.29.tar.gz<br>[root@server1 src]# cd httpd-2.4.29<br>[root@server1 httpd-2.4.29]# ./configure \<br>–prefix=/usr/local/apache –sysconfdir=/etc/httpd \<br>–enable-so –enable-ssl –enable-cgi –enable-rewrite \<br>–with-zlib –with-pcre=/usr/local/pcre \<br>–with-apr=/usr/local/apr \<br>–with-apr-util=/usr/local/apr-util \<br>–enable-mods-shared=most –enable-mpms-shared=all \<br>–with-mpm=event<br>[root@server1 httpd-2.4.29]# make &amp;&amp; make install</p>
+<p>选项解释：<br>–prefix=/usr/local/apache    # 指定安装目录<br>–sysconfdir=/etc/httpd    # 指定配置文件安装路径<br>–enable-so –enable-ssl  #允许运行时加载DSO模块 # 启动ssl加密功能<br>–enable-cgi –enable-rewrite  # 启用cgi协议  #启用URL重写功能<br>–with-zlib –with-pcre   # 指定pcre的安装路径<br>–with-apr=/usr/local/apr   #指定apr的安装路径<br>–with-apr-util=/usr/local/apr-util   # 指定apr-util的安装路径<br>–enable-modules=most   # 启用大多数共享模块<br>–enable-mpms-shared=most  #启用MPM大多数参数<br>–with-mpm=event  #指定使用的MPM的类型</p>
+<p>启动Apache服务并验证<br>[root@server1 bin]# ./apachectl start   # 找到我们编译安装时指定的安装路径下bin目录下<br>[root@server1 bin]# crul <a href="http://localhost" target="_blank" rel="noopener">http://localhost</a>   # 验证apache是否可以正常访问</p>
+<p>修改apache的配置文件并设置PidFile路径(默认在/usr/local/apache/logs/httpd.pid)<br>[root@server1 bin]# ./apachectl stop    # 先停止apache服务<br>[root@server1 bin]# vim /etc/httpd/httpd.conf   # 添加以下内容<br>        PidFile  “/var/run/httpd.pid”<br>[root@server1 bin]# ./apachectl start  </p>
+<p>编写服务脚本/etc/init.d/httpd,让其可以使用service起停，并可以加到服务列表中<br>[root@server1 ~]# vim /etc/init.d/httpd   #添加以下内容（在源码包的build/rpm/httpd.init 服务文件模板，可以只接复制过去修改好就行）<br><code>vim /etc/ini.d/httpd</code></p>
+<pre><code>#!/bin/bash
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the &quot;License&quot;); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# httpd        Startup script for the Apache Web Server
+#
+# chkconfig: - 85 15
+# description: The Apache HTTP Server is an efficient and extensible  \
+#             server implementing the current HTTP standards.
+# processname: httpd
+# pidfile: /var/run/httpd.pid
+# config: /etc/sysconfig/httpd
+#
+### BEGIN INIT INFO
+# Provides: httpd
+# Required-Start: $local_fs $remote_fs $network $named
+# Required-Stop: $local_fs $remote_fs $network
+# Should-Start: distcache
+# Short-Description: start and stop Apache HTTP Server
+# Description: The Apache HTTP Server is an extensible server 
+#  implementing the current HTTP standards.
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# What were we called? Multiple instances of the same daemon can be
+# created by creating suitably named symlinks to this startup script
+prog=$(basename $0 | sed -e &#39;s/^[SK][0-9][0-9]//&#39;)
+
+if [ -f /etc/sysconfig/${prog} ]; then
+        . /etc/sysconfig/${prog}
+fi
+
+# Start httpd in the C locale by default.
+HTTPD_LANG=${HTTPD_LANG-&quot;C&quot;}
+
+# This will prevent initlog from swallowing up a pass-phrase prompt if
+# mod_ssl needs a pass-phrase from the user.
+INITLOG_ARGS=&quot;&quot;
+
+# Set HTTPD=/usr/sbin/httpd.worker in /etc/sysconfig/httpd to use a server
+# with the thread-based &quot;worker&quot; MPM; BE WARNED that some modules may not
+# work correctly with a thread-based MPM; notably PHP will refuse to start.
+     apachectl=/usr/local/apache/bin/apachectl
+     httpd=${HTTPD-/usr/local/apache/bin/httpd}
+     #prog=httpd
+     pidfile=${PIDFILE-/var/run/httpd.pid}
+     lockfile=${LOCKFILE-/var/lock/subsys/httpd}
+RETVAL=0
+
+# check for 1.3 configuration
+check13 () {
+    CONFFILE=/etc/httpd/httpd.conf
+    GONE=&quot;(ServerType|BindAddress|Port|AddModule|ClearModuleList|&quot;
+    GONE=&quot;${GONE}AgentLog|RefererLog|RefererIgnore|FancyIndexing|&quot;
+    GONE=&quot;${GONE}AccessConfig|ResourceConfig)&quot;
+    if grep -Eiq &quot;^[[:space:]]*($GONE)&quot; $CONFFILE; then
+        echo
+        echo 1&gt;&amp;2 &quot; Apache 1.3 configuration directives found&quot;
+        echo 1&gt;&amp;2 &quot; please read @docdir@/migration.html&quot;
+        failure &quot;Apache 1.3 config directives test&quot;
+        echo
+        exit 1
+    fi
+}
+
+# The semantics of these two functions differ from the way apachectl does
+# things -- attempting to start while running is a failure, and shutdown
+# when not running is also a failure.  So we just do it the way init scripts
+# are expected to behave here.
+start() {
+        echo -n $&quot;Starting $prog: &quot;
+        check13 || exit 1
+        LANG=$HTTPD_LANG daemon --pidfile=${pidfile} $httpd $OPTIONS
+        RETVAL=$?
+        echo
+        [ $RETVAL = 0 ] &amp;&amp; touch ${lockfile}
+        return $RETVAL
+}
+stop() {
+    echo -n $&quot;Stopping $prog: &quot;
+    killproc -p ${pidfile} -d 10 $httpd
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] &amp;&amp; rm -f ${lockfile} ${pidfile}
+}
+reload() {
+    echo -n $&quot;Reloading $prog: &quot;
+    check13 || exit 1
+    killproc -p ${pidfile} $httpd -HUP
+    RETVAL=$?
+    echo
+}
+
+# See how we were called.
+case &quot;$1&quot; in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+        if ! test -f ${pidfile}; then
+            echo $prog is stopped
+            RETVAL=3
+        else  
+            status -p ${pidfile} $httpd
+            RETVAL=$?
+        fi
+        ;;
+  restart)
+    stop
+#!/bin/bash
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the &quot;License&quot;); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# httpd        Startup script for the Apache Web Server
+#
+# chkconfig: - 85 15
+# description: The Apache HTTP Server is an efficient and extensible  \
+#             server implementing the current HTTP standards.
+# processname: httpd
+# pidfile: /var/run/httpd.pid
+# config: /etc/sysconfig/httpd
+#
+### BEGIN INIT INFO
+# Provides: httpd
+# Required-Start: $local_fs $remote_fs $network $named
+# Required-Stop: $local_fs $remote_fs $network
+# Should-Start: distcache
+# Short-Description: start and stop Apache HTTP Server
+# Description: The Apache HTTP Server is an extensible server 
+#  implementing the current HTTP standards.
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# What were we called? Multiple instances of the same daemon can be
+# created by creating suitably named symlinks to this startup script
+prog=$(basename $0 | sed -e &#39;s/^[SK][0-9][0-9]//&#39;)
+
+if [ -f /etc/sysconfig/${prog} ]; then
+        . /etc/sysconfig/${prog}
+fi
+
+# Start httpd in the C locale by default.
+HTTPD_LANG=${HTTPD_LANG-&quot;C&quot;}
+
+# This will prevent initlog from swallowing up a pass-phrase prompt if
+# mod_ssl needs a pass-phrase from the user.
+INITLOG_ARGS=&quot;&quot;
+
+# Set HTTPD=/usr/sbin/httpd.worker in /etc/sysconfig/httpd to use a server
+# with the thread-based &quot;worker&quot; MPM; BE WARNED that some modules may not
+# work correctly with a thread-based MPM; notably PHP will refuse to start.
+     apachectl=/usr/local/apache/bin/apachectl
+     httpd=${HTTPD-/usr/local/apache/bin/httpd}
+     #prog=httpd
+     pidfile=${PIDFILE-/var/run/httpd.pid}
+     lockfile=${LOCKFILE-/var/lock/subsys/httpd}
+RETVAL=0
+
+# check for 1.3 configuration
+check13 () {
+    CONFFILE=/etc/httpd/httpd.conf
+    GONE=&quot;(ServerType|BindAddress|Port|AddModule|ClearModuleList|&quot;
+    GONE=&quot;${GONE}AgentLog|RefererLog|RefererIgnore|FancyIndexing|&quot;
+    GONE=&quot;${GONE}AccessConfig|ResourceConfig)&quot;
+    if grep -Eiq &quot;^[[:space:]]*($GONE)&quot; $CONFFILE; then
+        echo
+        echo 1&gt;&amp;2 &quot; Apache 1.3 configuration directives found&quot;
+        echo 1&gt;&amp;2 &quot; please read @docdir@/migration.html&quot;
+        failure &quot;Apache 1.3 config directives test&quot;
+        echo
+        exit 1
+    fi
+}
+
+# The semantics of these two functions differ from the way apachectl does
+# things -- attempting to start while running is a failure, and shutdown
+# when not running is also a failure.  So we just do it the way init scripts
+# are expected to behave here.
+start() {
+        echo -n $&quot;Starting $prog: &quot;
+        check13 || exit 1
+        LANG=$HTTPD_LANG daemon --pidfile=${pidfile} $httpd $OPTIONS
+        RETVAL=$?
+        echo
+        [ $RETVAL = 0 ] &amp;&amp; touch ${lockfile}
+        return $RETVAL
+}
+stop() {
+    echo -n $&quot;Stopping $prog: &quot;
+    killproc -p ${pidfile} -d 10 $httpd
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] &amp;&amp; rm -f ${lockfile} ${pidfile}
+}
+reload() {
+    echo -n $&quot;Reloading $prog: &quot;
+    check13 || exit 1
+    killproc -p ${pidfile} $httpd -HUP
+    RETVAL=$?
+    echo
+}
+
+# See how we were called.
+case &quot;$1&quot; in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+        if ! test -f ${pidfile}; then
+            echo $prog is stopped
+            RETVAL=3
+        else  
+            status -p ${pidfile} $httpd
+            RETVAL=$?
+        fi
+        ;;
+  restart)
+    stop
+    start
+    ;;
+  condrestart)
+    if test -f ${pidfile} &amp;&amp; status -p ${pidfile} $httpd &gt;&amp;/dev/null; then
+        stop
+        start
+    fi
+    ;;
+  reload)
+        reload
+    ;;
+  configtest)
+        LANG=$HTTPD_LANG $httpd $OPTIONS -t
+        RETVAL=$?
+        ;;
+  graceful)
+        echo -n $&quot;Gracefully restarting $prog: &quot;
+        LANG=$HTTPD_LANG $httpd $OPTIONS -k $@
+        RETVAL=$?
+        echo
+        ;;
+  *)
+    echo $&quot;Usage: $prog {start|stop|restart|condrestart|reload|status|graceful|help|configtest}&quot;
+    exit 1
+esac
+
+exit $RETVAL
+    start
+    ;;
+  condrestart)
+    if test -f ${pidfile} &amp;&amp; status -p ${pidfile} $httpd &gt;&amp;/dev/null; then
+        stop
+        start
+    fi
+    ;;
+  reload)
+        reload
+    ;;
+  configtest)
+        LANG=$HTTPD_LANG $httpd $OPTIONS -t
+        RETVAL=$?
+        ;;
+  graceful)
+        echo -n $&quot;Gracefully restarting $prog: &quot;
+        LANG=$HTTPD_LANG $httpd $OPTIONS -k $@
+        RETVAL=$?
+        echo
+        ;;
+  *)
+    echo $&quot;Usage: $prog {start|stop|restart|condrestart|reload|status|graceful|help|configtest}&quot;
+    exit 1
+esac
+
+exit $RETVAL
+</code></pre><p>注意文件中有四处主要的地方需要修改下的：</p>
+<pre><code class="c++">     apachectl=/usr/local/apache/bin/apachectl
+     httpd=${HTTPD-/usr/local/apache/bin/httpd}
+     pidfile=${PIDFILE-/var/run/httpd.pid}
+     lockfile=${LOCKFILE-/var/lock/subsys/httpd}
+</code></pre>
+<p>上面是我自己的路径请根据实际情况更改相应的路径！<br>然后运行如下命令：<br>ll httpd   #查看httpd是否有执行权限<br>chmod +x httpd  #添加执行权限<br>chkconfig –add httpd   #添加httpd到系统服务<br>chkconfig –level 35 httpd on  #设置httpd运行级别为35，开机自动运行<br>这样一来，启动、停止、重启Apache就可以用以下方式了：</p>
+<pre><code>/etc/init.d/httpd start
+/etc/init.d/httpd stop
+/etc/init.d/httpd restart
+service httpd start
+service httpd status
+service httpd stop
+service httpd restart
+systemctl start httpd 
+systemctl status httpd 
+systemctl stop httpd 
+systemctl restart httpd
+</code></pre><p>在配置文件中修改用户名和用户组为www   /etc/httpd/httpd.conf</p>
+<p>将/usr/local/apache/bin加入到PATH路径中去，让其中的命令可以进行全局执行<br>[root@server1 ~]# export PATH=$PATH:/usr/local/apache/bin #输出到环境变量中<br>[root@server1 ~]# vim /etc/profile.d/apache.sh    # 脚本的名字必须要以.sh命名<br>    export PATH=$PATH:/usr/local/apache/bin</p>
+<h1 id="MARIADB-10-2-11"><a href="#MARIADB-10-2-11" class="headerlink" title="MARIADB-10.2.11"></a>MARIADB-10.2.11</h1><p>编译安装MySQL前预准备</p>
+<p>安装前预准备，创建用户和组，在Mysql5.5以后版本中编译工具变成了cmake，编译前确认系统已安装cmake编译工具。<br>建立mysql组和用户，并将mysql用户添加到mysql组<br>[root@server1 src]# groupadd mysql<br>[root@server1 src]# useradd -g mysql mysql</p>
+<p>编译安装cmake工具(cmake-3.5.2.tar.gz)<br>下载地址： <a href="https://cmake.org/files/v3.5/cmake-3.5.2.tar.gz" target="_blank" rel="noopener">https://cmake.org/files/v3.5/cmake-3.5.2.tar.gz</a> –no-check-certificate</p>
+<p>[root@server1 src]# tar zxvf cmake-3.5.2.tar.gz<br>[root@server1 src]# cd cmake-3.5.2<br>[root@server1 cmake-3.5.2]# ./bootstrap –prefix=/usr/local/cmake<br>[root@server1 cmake-3.5.2]# gmake &amp; gmake install   #默认安装到/usr/local/bin/cmake<br>[root@server1 ~]# export PATH=$PATH:/usr/local/cmake/bin<br>[root@server1 ~]# vim /etc/profile.d/cmake.sh  # 将/usr/local/bin加到PATH中<br>    export PATH=$PATH:/usr/local/cmake/bin</p>
+<p>cd /usr/local/  #进入安装目录<br>chown -R mysql:mysql mysql  #给予权限</p>
+<p>编译安装MySQL<br>　　安装MariaDB之前，首先要安装cmake，另外为了保证不缺依赖，使用yum或者rpm安装依赖：readline-devel，zlib-devel，openssl-devel，libaio-devel并且readline-devel依赖于ncurses-devel，如果使用yum的话会自动将所需依赖安装好，具体命令如下：<br>yum -y install readline-devel<br>yum -y install zlib-devel<br>yum -y install openssl-devel<br>yum -y install libaio-devel<br>　　这里提前预定mysql的安装目录为/usr/local/mysql并且数据目录为/data/mysql，这里要建立用户和目录，并且赋予mysql用户权限，操作如下：</p>
+<p>groupadd -r mysql<br>useradd -g mysql -s /sbin/nologin mysql<br>mkdir /usr/local/mysql<br>mkdir -p /data/mysql<br>chown -R mysql:mysql /data/mysql/<br>　　现在可以开始安装了，解压安装包，并进入目录：</p>
+<p>tar -xvzf mariadb-10.2.11.tar.gz<br>cd mariadb-10.2.11/<br>执行编译安装：<br>cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data/mysql -DSYSCONFDIR=/etc -DWITHOUT_TOKUDB=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_ARCHIVE_STPRAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWIYH_READLINE=1 -DWIYH_SSL=system -DVITH_ZLIB=system -DWITH_LOBWRAP=0 -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci</p>
+<p>　　这里说明一下：-DCMAKE_INSTALL_PREFIX是指定安装的位置，这里是/usr/local/mysql，-DMYSQL_DATADIR是指定MySQL的数据目录，这里是/data/mysql，安装目录和数据目录都可以自定义设置，-DSYSCONFDIR是指定配置文件所在的目录，一般都是/etc ，具体的配置文件是/etc/my.cnf，-DWITHOUT_TOKUDB=1这个参数一般都要设置上，表示不安装tokudb引擎，tokudb是MySQL中一款开源的存储引擎，可以管理大量数据并且有一些新的特性，这些是Innodb所不具备的，这里之所以不安装，是因为一般计算机默认是没有Percona Server的，并且加载tokudb还要依赖jemalloc内存优化，一般开发中也是不用tokudb的，所以暂时屏蔽掉，否则在系统中找不到依赖会出现：CMake Error at storage/tokudb/PerconaFT/cmake_modules/TokuSetupCompiler.cmake:179 (message)这样的错误，然后后面那些参数都是可选的，可以加也可以不加，最后的编码建议设置一下</p>
+<p>配置通过后：make &amp;&amp; make install(大概半个小时。。)</p>
+<p>更改mysql安装目录的属主属组并添加mysql环境变量（进入安装的目录）<br>[root@server1 mysql]# chown -R mysql.mysql<br>[root@server1 mysql]# export PATH=$PATH:/usr/local/mysql/bin<br>[root@server1 mysql]# vim /etc/profile.d/mysql.sh<br>        export PATH=$PATH:/usr/local/mysql/bin</p>
+<p>加入服务列表并设置为开机自启<br>[root@server1 ~]# cd /usr/local/mysql/support-files/<br>[root@server1 support-files]# cp mysql.server  /etc/init.d/mysqld<br>[root@server1 support-files]# chmod +x /etc/init.d/mysqld   # 添加一个执行权限<br>[root@server1 support-files]# chkconfig mysqld onchkconfig mysqld on<br>[root@server1 support-files]# chkconfig mysqld –level 2345 on<br>[root@server1 support-files]# chkconfig –list mysqld<br>mysqld          0:off   1:off   2:on    3:on    4:on    5:on    6:off</p>
+<p>[root@server1 support-files]# mkdir /var/log/mariadb #datadir指定数据目录<br>修改mysql的配置文件，以下内容为自选<br>[root@server1 ~]# vim /etc/my.cnf</p>
+<pre><code>[client]
+port = 3306
+socket = /tmp/mysql.sock
+default-character-set = utf8mb4
+
+[mysqld]
+port = 3306
+socket = /tmp/mysql.sock
+
+basedir = /usr/local/mysql
+datadir = /data/mysql
+pid-file = /data/mysql/mysql.pid
+user = mysql
+bind-address = 0.0.0.0
+server-id = 1
+
+init-connect = &#39;SET NAMES utf8mb4&#39;
+character-set-server = utf8mb4
+
+skip-name-resolve
+#skip-networking
+back_log = 300
+
+max_connections = 1000
+max_connect_errors = 6000
+open_files_limit = 65535
+table_open_cache = 128
+max_allowed_packet = 4M
+binlog_cache_size = 1M
+max_heap_table_size = 8M
+tmp_table_size = 16M
+
+read_buffer_size = 2M
+read_rnd_buffer_size = 8M
+sort_buffer_size = 8M
+join_buffer_size = 8M
+key_buffer_size = 4M
+
+thread_cache_size = 8
+
+query_cache_type = 1
+query_cache_size = 8M
+query_cache_limit = 2M
+
+ft_min_word_len = 4
+
+log_bin = mysql-bin
+binlog_format = mixed
+expire_logs_days = 30
+
+log_error = /data/mysql/mysql-error.log
+slow_query_log = 1
+long_query_time = 1
+slow_query_log_file = /data/mysql/mysql-slow.log
+
+performance_schema = 0
+explicit_defaults_for_timestamp
+
+lower_case_table_names = 1
+
+skip-external-locking
+
+default_storage_engine = InnoDB
+default-storage-engine = MyISAM
+innodb_file_per_table = 1
+innodb_open_files = 500
+innodb_buffer_pool_size = 64M
+innodb_write_io_threads = 4
+innodb_read_io_threads = 4
+innodb_thread_concurrency = 0
+innodb_purge_threads = 1
+innodb_flush_log_at_trx_commit = 2
+innodb_log_buffer_size = 2M
+innodb_log_file_size = 32M
+innodb_log_files_in_group = 3
+innodb_max_dirty_pages_pct = 90
+innodb_lock_wait_timeout = 120
+
+bulk_insert_buffer_size = 8M
+myisam_sort_buffer_size = 8M
+myisam_max_sort_file_size = 10G
+myisam_repair_threads = 1
+
+interactive_timeout = 28800
+wait_timeout = 28800
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[myisamchk]
+key_buffer_size = 8M
+sort_buffer_size = 8M
+read_buffer = 4M
+write_buffer = 4M
+</code></pre><p>初始化MySQL自身的数据库</p>
+<p>初始化mysql<br>[root@server1 ~]# cd /usr/local/mysql<br>[root@server1 ~]# scripts/mysql_install_db –user=mysql –basedir=/usr/local/mysql/ –datadir=/data/mysql/ –defaults-file=/etc/my.cnf</p>
+<p>启动MySQL数据库<br>[root@server1 ~]# service mysqld start<br>Starting MySQL [ OK ]</p>
+<p>查看MySQL服务的进程和端口<br>[root@server1 ~]# ps -ef | grep mysqld<br>root     31618     1  0 16:22 pts/1    00:00:00 /bin/sh /usr/local/mysql/bin/mysqld_safe –datadir=/mysql_date/mydata –pid-file=/mysql_date/mydata/server1.pid<br>mysql    32370 31618  0 16:22 pts/1    00:00:00 /usr/local/mysql/bin/mysqld –basedir=/usr/local/mysql –datadir=/mysql_date/mydata –plugin-dir=/usr/local/mysql/lib/plugin –user=mysql –log-error=/mysql_date/mydata/mysql-error.log –open-files-limit=65535 –pid-file=/mysql_date/mydata/server1.pid –socket=/tmp/mysql.sock –port=3306<br>root     34026 29191  1 16:59 pts/1    00:00:00 grep mysqld<br>[root@server1 ~]# netstat -an | grep 3306<br>tcp        0      0 0.0.0.0:3306                0.0.0.0:*                   LISTEN   </p>
+<p>将MySQL数据库的动态链接库共享至系统链接库<br>[root@server1 ~]# vim  /etc/ld.so.conf.d/mysql.conf<br>    /usr/local/mysql/lib </p>
+<p>[root@server1 ~]# ldconfig -v  # 让系统重新读取库文件</p>
+<p>首先登录MySQL。<br>mysql&gt; use mysql;<br>mysql&gt; update user set password=password(‘op123’) where user=’root’ and host=’localhost’;<br>mysql&gt; flush privileges; </p>
+<p>测试登陆MySQL数据库<br>[root@server1 ~]# mysql -u root -p<br>Enter password:      # 输入之前设置的密码<br>Welcome to the MySQL monitor.  Commands end with ; or \g.<br>Your MySQL connection id is 4<br>Server version: 10.2.11-MariaDB-log Source distribution</p>
+<p>Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.</p>
+<p>Oracle is a registered trademark of Oracle Corporation and/or its<br>affiliates. Other names may be trademarks of their respective<br>owners.</p>
+<p>Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</p>
+<p>mysql&gt; </p>
+<h1 id="PHP5-6-32"><a href="#PHP5-6-32" class="headerlink" title="PHP5.6.32"></a>PHP5.6.32</h1><p>编译安装PHP前预准备,这里以apache模块式安装。</p>
+<p>安装依赖：</p>
+<pre><code class="c++"> yum install gcc bison bison-devel zlib-devel libmcrypt-devel mcrypt mhash-devel openssl-devel libxml2-devel libcurl-devel bzip2-devel readline-devel libedit-devel sqlite-devel
+</code></pre>
+<p>编译安装PHP</p>
+<p>[root@server1 src]# tar -zxvf php-5.6.32.tar.gz<br>[root@server1 php-5.6.32]#<br>./configure –prefix=/usr/local/php56 –with-config-file-path=/usr/local/php56/etc –enable-inline-optimization –disable-debug –disable-rpath –enable-shared –enable-opcache –enable-fpm –with-fpm-user=www –with-fpm-group=www –with-mysql=mysqlnd –with-mysqli=mysqlnd –with-pdo-mysql=mysqlnd –with-gettext –enable-mbstring –with-iconv –with-mcrypt –with-mhash –with-openssl –enable-bcmath –enable-soap –with-libxml-dir –enable-pcntl –enable-shmop –enable-sysvmsg –enable-sysvsem –enable-sysvshm –enable-sockets –with-curl –with-zlib –enable-zip –with-bz2 –with-readline –with-apxs2=/usr/local/apache/bin/apxs</p>
+<p>[root@server1 php-5.6.32]# make &amp;&amp; make install</p>
+<p>参数解释；<br>“”” 安装路径 “””<br>–prefix=/usr/local/php56 \<br>“”” php.ini 配置文件路径 “””<br>–with-config-file-path=/usr/local/php56/etc \<br>“”” 优化选项 “””<br>–enable-inline-optimization \<br>–disable-debug \<br>–disable-rpath \<br>–enable-shared \<br>“”” 启用 opcache，默认为 ZendOptimizer+(ZendOpcache) “””<br>–enable-opcache \<br>“”” FPM “””<br>–enable-fpm \<br>–with-fpm-user=www \<br>–with-fpm-group=www \<br>“”” MySQL “””<br>–with-mysql=mysqlnd \<br>–with-mysqli=mysqlnd \<br>–with-pdo-mysql=mysqlnd \<br>“”” 国际化与字符编码支持 “””<br>–with-gettext \<br>–enable-mbstring \<br>–with-iconv \<br>“”” 加密扩展 “””<br>–with-mcrypt \<br>–with-mhash \<br>–with-openssl \<br>“”” 数学扩展 “””<br>–enable-bcmath \<br>“”” Web 服务，soap 依赖 libxml “””<br>–enable-soap \<br>–with-libxml-dir \<br>“”” 进程，信号及内存 “””<br>–enable-pcntl \<br>–enable-shmop \<br>–enable-sysvmsg \<br>–enable-sysvsem \<br>–enable-sysvshm \<br>“”” socket &amp; curl “””<br>–enable-sockets \<br>–with-curl \<br>“”” 压缩与归档 “””<br>–with-zlib \<br>–enable-zip \<br>–with-bz2 \<br>“”” GNU Readline 命令行快捷键绑定 “””<br>–with-readline<br>–with-apxs2=/usr/local/apache/bin/apxs #apache模块式安装<br>为php提供配置文件：<br>[root@server1 php-5.6.32]# cp php.ini-production /etc/php.ini</p>
+<p>vim /etc/httpd/httpd.conf<br>添加以下内容<br>LoadModule php5_module modules/libphp5.so  #这行可能在编译安装 php 的过程中已经自动添加了</p>
+<filesmatch \.php$=""><br>    SetHandler application/x-httpd-php<br></filesmatch>
+
+<p>添加index.php</p>
+<ifmodule dir_module=""><br>    DirectoryIndex index.php index.html<br></ifmodule>
+
+<p>重启apache服务<br>[root@server1 ~]#systemctl  restrt httpd<br>[root@server1 ~]# netstat -an | grep :80   # apache已启动，并监听80端口<br>tcp        0      0 :::80                       :::*                        LISTEN      </p>
+<p>编辑Apache的网页测试是否支持php、<br>[root@server1 ~]# cd /usr/local/apache/htdocs/<br>[root@server1 htdocs]# vim index.php</p>
+<pre><code class="php">    &lt;?php
+    phpinfo();
+    ?&gt;
+</code></pre>
+<p>[root@server1 htdocs]# vim .php<br>看看是否链接数据库成功：</p>
+<pre><code class="php">&lt;?php
+$mysql_conf = array(
+    &#39;host&#39;    =&gt; &#39;127.0.0.1:3306&#39;,
+    &#39;db&#39;      =&gt; &#39;test&#39;,
+    &#39;db_user&#39; =&gt; &#39;root&#39;,
+    &#39;db_pwd&#39;  =&gt; &#39;&#39;,
+    );
+$mysqli = @new mysqli($mysql_conf[&#39;host&#39;], $mysql_conf[&#39;db_user&#39;], $mysql_conf[&#39;db_pwd&#39;]);
+if ($mysqli-&gt;connect_errno) {
+    die(&quot;could not connect to the database:\n&quot; . $mysqli-&gt;connect_error);//诊断&gt;连接错误
+}
+else echo &#39;success&#39;;
+</code></pre>
+<p>已经完成源码安装LAMP的步骤</p>
+<h1 id="PHPMYADMIN-4-7-6"><a href="#PHPMYADMIN-4-7-6" class="headerlink" title="PHPMYADMIN 4.7.6"></a>PHPMYADMIN 4.7.6</h1><p>接下来安装本地mysql的管理工具phpmyadmin<br>解压下载下来的包，放在站点根目录,并改名(自己喜欢)</p>
+<p>进入phpmyadmin目录，复制样本配置文件到config.inc.php文件<br>cd /usr/local/apache/htdocs/phpmyadmin<br>cp config.sample.inc.php config.inc.php</p>
+<p>编辑config.inc.php</p>
+<pre><code class="c++">$cfg[&#39;blowfish_secret&#39;]=&#39;&#39;; //这里不可为空 随便填一串字符
+$cfg[&#39;Servers&#39;][$i][&#39;host&#39;] = &#39;localhost&#39;; // MySQL hostname or IP address
+$cfg[&#39;Servers&#39;][$i][&#39;port&#39;] = &#39;&#39;; // MySQL port - leave blank for default port
+$cfg[&#39;Servers&#39;][$i][&#39;user&#39;] = &#39;root&#39;; // 填写 MySQL 访问 phpMyAdmin 使用的 MySQL 用户名，默认为 root。
+$cfg[&#39;Servers&#39;][$i][&#39;password&#39;] = &#39;&#39;; // 填写对应上述 MySQL 用户名的密码。
+</code></pre>
+<p>重启httpd和mysql服务<br><code>/etc/init.d/httpd restart</code><br><code>service mysql restart</code></p>
+<p>访问phpmyadmin<br>在浏览器输入<a href="http://服务器ip/phpmyadmin" target="_blank" rel="noopener">http://服务器ip/phpmyadmin</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><ul>
+<li>这其实是第二次弄源码编译安装LAMP了，第一次在两年前。。大二的时候，当时是失败了。这次终于是有机会和有空来学习一下如何完整地进行源码包的安装。<br>本机环境是fedora23，属于redhat系列。在安装过程中出现了不少的错误，一开始参考 <a href="http://blog.163.com/zhu329599788@126/blog/static/6669335020173139293845/" title="zhu329599788@126" target="_blank" rel="noopener">zhu329599788@126博客</a> 的时候是完全按照他的方法进行安装的。一开始还是挺顺利的，直到安装apache还是挺成功的，但是里面的httpd服务的配置出错了，卡在这里。查找资料，发现在源码包的build/rpm/httpd.init 服务文件模板，可以只接复制过去修改好就行，本文中有完整配置。数据库方面我是用的是mariadb源码包，到官网下载的，期间也是踩了不少的坑，比如配置文件my.cnf没有在/etc目录下需要自己创建并添加内容（其实这里的my.cnf模板可以通过 find / -name my.cnf 找到文件的位置，一般在安装目录和源码包目录里面都有，复制过去就行），自己添加一些“好的”配置，适合自己开发环境的配置，生产环境的配置等等，也是遇到port的值为0的小意外，修改用户权限和密码等等。PHP我使用的是5.6.32版本，并以apache模块的方式安装（在phpinfo 的界面 Server API 的那一栏显示的是apache2.0 handler），还有三种方式，我之后会在博客中做个详细的学习。php的安装所需要的依赖包非常重要，更准确来说，所有源码包安装的步骤中，最为重要的是安装必须的依赖包。还有一个很重要的提醒，当./configure 通过后make出现错误的时候，必须使用make clean命令来清除之前make生成的文件。不然会出现一直重复的错误。<br>还有，需要记得软件的安装的位置：<br>apache:<br>/usr/local/apache<br>主要配置文件:<br>/etc/httpd/* (里面的所有文件)<br>mariadb/mysql:<br>/usr/local/mysql<br>主要配置文件:<br>/etc/my.cnf<br>PHP：<br>/usr/local/php56<br>配置文件:<br>/etc/php.ini<br>phpMyadmin:<br>/usr/local/apache/htdocs/myda<br>配置文件<br>/usr/local/apache/htdocs/mydaconfig.inc.php</li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+<p><strong>博客文献</strong>：<a href="https://www.cnblogs.com/zyos/p/7663717.html" title="会飞的鱼" target="_blank" rel="noopener">会飞的鱼</a> <a href="http://blog.csdn.net/yuao_708905482/article/details/71664694" title="卿柠博客" target="_blank" rel="noopener">卿柠博客</a> <a href="http://blog.51cto.com/461205160/1730513" title="boy461205160 " target="_blank" rel="noopener">boy461205160博客</a> <a href="http://blog.163.com/zhu329599788@126/blog/static/6669335020173139293845/" title="zhu329599788@126" target="_blank" rel="noopener">zhu329599788@126博客</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/12/01/LAMP源码安装/" title="LAMP源码安装" target="_blank" rel="external">http://blog.yisenliu.top/2017/12/01/LAMP源码安装/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/12/01/mariadb配置文件失踪/" title="mariadb配置文件失踪"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/11/28/Linux网卡配置基础/" title="Linux网卡配置基础">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>

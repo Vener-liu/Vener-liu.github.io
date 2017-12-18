@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Linux下使用Samba | YisenBlog</title>
+  <meta name="description" content="一 安装Samba服务首先，安装Samba以及进行一些基本的配置。检验Samba是否已经安装在您的系统中： rpm -q samba samba-common samba-client 如果上面的命令没有任何输出，这意味着Samba并未安装。这时，应使用下面的命令来安装Samba。 dnf install samba samba-common samba-client 二 设置共享文件夹接下来，创">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下使用Samba">
+<meta property="og:url" content="http://blog.yisenliu.top/2017/11/26/Linux下使用Samba/index.html">
+<meta property="og:site_name" content="Yisen">
+<meta property="og:description" content="一 安装Samba服务首先，安装Samba以及进行一些基本的配置。检验Samba是否已经安装在您的系统中： rpm -q samba samba-common samba-client 如果上面的命令没有任何输出，这意味着Samba并未安装。这时，应使用下面的命令来安装Samba。 dnf install samba samba-common samba-client 二 设置共享文件夹接下来，创">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-11-29T05:44:53.718Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux下使用Samba">
+<meta name="twitter:description" content="一 安装Samba服务首先，安装Samba以及进行一些基本的配置。检验Samba是否已经安装在您的系统中： rpm -q samba samba-common samba-client 如果上面的命令没有任何输出，这意味着Samba并未安装。这时，应使用下面的命令来安装Samba。 dnf install samba samba-common samba-client 二 设置共享文件夹接下来，创">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.yisenliu.top/2017/11/26/Linux下使用Samba/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Vener-liu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">刘以行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">热爱是动力源泉</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="fa fa-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form" method="GET" action="https://www.baidu.com/s?">
+	<div class="input-group">
+    	<input name="wd" type="text" class="form-control search-form-input" placeholder="百度一下" />
+	    <span class="input-group-btn">
+	    	<button type="submit" class=" btn btn-flat search-form-submit"><i class="fa fa-search"></i></button>
+	    </span>
+	</div>
+	<!-- 搜索 -->
+</form>
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="fa fa-fw fa-dashboard"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="fa fa-fw fa-delicious"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="fa fa-fw fa-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="fa fa-fw fa-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="fa fa-fw fa-coffee"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <div class="content">
+                <p>非常欢迎您的留言！!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Struture/">Data_Struture</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux杂货/">Linux杂货</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux运维基础/">Linux运维基础</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/C-C/" style="font-size: 13.5px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/运维/" style="font-size: 13px;">运维</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/17/DataStructPrepare/" class="title">DataStructPrepare</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-17T04:44:09.000Z" itemprop="datePublished">2017-12-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/快速排序法和插入排序法-顺序表/" class="title">快速排序法和插入排序法(顺序表)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:42.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/15/常规二叉树/" class="title">常规二叉树</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-14T16:32:25.000Z" itemprop="datePublished">2017-12-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/08/BM和KMP搜索字符串算法c实现/" class="title">BM和KMP搜索字符串算法c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-08T09:00:34.000Z" itemprop="datePublished">2017-12-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Data-Struture/">Data_Struture</a>
+              </p>
+              <p class="item-title">
+                <a href="/2017/12/07/链队列c实现/" class="title">链队列c实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2017-12-07T13:42:42.000Z" itemprop="datePublished">2017-12-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Linux下使用Samba" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux下使用Samba
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="fa fa-calendar-check-o"></i>
+	<a href="/2017/11/26/Linux下使用Samba/" class="article-date">
+	  <time datetime="2017-11-26T13:11:48.000Z" itemprop="datePublished">2017-11-26</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Linux运维基础/">Linux运维基础</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="fa fa-tag"></i>
+	<a class="article-tag-link" href="/tags/Linux/">Linux</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="fa fa-commenting-o"></i> <a href="/2017/11/26/Linux下使用Samba/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+      
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h1 id="一-安装Samba服务"><a href="#一-安装Samba服务" class="headerlink" title="一 安装Samba服务"></a>一 安装Samba服务</h1><p>首先，安装Samba以及进行一些基本的配置。<br>检验Samba是否已经安装在您的系统中：</p>
+<p><code>rpm -q samba samba-common samba-client</code></p>
+<p>如果上面的命令没有任何输出，这意味着Samba并未安装。这时，应使用下面的命令来安装Samba。</p>
+<p><code>dnf install samba samba-common samba-client</code></p>
+<h1 id="二-设置共享文件夹"><a href="#二-设置共享文件夹" class="headerlink" title="二 设置共享文件夹"></a>二 设置共享文件夹</h1><p>接下来，创建一个用于在网络中共享的本地文件夹。这个文件夹应该以Samba共享的方式导出到远程的用户。我在当前家目录中创建这个文件夹。<br><code>cd ~</code><br><code>mkdir shared</code></p>
+<p>在创建/shared文件夹后，设置文件夹权限以保证其余用户可以访问它。</p>
+<p><code>$ sudo chmod o+rw ～/shared</code><br>如果您不想其他用户对该文件夹拥有写权限，您需要移除命令中的’w’选项。</p>
+<p><code>$ sudo chmod o+r /shared</code></p>
+<h1 id="三-启动samba服务"><a href="#三-启动samba服务" class="headerlink" title="三 启动samba服务"></a>三 启动samba服务</h1><p>使samba服务器开机启动</p>
+<p><code>systemctl enable smb.service</code></p>
+<p>启动samba服务器</p>
+<p><code>systemctl start smb.service</code></p>
+<p>发生错误：</p>
+<blockquote>
+<p>mb.service - Samba SMB Daemon  <br><br>  Loaded: loaded (/usr/lib/systemd/system/smb.service; enabled; vendor preset: disabled) <br><br>   Active: failed (Result: exit-code) since 五 2017-11-24 11:48:22 CST; 38s ago<br>  Process: 10486 ExecStart=/usr/sbin/smbd $SMBDOPTIONS (code=exited, status=127) <br><br> Main PID: 10486 (code=exited, status=127) <br><br>11月 24 11:48:22 localhost systemd<a href="http://blog.51cto.com/yuanbin/115761" title="yuanbin0701" target="_blank" rel="noopener">1</a>: Starting Samba SMB Daemon… <br><br>11月 24 11:48:22 localhost smbd[10486]: /usr/sbin/smbd: relocation error:  <br>/lib64/libsamba-credentials.so.0: symbol GSS_KRB5_CRED_NO_CI_FLAGS_X, version gssapi_krb5_2_MIT not defined in file libgssapi_krb5.so.2 with link time reference <br><br>11月 24 11:48:22 localhost systemd<a href="http://blog.51cto.com/yuanbin/115761" title="yuanbin0701" target="_blank" rel="noopener">1</a>: smb.service: Main process exited, code=exited, status=127/n/a <br><br>11月 24 11:48:22 localhost systemd<a href="http://blog.51cto.com/yuanbin/115761" title="yuanbin0701" target="_blank" rel="noopener">1</a>: Failed to start Samba SMB Daemon. <br><br>11月 24 11:48:22 localhost systemd<a href="http://blog.51cto.com/yuanbin/115761" title="yuanbin0701" target="_blank" rel="noopener">1</a>: smb.service: Unit entered failed state. <br><br>11月 24 11:48:22 localhost systemd<a href="http://blog.51cto.com/yuanbin/115761" title="yuanbin0701" target="_blank" rel="noopener">1</a>: smb.service: Failed with result  <br>‘exit-code’. <br></p>
+</blockquote>
+<h3 id="把关键字一查，发现需要更新依赖库"><a href="#把关键字一查，发现需要更新依赖库" class="headerlink" title="把关键字一查，发现需要更新依赖库"></a>把关键字一查，发现需要更新依赖库</h3><p><code>yum install krb5-devel //更新依赖，貌似最新samba版本需要的依赖库不同</code></p>
+<blockquote>
+<p>systemctl is-active smb  //active 即为成功启动</p>
+</blockquote>
+<p><code>smbclient -L localhost</code></p>
+<blockquote>
+<p>Enter carlos’s password:<br> //这里是要你输入当前用户的密码，之前是没有设置的，所以是空，直接回车</p>
+</blockquote>
+<p>5、查看samba的服务启动情况</p>
+<p><code>service smb status</code></p>
+<p><code>testparm  //查看配置状态</code></p>
+<p><code>vim /etc/samba/smb.conf</code></p>
+<h1 id="四-配置文件"><a href="#四-配置文件" class="headerlink" title="四 配置文件"></a>四 配置文件</h1><p>（在我的另一篇文章中有介绍详细配置信息）</p>
+<p>然后是我的配置：</p>
+<pre><code>[global]
+workgroup = MYGROUP
+        server string = Samba Server Version %v
+
+        netbios name = Share
+
+        interfaces = lo eth0 wlp6s0 192.168.12.2/24 192.168.13.2/24
+        hosts allow = 127. 192.168.43. 192.168.13.
+
+
+
+[homes]
+        comment = Home Directories
+        browseable = no
+        writable = no
+        valid users = carlos
+
+
+[myshare]
+
+comment=my shared files
+
+path=/home/carlos/share
+
+;public=yes
+
+writeable=yes
+
+browseable = yes
+
+available = yes
+
+admin users=carlos
+</code></pre><p>上面跟的<strong>admin users=carlos</strong> 是<strong>samba</strong>的用户，要先创建</p>
+<p><code>cd ~</code></p>
+<p><code>pdbedit –a carlos  //输入密码两次就创建成功了</code></p>
+<h1 id="五-开放端口"><a href="#五-开放端口" class="headerlink" title="五 开放端口"></a>五 开放端口</h1><p>防火墙需要开放端口：</p>
+<pre><code class="c++">firewall-cmd --permanent --zone=public --add-port=137/udp
+firewall-cmd --permanent --zone=public --add-port=138/udp
+firewall-cmd --permanent --zone=public --add-port=139/tcp
+firewall-cmd --permanent --zone=public --add-port=445/tcp
+或者
+firewall-cmd --permanent --add-port=137-138/udp
+firewall-cmd --permanent --add-port=139/tcp --add-port=445/tcp
+</code></pre>
+<blockquote>
+<p>1）Port 137 (UDP) - NetBIOS 名字服务 ； nmbd<br><br>2）Port 138 (UDP) - NetBIOS 数据报服务<br><br>3）Port 139 (TCP) - 文件和打印共享 ； smbd （基于SMB(Server Message Block)协议，主要在局域网中使用，文件共享协议）<br><br>4）Port 389 (TCP) - 用于 LDAP (Active Directory Mode)<br><br>5）Port 445 (TCP) - NetBIOS服务在windos 2000及以后版本使用此端口, (Common <br>Internet File System，CIFS，它是SMB协议扩展到Internet后，实现Internet文件共享)<br><br>6）Port 901 (TCP) - 用于 SWAT，用于网页管理Samba  </p>
+</blockquote>
+<p><code>systemctl restart firewalld.service //然后重启防火墙服务，一次不行，再执行一次。。。。</code></p>
+<h1 id="六-Android端的使用"><a href="#六-Android端的使用" class="headerlink" title="六 Android端的使用"></a>六 Android端的使用</h1><p>在Linux上用samba搭建一个共享服务器(Windows的文件共享也可以)，把手机和电脑连上相同的局域网，然后Android上用ES文件浏览器就可以直接查看电脑的文件。连上局域网就可以了！哟嚯霍！windows上面更简单。。。百度一下吧。</p>
+<hr>
+<h3 id="一个小意外："><a href="#一个小意外：" class="headerlink" title="一个小意外："></a>一个小意外：</h3><p>在使用了一个下午后，firewalld 的zone 不知道为什么变成了 另一个很长的名字。。<br>在重新在 /etc/firewalld/firewalld.conf 把zone 改为了public ，ok 局域网又成功连接</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br><br></h2><h1 id="END"><a href="#END" class="headerlink" title="END"></a><strong>END</strong></h1><hr>
+<p><strong>博客文献</strong>：<a href="http://blog.51cto.com/yuanbin/115761" title="yuanbin0701" target="_blank" rel="noopener">yuanbin0701</a>,<a href="http://www.linuxidc.com/Linux/2016-09/134829.htm" title="Linux公社" target="_blank" rel="noopener">Linux公社</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.yisenliu.top/2017/11/26/Linux下使用Samba/" title="Linux下使用Samba" target="_blank" rel="external">http://blog.yisenliu.top/2017/11/26/Linux下使用Samba/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Vener-liu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Vener-liu" target="_blank"><span class="text-dark">刘以行</span><small class="ml-1x">热爱是动力源泉</small></a></h3>
+        <div>性别男，爱好女，还有诗和远方。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2017/11/26/Linux下VScode的安装/" title="Linux下VScode的安装"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2017/11/24/Hexo博客部署在Github/" title="Hexo博客部署在Github">下一篇&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <div class="share-component" data-sites="qq,wechat" data-mobile-sites="weibo,qq"></div>
+  </div>
+  
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Vener-liu" target="_blank" title="Github" ><i class="fa fa-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2017 Yisen LIU
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+    
+        <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        // window.location = 'https://www.baidu.com/s?wd=site:blog.yisenliu.top ' + keyword;
+        window.location = 'https://www.baidu.com/s?wd=' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+    
+    
+        
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
+    
+    
+
+
+
+</body>
+</html>
